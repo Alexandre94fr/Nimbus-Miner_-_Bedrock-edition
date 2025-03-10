@@ -1,1 +1,1 @@
-# Nimbus-Miner---Bedrock-edition
+# Nimbus Miner - Bedrock edition
