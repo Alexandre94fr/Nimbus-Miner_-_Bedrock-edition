@@ -7,14 +7,12 @@
 
 int main(void)
 {
-    GLFWwindow* window;
-
     // Initialize the library
     if (!glfwInit())
         return -1;
 
     // Create a windowed mode window and its OpenGL context
-    window = glfwCreateWindow(640, 480, "Nimbus miner - Bedrock edition", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(640, 480, "Nimbus miner - Bedrock edition", nullptr, nullptr);
 
     if (!window)
     {
@@ -28,10 +26,10 @@ int main(void)
     // Glew initialization
     if (glewInit() != GLEW_OK)
     {
-        //ConsoleTextColorizer::SetConsoleTextColor(WindowsTextColorEnum::Red);
+        ConsoleTextColorizer::SetConsoleTextColor(WindowsTextColorEnum::Red);
         std::cout << "ERROR ! The function 'glewInit' has been called before the GLFW context creation ";
-        std::cout << "(before this method 'glfwMakeContextCurrent()' call)" << std::endl;
-        //ConsoleTextColorizer::ResetConsoleTextColorToDefault();
+        std::cout << "(before this method 'glfwMakeContextCurrent()' call)\n";
+        ConsoleTextColorizer::ResetConsoleTextColorToDefault();
 
         return -1;
     }
