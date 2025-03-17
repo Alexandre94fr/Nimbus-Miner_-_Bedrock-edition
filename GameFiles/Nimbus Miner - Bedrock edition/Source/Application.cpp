@@ -1,20 +1,34 @@
+// External libraries
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
 
+// External tools
 #include "../ExternalTools/ConsoleTextColorizer/ConsoleTextColorizer.h"
+#include "../ExternalTools/MessageDebugger/MessageDebugger.h"
+#include "../ExternalTools/RuntimeLogger/RuntimeLogger.h"
+
+constexpr bool IS_MESSAGE_DEBUGGER_TEST_ENABLED = false;
 
 int main(void)
 {
-    GLFWwindow* window;
+    RuntimeLogger::Log(
+        "========================\n"
+        " = New program launch = \n"
+        "========================\n\n\n"
+        , "", 0
+    );
 
+    if (IS_MESSAGE_DEBUGGER_TEST_ENABLED)
+        MessageDebugger::TestMessageDebugger(TestOptionsEnum::OnlyPrintingMessageAndWarningMacrosTest);
+    
     // Initialize the library
     if (!glfwInit())
         return -1;
 
     // Create a windowed mode window and its OpenGL context
-    window = glfwCreateWindow(640, 480, "Nimbus miner - Bedrock edition", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(640, 480, "Nimbus miner - Bedrock edition", nullptr, nullptr);
 
     if (!window)
     {
@@ -24,14 +38,15 @@ int main(void)
 
     // Make the window's context current
     glfwMakeContextCurrent(window);
-    
+
     // Glew initialization
     if (glewInit() != GLEW_OK)
     {
-        //ConsoleTextColorizer::SetConsoleTextColor(WindowsTextColorEnum::Red);
-        std::cout << "ERROR ! The function 'glewInit' has been called before the GLFW context creation ";
-        std::cout << "(before this method 'glfwMakeContextCurrent()' call)" << std::endl;
-        //ConsoleTextColorizer::ResetConsoleTextColorToDefault();
+        PRINT_ERROR_RUNTIME(true,
+            "The function 'glewInit' has been called before the GLFW context creation "
+            "(before the 'glfwMakeContextCurrent()' method call)\n"
+            "The application has been stopped."
+        )
 
         return -1;
     }
