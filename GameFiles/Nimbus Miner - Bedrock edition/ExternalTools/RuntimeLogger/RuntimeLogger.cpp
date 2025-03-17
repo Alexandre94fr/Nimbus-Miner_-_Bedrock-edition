@@ -6,9 +6,6 @@
 #include <sstream>
 #include <filesystem>
 
-/// <summary>
-/// Write the given message insind a .txt file, the file is at the root of the project. 
-/// <para> You can use the LOG macro to not have to put the 'p_filePath' and the 'p_line' parameters. </para> </summary>
 void RuntimeLogger::Log(const std::string& p_message, const char* p_filePath, const int p_line)
 {
     std::string fullMessage = FormatMessage(p_message, p_filePath, p_line);

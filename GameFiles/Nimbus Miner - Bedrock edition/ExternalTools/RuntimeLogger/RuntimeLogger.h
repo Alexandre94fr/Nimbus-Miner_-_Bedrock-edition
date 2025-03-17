@@ -2,6 +2,9 @@
 
 #include <string>
 
+/// <summary>
+/// Write the given message inside a .txt file, the file is at the root of the project. 
+/// <para> You can use the LOG macro to not have to put the 'p_filePath' and the 'p_line' parameters. </para> </summary>
 class RuntimeLogger
 {
 
