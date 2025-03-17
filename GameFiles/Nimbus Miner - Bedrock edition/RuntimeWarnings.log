@@ -1,0 +1,124 @@
+[2025-03-14 17:07:06] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-14 17:07:06] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(147) :
+WARNING ! I'm a warning called by a macro
+
+[2025-03-14 17:07:06] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(148) :
+WARNING ! I'm a warning called by a macro, with only the prefix colored
+
+[2025-03-14 17:07:09] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-14 17:07:09] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(147) :
+WARNING ! I'm a warning called by a macro
+
+[2025-03-14 17:07:09] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(148) :
+WARNING ! I'm a warning called by a macro, with only the prefix colored
+
+[2025-03-14 17:07:15] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-14 17:07:15] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(147) :
+WARNING ! I'm a warning called by a macro
+
+[2025-03-14 17:07:15] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(148) :
+WARNING ! I'm a warning called by a macro, with only the prefix colored
+
+[2025-03-14 17:07:17] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-14 17:07:17] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(147) :
+WARNING ! I'm a warning called by a macro
+
+[2025-03-14 17:07:17] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(148) :
+WARNING ! I'm a warning called by a macro, with only the prefix colored
+
+[2025-03-14 17:07:20] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-14 17:07:20] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(147) :
+WARNING ! I'm a warning called by a macro
+
+[2025-03-14 17:07:20] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(148) :
+WARNING ! I'm a warning called by a macro, with only the prefix colored
+
+[2025-03-17 09:41:37] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-17 09:41:37] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(147) :
+WARNING ! I'm a warning called by a macro
+
+[2025-03-17 09:41:37] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(148) :
+WARNING ! I'm a warning called by a macro, with only the prefix colored
+
+[2025-03-17 09:49:27] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-17 09:49:31] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-17 09:50:17] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-17 09:50:17] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(44) :
+ERROR ! The function 'glewInit' has been called before the GLFW context creation (before the 'glfwMakeContextCurrent()' method call)
+The application has been stopped.
+
+[2025-03-17 09:50:39] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-17 09:50:40] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(44) :
+ERROR ! The function 'glewInit' has been called before the GLFW context creation (before the 'glfwMakeContextCurrent()' method call)
+The application has been stopped.
+

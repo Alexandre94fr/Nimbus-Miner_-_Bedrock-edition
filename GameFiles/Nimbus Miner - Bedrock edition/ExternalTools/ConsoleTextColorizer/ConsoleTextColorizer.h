@@ -1,6 +1,10 @@
 #pragma once
 
+#include <string>
+
 #include <Windows.h>
+
+#pragma region WindowsTextColorEnum
 
 /// <summary>
 /// Represents available text colors for the Windows console. </summary>
@@ -24,14 +28,43 @@ enum WindowsTextColorEnum
     BrightWhite,
 };
 
+inline std::string WindowsTextColorEnumToString(const WindowsTextColorEnum p_color)
+{
+    switch (p_color)
+    {
+        case WindowsTextColorEnum::Black: return "Black";
+        case WindowsTextColorEnum::Blue: return "Blue";
+        case WindowsTextColorEnum::Green: return "Green";
+        case WindowsTextColorEnum::Aqua: return "Aqua";
+        case WindowsTextColorEnum::Red: return "Red";
+        case WindowsTextColorEnum::Purple: return "Purple";
+        case WindowsTextColorEnum::Yellow: return "Yellow";
+        case WindowsTextColorEnum::White: return "White";
+        case WindowsTextColorEnum::Gray: return "Gray";
+        case WindowsTextColorEnum::LightBlue: return "LightBlue";
+        case WindowsTextColorEnum::LightGreen: return "LightGreen";
+        case WindowsTextColorEnum::LightAqua: return "LightAqua";
+        case WindowsTextColorEnum::LightRed: return "LightRed";
+        case WindowsTextColorEnum::LightPurple: return "LightPurple";
+        case WindowsTextColorEnum::LightYellow: return "LightYellow";
+        case WindowsTextColorEnum::BrightWhite: return "BrightWhite";
+	    	
+        default: return "Unknown";
+    }
+}
+
+#pragma endregion WindowsTextColorEnum
+
 /// <summary>
 /// Utility class for changing the console text color on Windows. </summary>
 class ConsoleTextColorizer
 {
 
-private:
-
+public:
+    
     static constexpr WindowsTextColorEnum DEFAULT_COLOR = WindowsTextColorEnum::White;
+    
+private:
 
     // NOTE : Because the type 'WORD' is just an 'unsigned short' we can "forward declare it" by replacing WORD by an unsigned short
     static unsigned short _previousConsoleAttributes;

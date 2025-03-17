@@ -134,10 +134,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.cpp" />
+    <ClCompile Include="ExternalTools\MessageDebugger\MessageDebugger.cpp" />
+    <ClCompile Include="ExternalTools\RuntimeLogger\RuntimeLogger.cpp" />
     <ClCompile Include="Source\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.h" />
+    <ClInclude Include="ExternalTools\MessageDebugger\MessageDebugger.h" />
+    <ClInclude Include="ExternalTools\RuntimeLogger\RuntimeLogger.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

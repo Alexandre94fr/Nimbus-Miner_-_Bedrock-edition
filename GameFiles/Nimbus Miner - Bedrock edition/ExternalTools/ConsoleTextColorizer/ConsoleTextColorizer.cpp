@@ -30,3 +30,4 @@ void ConsoleTextColorizer::UndoConsoleTextColor()
 
 	SetConsoleTextAttribute(consoleHandle, _previousConsoleAttributes);
 }
+
