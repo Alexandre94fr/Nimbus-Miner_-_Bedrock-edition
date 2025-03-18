@@ -150,18 +150,34 @@ int main(void)
 
     // TEMP
 
-    float trianglePointsPositions[6] =
+    // For now that represent a square
+
+    float geometryPositions[] =
     {
-        -0.5f, -0.5f,
-         0.0f,  0.5f,
-         0.5f, -0.5f
+        -0.5f, -0.5f, // 0 | down-left
+         0.5f, -0.5f, // 1 | down-right
+         0.5f,  0.5f, // 2 | up-right
+
+        -0.5f,  0.5f  // 3 | up-left
+    };
+
+    // In order to not have duplicates of the same vertices we identify each vertices with an index
+    // After that we will use it to draw our geometrical form
+
+    // GL_ELEMENT_ARRAY_BUFFER is used below to indicate the buffer that we will also create below
+    // contains the indices of each element in the "other" (GL_ARRAY_BUFFER) buffer.
+
+    unsigned int geometryIndices[] =
+    {
+        0, 1, 2, // First triangle, down-left -> down-right -> up-right
+        2, 3, 0  // Second triangle, up-right -> up-left -> down-left
     };
     
     // Creating a VBO (Vertex Buffer Object), (have sent the data to the graphic card)
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6, trianglePointsPositions, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 2, geometryPositions, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(
@@ -173,6 +189,11 @@ int main(void)
         // (example : if you have a vertex that have 3 attributes and each of them weight 12 bytes, that's mean you pass 12 * 3 (36 bytes))
         (void*)0
     );
+
+    unsigned int indexBufferObject;
+    glGenBuffers(1, &indexBufferObject);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), geometryIndices, GL_STATIC_DRAW);
 
     ShaderProgram shaderProgram = ParseShader("Source/Shaders/Default.shader");
 
@@ -188,7 +209,7 @@ int main(void)
         // Render here
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr); // We use nullptr because we already bind the indexBufferObject before
 
         // Swap front and back buffers
         glfwSwapBuffers(window);
