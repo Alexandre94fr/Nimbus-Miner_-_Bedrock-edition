@@ -1,0 +1,26 @@
+[2025-03-18 10:57:35] (0) :
+========================
+ = New program launch = 
+========================
+
+
+
+
+[2025-03-18 10:57:35] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(157) :
+MESSAGE : I'm a message called by a macro
+
+[2025-03-18 10:57:35] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(159) :
+CUSTOM MESSAGE : I'm a custom message called by a macro (should be Green)
+
+[2025-03-18 10:57:35] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(168) :
+WARNING ! I'm a warning called by a macro
+
+[2025-03-18 10:57:35] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(169) :
+WARNING ! I'm a warning called by a macro, with only the prefix colored
+
+[2025-03-18 10:57:35] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(178) :
+ERROR ! I'm an error called by a macro
+
+[2025-03-18 10:57:35] C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools\MessageDebugger\MessageDebugger.cpp(179) :
+ERROR ! I'm an error called by a macro, with only the prefix colored
+

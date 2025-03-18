@@ -8,7 +8,7 @@
 
 #pragma region // -=- MessageDebugger test method -=- //
 
-void MessageDebugger::TestMessageDebugger(TestOptionsEnum p_testOptionsEnum)
+void MessageDebugger::TestMessageDebugger(const TestOptionsEnum p_testOptionsEnum)
 {
     if (p_testOptionsEnum == TestOptionsEnum::NoTests)
         return;
@@ -16,52 +16,59 @@ void MessageDebugger::TestMessageDebugger(TestOptionsEnum p_testOptionsEnum)
     // In case the console text color was already modified by a developer
     ConsoleTextColorizer::ResetConsoleTextColorToDefault();
     
-    PrintCustomMessage("\n==========================================="  , Aqua);
-    PrintCustomMessage("  Beginning of the MessageDebugger test :"      , LightAqua);
-    PrintCustomMessage("===========================================\n\n", Aqua);//
+    PrintCustomMessage(Aqua, "\n===========================================");
+    PrintCustomMessage(LightAqua, "  Beginning of the MessageDebugger test :");
+    PrintCustomMessage(Aqua, "===========================================\n\n");
 
     #pragma region // - Selecting and doing the tests - //
 
     switch (p_testOptionsEnum)
     {
-    case TestOptionsEnum::NoTests:
+    case NoTests:
         // The code should not ever get here (because there is a check before)
         break;
         
         
-    case (TestOptionsEnum::OnlyPrintingMessageTest):
+    case (OnlyPrintingMessageTest):
         TestPrintingMethods();
         break;
         
         
-    case (TestOptionsEnum::OnlyMacrosTest):
+    case (OnlyMacrosTest):
         TestMacros();
         break;
 
-    case (TestOptionsEnum::OnlyWarningMacrosTest):
+    case (OnlyWarningMacrosTest):
         TestWarningMacros();
         break;
         
-    case (TestOptionsEnum::OnlyErrorMacrosTest):
+    case (OnlyErrorMacrosTest):
         TestErrorMacros();
         break;
 
-
-    case (TestOptionsEnum::OnlyPrintingMessageAndWarningMacrosTest):
+        
+    case (OnlyPrintingMessageAndWarningMacrosTest):
         TestPrintingMethods();
         TestWarningMacros();
         break;
 
-    case (TestOptionsEnum::OnlyPrintingMessageAndErrorMacrosTest):
+    case (OnlyPrintingMessageAndErrorMacrosTest):
         TestPrintingMethods();
         TestErrorMacros();
         break;
+
         
+    case (AllTestsExceptErrorMacrosTest):
+        TestPrintingMethods();
+        TestMessageMacros();
+        TestWarningMacros();
+        break;
         
-    case (TestOptionsEnum::AllTests):
+    case (AllTests):
         TestPrintingMethods();
         TestMacros();
         break;
+
         
     default:
         PRINT_ERROR_RUNTIME(false, "The given p_testOptionsEnum : '" + ToString(p_testOptionsEnum) + "' is not planned in the switch.")
@@ -70,24 +77,24 @@ void MessageDebugger::TestMessageDebugger(TestOptionsEnum p_testOptionsEnum)
 
     #pragma endregion
     
-    PrintCustomMessage("\n\n=====================================", Aqua);
-    PrintCustomMessage("  End of the MessageDebugger test :"      , LightAqua);
-    PrintCustomMessage("=====================================\n"  , Aqua);
+    PrintCustomMessage(Aqua, "\n=====================================");
+    PrintCustomMessage(LightAqua, "  End of the MessageDebugger test :");
+    PrintCustomMessage(Aqua, "=====================================\n");
 }
 
 #pragma region // - Sub-testing methods - //
 
 void MessageDebugger::TestPrintingMethods()
 {
-    PrintCustomMessage("- - - - - - - - - - - - - - - - - - -", Purple);
-    PrintCustomMessage("Beginning of the message color part :\n", LightPurple);
+    PrintCustomMessage(Purple, "- - - - - - - - - - - - - - - - - - - - -");
+    PrintCustomMessage(LightPurple, "Beginning of the printing methods tests :\n");
 
     #pragma region - Message color -
 
     PrintMessage("This message should be " + WindowsTextColorEnumToString(MESSAGE_TEXT_COLOR));
     PrintWarning("This warning should be " + WindowsTextColorEnumToString(WARNING_TEXT_COLOR) + ", and should have a prefix like for example 'WARNING ! '");
     PrintError("This error should be " + WindowsTextColorEnumToString(ERROR_TEXT_COLOR) + ", and should have a prefix like for example 'ERROR ! '", false);
-    PrintCustomMessage("This custom message should be Green", Green);
+    PrintCustomMessage(Green, "This custom message should be Green");
 
     #pragma endregion
 
@@ -126,32 +133,52 @@ void MessageDebugger::TestPrintingMethods()
 
     ConsoleTextColorizer::ResetConsoleTextColorToDefault();
 
-    PrintCustomMessage("\nEnd of the message color part :", LightPurple);
-    PrintCustomMessage("- - - - - - - - - - - - - - - -\n", Purple);
+    PrintCustomMessage(LightPurple, "\nEnd of the printing methods tests :");
+    PrintCustomMessage(Purple, "- - - - - - - - - - - - - - - - - - -\n");
 }
 
 void MessageDebugger::TestMacros()
 {
-    PrintCustomMessage("- - - - - - - - - - - - - - - -", Purple);
-    PrintCustomMessage("Beginning of the macro part :\n", LightPurple);
+    PrintCustomMessage(Purple, "- - - - - - - - - - - - - - - -");
+    PrintCustomMessage(LightPurple, "Beginning of the macros tests :\n");
 
+    TestMessageMacros();
     TestWarningMacros();
     TestErrorMacros();
     
-    PrintCustomMessage("End of the macro part :", LightPurple);
-    PrintCustomMessage("- - - - - - - - - - - -", Purple);
+    PrintCustomMessage(LightPurple, "End of the macros tests :");
+    PrintCustomMessage(Purple, "- - - - - - - - - - - - -");
+}
+
+void MessageDebugger::TestMessageMacros()
+{
+    PrintCustomMessage(LightPurple, "Beginning of the message macros tests :\n");
+    
+    PRINT_MESSAGE_RUNTIME("I'm a message called by a macro")
+
+    PRINT_CUSTOM_MESSAGE_RUNTIME(Green, "I'm a custom message called by a macro (should be Green)")
+
+    PrintCustomMessage(LightPurple, "End of the message macros tests\n");
 }
 
 void MessageDebugger::TestWarningMacros()
 {
+    PrintCustomMessage(LightPurple, "Beginning of the warning macros tests :\n");
+    
     PRINT_WARNING_RUNTIME(false, "I'm a warning called by a macro")
     PRINT_WARNING_RUNTIME(true, "I'm a warning called by a macro, with only the prefix colored")
+    
+    PrintCustomMessage(LightPurple, "End of the warning macros tests\n");
 }
 
 void MessageDebugger::TestErrorMacros()
 {
+    PrintCustomMessage(LightPurple, "Beginning of the error macros tests :\n");
+    
     PRINT_ERROR_RUNTIME(false, "I'm an error called by a macro")
     PRINT_ERROR_RUNTIME(true, "I'm an error called by a macro, with only the prefix colored")
+
+    PrintCustomMessage(LightPurple, "Beginning of the error macros tests\n");
 }
 
 #pragma endregion
@@ -160,14 +187,31 @@ void MessageDebugger::TestErrorMacros()
 
 #pragma region // -=- Printing methods -=- //
 
+#pragma region // - Message - //
+
 void MessageDebugger::PrintMessage(const std::string& p_message)
 {
     ConsoleTextColorizer::SetConsoleTextColor(MESSAGE_TEXT_COLOR);
     
     std::cout << p_message << "\n";
-
+    
     ConsoleTextColorizer::UndoConsoleTextColor();
 }
+
+void MessageDebugger::PrintMessage(const std::string& p_message, const char* p_filePath, const int p_line)
+{
+    PrintMessage(p_message);
+
+    ConsoleTextColorizer::SetConsoleTextColor(MESSAGE_TEXT_COLOR);
+    
+    std::cout << "\nMessage triggered at '" << p_filePath << "' at line : " << p_line << "\n\n";
+
+    ConsoleTextColorizer::UndoConsoleTextColor();
+    
+    RuntimeLogger::Log("MESSAGE : " + p_message, p_filePath, p_line);
+}
+
+#pragma endregion
 
 #pragma region // - Warning - //
 
@@ -237,7 +281,9 @@ void MessageDebugger::PrintError(const std::string& p_message, const char* p_fil
 }
 #pragma endregion
 
-void MessageDebugger::PrintCustomMessage(const std::string& p_message, const WindowsTextColorEnum p_messageColor)
+#pragma region // - Custom message - //
+
+void MessageDebugger::PrintCustomMessage(const WindowsTextColorEnum p_messageColor, const std::string& p_message)
 {
     ConsoleTextColorizer::SetConsoleTextColor(p_messageColor);
     
@@ -245,4 +291,20 @@ void MessageDebugger::PrintCustomMessage(const std::string& p_message, const Win
     
     ConsoleTextColorizer::UndoConsoleTextColor();
 }
+
+void MessageDebugger::PrintCustomMessage(const WindowsTextColorEnum p_messageColor, const std::string& p_message, const char* p_filePath, const int p_line)
+{
+    PrintCustomMessage(p_messageColor, p_message);
+
+    ConsoleTextColorizer::SetConsoleTextColor(p_messageColor);
+    
+    std::cout << "\nCustom message triggered at '" << p_filePath << "' at line : " << p_line << "\n\n";
+
+    ConsoleTextColorizer::UndoConsoleTextColor();
+    
+    RuntimeLogger::Log("CUSTOM MESSAGE : " + p_message, p_filePath, p_line);
+}
+
+#pragma endregion
+
 #pragma endregion

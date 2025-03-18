@@ -20,6 +20,8 @@ enum TestOptionsEnum
 
     OnlyPrintingMessageAndWarningMacrosTest,
     OnlyPrintingMessageAndErrorMacrosTest,
+
+    AllTestsExceptErrorMacrosTest,
     
     AllTests
 };
@@ -38,6 +40,8 @@ inline std::string ToString(const TestOptionsEnum p_testOptionsEnum)
 
     case OnlyPrintingMessageAndWarningMacrosTest: return "OnlyPrintingMessageAndWarningMacrosTest";
     case OnlyPrintingMessageAndErrorMacrosTest: return "OnlyPrintingMessageAndErrorMacrosTest";
+
+    case AllTestsExceptErrorMacrosTest: return "AllTestsExceptErrorMacrosTest";
         
     case TestOptionsEnum::AllTests: return "AllTests";
 	    	
@@ -51,8 +55,9 @@ inline std::string ToString(const TestOptionsEnum p_testOptionsEnum)
 /// Utility class for printing formatted messages to the console with different severity levels (Message, Warning, Error).
 /// 
 /// <para> 
-/// Also provides macros for printing Warnings and Errors with file and line information during compilation, 
-/// will also be shown as warning and error by your IDE (tested for Visual Studio and JetBrain Rider). </para>
+/// Also provides macros for printing Message, Warnings and Errors with file and line information during compilation, 
+/// will also be shown as warning and error by your IDE only if you choose the compilation version
+/// (tested for Visual Studio and JetBrain Rider). </para>
 /// 
 /// <para>
 /// Beware ! If you are on Visual Studio, the error macros will generate an error popup (I can't control it), 
@@ -86,7 +91,7 @@ public:
     /// <para>
     /// Beware ! Because we are testing macros, and more precisely the '<see cref="PRINT_ERROR_COMPILATION"/>' one, 
     /// it will generate real errors, so don't be surprised. </para> </summary>
-    static void TestMessageDebugger(TestOptionsEnum p_testOptionsEnum);
+    static void TestMessageDebugger(const TestOptionsEnum p_testOptionsEnum);
 
 private:
 
@@ -102,6 +107,7 @@ private:
     /// it will generate real errors, so don't be surprised. </para> </summary>
     static void TestMacros();
 
+    static void TestMessageMacros();
     static void TestWarningMacros();
     static void TestErrorMacros();
 
@@ -109,7 +115,7 @@ public:
     
     #pragma endregion
 
-    #pragma region // - Printing methods (without File and Line) - //
+    #pragma region // - Printing methods (without File and Line, and log) - //
 
     /// <summary>
     /// Prints a standard message in the default message color. </summary>
@@ -131,14 +137,16 @@ public:
     
     /// <summary>
     /// Prints a custom message with the specified console text color. </summary>
-    static void PrintCustomMessage(const std::string& p_message, const WindowsTextColorEnum p_messageColor);
+    static void PrintCustomMessage(const WindowsTextColorEnum p_messageColor, const std::string& p_message);
     
     #pragma endregion
 
-    #pragma region // - Warning and Error methods (with File and Line) - //
+    #pragma region // - Printing methods (with File and Line, and log) - //
 
+    static void PrintMessage(const std::string& p_message, const char* p_filePath, const int p_line);
+    
     /// <summary>
-    /// Prints a warning with file and line information, and optional prefix-only coloring. 
+    /// Prints and logs a warning with file and line information, and optional prefix-only coloring. 
     /// 
     /// <para> 
     /// You can use the '<see cref="PRINT_WARNING_COMPILATION"/>' or the '<see cref="PRINT_WARNING_RUNTIME"/>' macro 
@@ -146,7 +154,7 @@ public:
     static void PrintWarning(const std::string& p_message, const char* p_filePath, const int p_line, const bool p_isOnlyPrefixColored = false);
 
     /// <summary>
-    /// Prints an error with file and line information, and optional prefix-only coloring.
+    /// Prints and logs an error with file and line information, and optional prefix-only coloring.
     /// 
     /// <para> 
     /// You can use the '<see cref="PRINT_ERROR_COMPILATION"/>' or the '<see cref="PRINT_ERROR_RUNTIME"/>' macro 
@@ -157,6 +165,8 @@ public:
     /// will generate an error popup (I can't control it), just press the 'No' button to see the error. </para> </summary>
     static void PrintError(const std::string& p_message, const char* p_filePath, const int p_line, const bool p_isOnlyPrefixColored = false);
 
+    static void PrintCustomMessage(const WindowsTextColorEnum p_messageColor, const std::string& p_message, const char* p_filePath, const int p_line);
+    
     #pragma endregion
 
     #pragma endregion
@@ -187,7 +197,13 @@ public:
 #pragma region // - Usable macros - //
 
 /// <summary>
-/// Prints a warning message <b> at compilation </b> with prefix-only coloring and with file and line info. 
+/// Prints and logs a message <b> at runtime </b> with file and line info. 
+/// The message <b> is NOT </b> shown in the error list and build output. </summary>
+#define PRINT_MESSAGE_RUNTIME(p_message) \
+    MessageDebugger::PrintMessage(p_message, __FILE__, __LINE__); \
+
+/// <summary>
+/// Prints and logs a warning message <b> at compilation </b> with prefix-only coloring and with file and line info. 
 /// The message <b> is </b> shown in the error list and build output, 
 /// so you click on the button and be transported directly to the concerned line. 
 /// 
@@ -201,16 +217,14 @@ public:
     MessageDebugger::PrintWarning(p_message, __FILE__, __LINE__, p_isOnlyPrefixColored); \
     __pragma(message(__FILE__ "(" STRINGIZE(__LINE__) "): warning: " p_message))
 
-// TODO : Essayer de faire une macro qui converti un std::string en const char[]  
-
 /// <summary>
-/// Prints a warning message <b> at runtime </b> with prefix-only coloring and with file and line info. 
+/// Prints and logs a warning message <b> at runtime </b> with prefix-only coloring and with file and line info. 
 /// The message <b> is NOT </b> shown in the error list and build output. But </summary>
 #define PRINT_WARNING_RUNTIME(p_isOnlyPrefixColored, p_message) \
     MessageDebugger::PrintWarning(p_message, __FILE__, __LINE__, p_isOnlyPrefixColored); \
 
 /// <summary>
-/// Prints an error message <b> at compilation </b> with prefix-only coloring and with file and line info. 
+/// Prints and logs an error message <b> at compilation </b> with prefix-only coloring and with file and line info. 
 /// The message <b> is </b> shown in the error list and build output, 
 /// so you click on the button and be transported directly to the concerned line.
 /// 
@@ -229,10 +243,19 @@ public:
     __pragma(message(__FILE__ "(" STRINGIZE(__LINE__) "): error: " p_message)) 
 
 /// <summary>
-/// Prints an error message <b> at runtime </b> with prefix-only coloring and with file and line info. 
+/// Prints and logs an error message <b> at runtime </b> with prefix-only coloring and with file and line info. 
 /// The message <b> is NOT </b> shown in the error list and build output. </summary>
 #define PRINT_ERROR_RUNTIME(p_isOnlyPrefixColored, p_message) \
     MessageDebugger::PrintError(p_message, __FILE__, __LINE__, p_isOnlyPrefixColored); \
+
+/// <summary>
+/// Prints and logs a custom message <b> at runtime </b> with file and line info. 
+/// The custom message <b> is NOT </b> shown in the error list and build output.
+///
+/// <para>
+/// The parameter named 'p_messageColor' is a WindowsTextColorEnum so you can pass for example : <c> WindowsTextColorEnum::Green </c> </para> </summary>
+#define PRINT_CUSTOM_MESSAGE_RUNTIME(p_messageColor, p_message) \
+    MessageDebugger::PrintCustomMessage(p_messageColor, p_message, __FILE__, __LINE__); \
 
 #pragma endregion
 
