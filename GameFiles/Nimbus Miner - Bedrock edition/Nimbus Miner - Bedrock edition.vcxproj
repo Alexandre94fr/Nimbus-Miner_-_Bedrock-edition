@@ -143,6 +143,9 @@
     <ClInclude Include="ExternalTools\MessageDebugger\MessageDebugger.h" />
     <ClInclude Include="ExternalTools\RuntimeLogger\RuntimeLogger.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Source\Shaders\Default.shader" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
