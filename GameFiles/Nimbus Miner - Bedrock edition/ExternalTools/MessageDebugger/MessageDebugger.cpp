@@ -194,11 +194,10 @@ void MessageDebugger::PrintWarning(const std::string& p_message, const char* p_f
     PrintWarning(p_message, p_isOnlyPrefixColored);
 
     ConsoleTextColorizer::SetConsoleTextColor(WARNING_TEXT_COLOR);
-
-    // Throw a real warning, visible by the IDE
+    
     std::cout << "\nWarning triggered at '" << p_filePath << "' at line : " << p_line << "\n\n";
 
-    RuntimeLogger::Log("WARNING ! " + p_message, p_filePath, p_line);
+    RuntimeLogger::Log(WARNING_TEXT_PREFIX + p_message, p_filePath, p_line);
     
     ConsoleTextColorizer::ResetConsoleTextColorToDefault();
 }
@@ -229,11 +228,10 @@ void MessageDebugger::PrintError(const std::string& p_message, const char* p_fil
     PrintError(p_message, p_isOnlyPrefixColored);
 
     ConsoleTextColorizer::SetConsoleTextColor(ERROR_TEXT_COLOR);
-
-    // Throw a real error, visible by the IDE
+    
     std::cout << "\nError triggered at '" << p_filePath << "' at line : " << p_line << "\n\n";
     
-    RuntimeLogger::Log("ERROR ! " + p_message, p_filePath, p_line);
+    RuntimeLogger::Log(ERROR_TEXT_PREFIX + p_message, p_filePath, p_line);
 
     ConsoleTextColorizer::ResetConsoleTextColorToDefault();
 }
