@@ -7,11 +7,13 @@
 // External tools
 #include "../ExternalTools/MessageDebugger/MessageDebugger.h"
 #include "../ExternalTools/RuntimeLogger/RuntimeLogger.h"
+#include "../ExternalTools/OpenGLDebugger/OpenGlDebugger.h"
 
 // TEMP
 #include <fstream>
 #include <string>
 #include <sstream>
+
 
 struct ShaderProgram
 {
@@ -84,7 +86,7 @@ static unsigned int CompileShader(const unsigned int p_type, const std::string& 
 
         glDeleteShader(shaderID);
         
-        PRINT_ERROR_RUNTIME(true, std::string("Failed to compile the") + (p_type == GL_VERTEX_SHADER ? "vertex" : "fragment") + "shader")
+        PRINT_ERROR_RUNTIME(true, std::string("Failed to compile the ") + (p_type == GL_VERTEX_SHADER ? "vertex " : "fragment ") + "shader")
 
         return 0;
     }
@@ -108,6 +110,7 @@ static unsigned int CreateShader(const std::string& p_vertexShaderCode, const st
     return shaderID;
 }
 
+static bool IsGpuInDebugMode = true;
 
 int main(void)
 {
@@ -118,11 +121,16 @@ int main(void)
         , "", 0
     );
 
-    MessageDebugger::TestMessageDebugger(TestOptionsEnum::AllTests);
+    MessageDebugger::TestMessageDebugger(TestOptionsEnum::NoTests);
 
-    // Initialize the library
+    // Initialize the GLFW library
+    // (she makes possible the window creation, input detection, handling other extensions)
     if (!glfwInit())
         return -1;
+
+    // To tell the GPU if we are in debug mode,
+    // must be after the glfwInit() and before the glfwCreateWindow() functions
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, IsGpuInDebugMode);
 
     // Create a windowed mode window and its OpenGL context
     GLFWwindow* window = glfwCreateWindow(640, 480, "Nimbus miner - Bedrock edition", nullptr, nullptr);
@@ -148,6 +156,10 @@ int main(void)
         return -1;
     }
 
+    glEnable(GL_DEBUG_OUTPUT); // Enables OpenGL to generate debug messages and send them to the callback (if not already enabled by default)
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); // To force OpenGL to send the error right when it appends
+    glDebugMessageCallback(OpenGlDebugger::PrintOpenGlErrors, nullptr);
+    
     // TEMP
 
     // For now that represent a square
@@ -197,8 +209,8 @@ int main(void)
 
     ShaderProgram shaderProgram = ParseShader("Source/Shaders/Default.shader");
 
-    MessageDebugger::PrintMessage(std::string("Vertex shader :\n") + shaderProgram.VertexShaderProgram);
-    MessageDebugger::PrintMessage(std::string("Fragment shader :\n") + shaderProgram.FragmentShaderProgram);
+    MessageDebugger::PrintMessage(std::string("VERTEX SHADER :\n") + shaderProgram.VertexShaderProgram);
+    MessageDebugger::PrintMessage(std::string("FRAGMENT SHADER :\n") + shaderProgram.FragmentShaderProgram);
 
     unsigned int shader = CreateShader(shaderProgram.VertexShaderProgram, shaderProgram.FragmentShaderProgram);
     glUseProgram(shader);
@@ -220,6 +232,8 @@ int main(void)
 
     glDeleteProgram(shader);
 
+    glfwDestroyWindow(window);
     glfwTerminate();
+
     return 0;
 }

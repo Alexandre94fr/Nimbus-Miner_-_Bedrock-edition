@@ -135,12 +135,14 @@
   <ItemGroup>
     <ClCompile Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.cpp" />
     <ClCompile Include="ExternalTools\MessageDebugger\MessageDebugger.cpp" />
+    <ClCompile Include="ExternalTools\OpenGLDebugger\OpenGlDebugger.cpp" />
     <ClCompile Include="ExternalTools\RuntimeLogger\RuntimeLogger.cpp" />
     <ClCompile Include="Source\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.h" />
     <ClInclude Include="ExternalTools\MessageDebugger\MessageDebugger.h" />
+    <ClInclude Include="ExternalTools\OpenGLDebugger\OpenGlDebugger.h" />
     <ClInclude Include="ExternalTools\RuntimeLogger\RuntimeLogger.h" />
   </ItemGroup>
   <ItemGroup>
