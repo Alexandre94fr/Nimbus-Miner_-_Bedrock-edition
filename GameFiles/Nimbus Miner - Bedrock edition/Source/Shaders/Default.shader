@@ -16,9 +16,9 @@
 
 // SHADER VERTEX
 #version 330 core
-
+ 
 layout(location = 0) in vec2 positionAttribute;
-
+ 
 void main()
 {
     gl_Position = vec4(positionAttribute, 0.0, 1.0);
@@ -30,10 +30,13 @@ void main()
 
 // SHADER FRAGMENT
 #version 330 core
-
+ 
 out vec4 FragmentColor;
-
+ 
+// -- Accessible variable (by vertex shader, and CPU)
+uniform vec4 u_Color;
+ 
 void main()
 { 
-    FragmentColor = vec4(0.2, 0.2, 1.0, 1.0); 
+    FragmentColor = u_Color; 
 }

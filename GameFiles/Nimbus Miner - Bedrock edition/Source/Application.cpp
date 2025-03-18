@@ -144,6 +144,9 @@ int main(void)
     // Make the window's context current
     glfwMakeContextCurrent(window);
 
+    // Make the framerate constant
+    glfwSwapInterval(1);
+    
     // Glew initialization
     if (glewInit() != GLEW_OK)
     {
@@ -214,6 +217,10 @@ int main(void)
 
     unsigned int shader = CreateShader(shaderProgram.VertexShaderProgram, shaderProgram.FragmentShaderProgram);
     glUseProgram(shader);
+
+    // Passing the color to the shader (to the 'u_Color' uniform variable)
+    int shaderLocation = glGetUniformLocation(shader, "u_Color");
+    glUniform4f(shaderLocation, 0.2f, 0.2f, 0.8f, 1.0f);
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
