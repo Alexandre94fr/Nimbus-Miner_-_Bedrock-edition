@@ -14,6 +14,9 @@
 #include <string>
 #include <sstream>
 
+#include "Engine/Rendering/IndexBufferObject.h"
+#include "Engine/Rendering/VertexBufferObject.h"
+
 
 struct ShaderProgram
 {
@@ -228,10 +231,13 @@ int main(void)
     // Creating a VBO (Vertex Buffer Object), (have sent the data to the graphic card)
     // Contains the raw data (vertex positions, colors, normals, UVs, etc.) we want to send to the GPU
 
-    unsigned int vertexBufferObjectID;
-    glGenBuffers(1, &vertexBufferObjectID);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectID);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 4 * 2, geometryPositions, GL_STATIC_DRAW);
+    VertexBufferObject vertexBufferObject(geometryPositions, sizeof(GLfloat) * 4 * 2);
+    
+    // TEMP : IN CASE THE CLASS ABSTACTION DOES NOT WORK ANYMORE
+    //unsigned int vertexBufferObjectID;
+    //glGenBuffers(1, &vertexBufferObjectID);
+    //glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectID);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 4 * 2, geometryPositions, GL_STATIC_DRAW);
 
     glVertexAttribPointer(
         0,                  // - The index of the attribute (example : if you want to bind the second attribute of your vertex you will pass 1)
@@ -258,10 +264,14 @@ int main(void)
     // Creating the IBO (Index Buffer Object)
     // Contains indexes that say "which vertex to draw at what time" 
 
-    unsigned int indexBufferObjectID;       
-    glGenBuffers(1, &indexBufferObjectID);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObjectID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), geometryIndices, GL_STATIC_DRAW);
+    IndexBufferObject indexBufferObject(geometryIndices, 6);
+    
+
+    // TEMP : IN CASE THE CLASS ABSTACTION DOES NOT WORK ANYMORE
+    //unsigned int indexBufferObjectID;       
+    //glGenBuffers(1, &indexBufferObjectID);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObjectID);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), geometryIndices, GL_STATIC_DRAW);
 
     ShaderProgram shaderProgram = ParseShader("Source/Shaders/Default.shader");
 
@@ -286,7 +296,8 @@ int main(void)
         glUniform4f(shaderLocation, 0.2f, 0.2f, 0.8f, 1.0f);
 
         glBindVertexArray(vertexArrayObjectID);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObjectID);
+        indexBufferObject.Bind();
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObjectID);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         // We use nullptr because we already bind the indexBufferObjectID before

@@ -138,12 +138,16 @@
     <ClCompile Include="ExternalTools\OpenGLDebugger\OpenGlDebugger.cpp" />
     <ClCompile Include="ExternalTools\RuntimeLogger\RuntimeLogger.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\IndexBufferObject.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\VertexBufferObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.h" />
     <ClInclude Include="ExternalTools\MessageDebugger\MessageDebugger.h" />
     <ClInclude Include="ExternalTools\OpenGLDebugger\OpenGlDebugger.h" />
     <ClInclude Include="ExternalTools\RuntimeLogger\RuntimeLogger.h" />
+    <ClInclude Include="Source\Engine\Rendering\IndexBufferObject.h" />
+    <ClInclude Include="Source\Engine\Rendering\VertexBufferObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Source\Shaders\Default.shader" />
