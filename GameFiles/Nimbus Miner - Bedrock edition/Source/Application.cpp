@@ -3,6 +3,8 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 // External tools
 #include "../ExternalTools/MessageDebugger/MessageDebugger.h"
@@ -10,10 +12,12 @@
 #include "../ExternalTools/OpenGLDebugger/OpenGlDebugger.h"
 
 #include "Engine/Rendering/IndexBufferObject.h"
+#include "Engine/Rendering/Renderer.h"
 #include "Engine/Rendering/VertexArrayObject.h"
 #include "Engine/Rendering/VertexBufferObject.h"
 #include "Engine/Rendering/Shader.h"
 
+static bool IsDebuggingSecondsPastBetweenFrames = false;
 static bool IsGpuInDebugMode = true;
 
 int main(void)
@@ -109,41 +113,46 @@ int main(void)
     IndexBufferObject indexBufferObject(geometryIndices, 6);
 
     Shader defaultShader("Source/Shaders/Default.shader");
-    defaultShader.Bind();
 
     // Passing the color to the shader (to the 'u_Color' uniform variable)
+    defaultShader.Bind();
     defaultShader.SetUniform4f("u_Color", 0.2f, 0.2f, 0.8f, 1.0f);
 
     vertexArrayObject.Unbind();
     vertexBufferObject.Unbind();
     indexBufferObject.Unbind();
     defaultShader.Unbind();
-    
 
-    float redColor = 0;
-    float colorIncrement = 0.01f;
+
+    Renderer renderer;
+
+    float redColor = 1;
+    float colorIncrement = 0.025f;
     
+    // To debug framerate
+    double startTime = 0;
+
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
     {
-        // Render here
-        glClear(GL_COLOR_BUFFER_BIT);
+        if (IsDebuggingSecondsPastBetweenFrames)
+            double startTime = glfwGetTime();
 
-        // Bind the geometry we will draw
+        // Rendering
 
+        renderer.Clear();
+
+        // Changing the color of the drawn object
         defaultShader.Bind();
         defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
 
-        vertexArrayObject.Bind();
-        indexBufferObject.Bind();
-
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-        // We use nullptr because we already bind the indexBufferObjectID before
-
+        renderer.Draw(vertexArrayObject, indexBufferObject, defaultShader);
+        
+        // Clamping and changing the Red color value of the drawn object 
         if (redColor > 1.0f)
-            colorIncrement = -0.05f;
+            colorIncrement = -0.015f;
         else if (redColor < 0.0f)
-            colorIncrement =  0.05f;
+            colorIncrement =  0.015f;
 
         redColor += colorIncrement;
         
@@ -152,6 +161,13 @@ int main(void)
 
         // Poll for and process events
         glfwPollEvents();
+
+        if (IsDebuggingSecondsPastBetweenFrames)
+        {
+            double endTime = glfwGetTime();
+
+            std::cout << endTime - startTime << '\n';
+        }
     }
 
     glfwDestroyWindow(window);
