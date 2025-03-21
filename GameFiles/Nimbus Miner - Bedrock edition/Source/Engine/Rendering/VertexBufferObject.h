@@ -7,9 +7,8 @@ class VertexBufferObject
 {
     
 private:
-
-    // The program ID of what program will render things on the screen (in our case it's OpenGL)
-    unsigned int _renderingProgramID;
+    
+    unsigned int _vertexBufferObjectID;
 
 public:
 

@@ -15,6 +15,7 @@
 #include <sstream>
 
 #include "Engine/Rendering/IndexBufferObject.h"
+#include "Engine/Rendering/VertexArrayObject.h"
 #include "Engine/Rendering/VertexBufferObject.h"
 
 
@@ -41,7 +42,7 @@ static ShaderProgram ParseShader(const std::string& p_filePath)
 
     while (getline(stream, line))
     {
-        // We use std::string::npos because if find() did not find something it return -1 (the value of npos)
+        // We use 'std::string::npos' because if find() did not find something it returns -1 (the value of npos)
         if (line.find("// --") != std::string::npos)
             continue;
 
@@ -179,7 +180,7 @@ int main(void)
         -0.5f,  0.5f  // 3 | up-left
     };
 
-    // In order to not have duplicates of the same vertices we identify each vertices with an index
+    // In order to not have duplicates of the same vertices we identify each vertex with an index
     // After that we will use it to draw our geometrical form
 
     // GL_ELEMENT_ARRAY_BUFFER is used below to indicate the vertexBufferObjectID that we will also create below
@@ -190,88 +191,22 @@ int main(void)
         0, 1, 2, // First triangle, down-left -> down-right -> up-right
         2, 3, 0  // Second triangle, up-right -> up-left -> down-left
     };
+
+    // NOTE : To have documentation pass your cursor on the class name
     
-    // Creating a VAO (Vertex Array Object)
-    //
-    // Contains the configuration for reading data from VBOs
-    // 
-    // It does not contain the data itself, but records :
-    // - which VBOs are used
-    // - which glVertexAttribPointer are active
-    // - which glEnableVertexAttribArrays are activated
-    // - the Index Buffer(GL_ELEMENT_ARRAY_BUFFER) too
-
-    // +--------------------------------+
-    // |    VAO | Vertex Array Object   |
-    // +--------------------------------+
-    // |  
-    // | +------------------------------+
-    // | |  VBO | Vertex Buffer Object  |
-    // | |                              |
-    // | |  (GL_ARRAY_BUFFER)           |
-    // | |  Contains the vertices       |
-    // | |  raw data                    |
-    // | +------------------------------+
-    // |
-    // | +------------------------------+
-    // | |  IBO | Index Buffer Object   |
-    // | |                              |
-    // | |  (GL_ELEMENT_ARRAY_BUFFER)   |
-    // | |  Contains indexes            |
-    // | |  that say "which vertex      |
-    // | |  to draw at what time"       |
-    // | +------------------------------+
-    // |
-    // +--------------------------------+
-
-    unsigned int vertexArrayObjectID;
-    glGenVertexArrays(1, &vertexArrayObjectID);
-    glBindVertexArray(vertexArrayObjectID);
-
-    // Creating a VBO (Vertex Buffer Object), (have sent the data to the graphic card)
-    // Contains the raw data (vertex positions, colors, normals, UVs, etc.) we want to send to the GPU
-
     VertexBufferObject vertexBufferObject(geometryPositions, sizeof(GLfloat) * 4 * 2);
     
-    // TEMP : IN CASE THE CLASS ABSTACTION DOES NOT WORK ANYMORE
-    //unsigned int vertexBufferObjectID;
-    //glGenBuffers(1, &vertexBufferObjectID);
-    //glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectID);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 4 * 2, geometryPositions, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(
-        0,                  // - The index of the attribute (example : if you want to bind the second attribute of your vertex you will pass 1)
-        2,                  // - The number of data in your attribute (example : If you want three float in your attributes, you pass 3)
-        GL_FLOAT,           // - The type of each of your data
-        GL_FALSE,           // - Is the value of each data will be normalized by OpenGL
-        2 * sizeof(float),  // - The size (in bytes) of all attributes of this vertex
-                            // (example : if you have a vertex that have 3 attributes and each of them weight 12 bytes,
-                            //            that's mean you pass 12 * 3 (36 bytes))
-        (void*)0            // - Offset (in bytes) from the beginning of the vertex to this attribute
-                            // (example : if this attribute is the first one in the vertex, use (void*)0;
-                            //            if it's the second and the first is a vec3 (3 floats), use (void*)(3 * sizeof(float)))
-    );
-    glEnableVertexAttribArray(0);
-
-    // The 'glEnableVertexAttribArray' function will also link* the VertexArrayObject and the VertexBufferObject
-    // that means we will only need to use one line of code to bind the two ( glBindVertexArray(vertexArrayObjectID); )
-
-    // *The link between VBO and VAO is not direct or permanent,
-    // it's just that when you call glVertexAttribPointer, OpenGL notes in the active VAO :
-    // "For attribute 0, I need to search in such-and-such a VBO, with such-and-such a format."
+    VertexBufferLayoutObject vertexBufferLayoutObject;  
+    vertexBufferLayoutObject.PushBack<float>(2, false);
+    
+    VertexArrayObject vertexArrayObject;
+    vertexArrayObject.AddBuffer(vertexBufferObject, vertexBufferLayoutObject);
 
 
     // Creating the IBO (Index Buffer Object)
     // Contains indexes that say "which vertex to draw at what time" 
 
     IndexBufferObject indexBufferObject(geometryIndices, 6);
-    
-
-    // TEMP : IN CASE THE CLASS ABSTACTION DOES NOT WORK ANYMORE
-    //unsigned int indexBufferObjectID;       
-    //glGenBuffers(1, &indexBufferObjectID);
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObjectID);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), geometryIndices, GL_STATIC_DRAW);
 
     ShaderProgram shaderProgram = ParseShader("Source/Shaders/Default.shader");
 
@@ -294,10 +229,9 @@ int main(void)
 
         glUseProgram(shader);
         glUniform4f(shaderLocation, 0.2f, 0.2f, 0.8f, 1.0f);
-
-        glBindVertexArray(vertexArrayObjectID);
+        
+        vertexBufferObject.Bind();
         indexBufferObject.Bind();
-        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObjectID);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         // We use nullptr because we already bind the indexBufferObjectID before

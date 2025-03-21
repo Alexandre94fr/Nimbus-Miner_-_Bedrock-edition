@@ -1,6 +1,8 @@
 #pragma once
 
-/// <summary> Contains indexes that say which vertex to draw in the given order. </summary>
+/// <summary>
+/// IBO (Index Buffer Object)
+/// <para> Contains indexes that say which vertex to draw in the given order. </para> </summary>
 class IndexBufferObject
 {
 

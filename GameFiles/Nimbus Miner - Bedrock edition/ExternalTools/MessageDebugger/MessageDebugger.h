@@ -56,11 +56,11 @@ inline std::string ToString(const TestOptionsEnum p_testOptionsEnum)
 /// 
 /// <para> 
 /// Also provides macros for printing Message, Warnings and Errors with file and line information during compilation, 
-/// will also be shown as warning and error by your IDE only if you choose the compilation version
+/// will also be shown as warning and error by your IDE <b> only if you choose the compilation version </b>
 /// (tested for Visual Studio and JetBrain Rider). </para>
 /// 
 /// <para>
-/// Beware ! If you are on Visual Studio, the error macros will generate an error popup (I can't control it), 
+/// <b> Beware ! </b> If you are on Visual Studio, the error macros will generate an error popup (I can't control it), 
 /// just press the 'No' button to see the error. </para> </summary>
 class MessageDebugger
 {

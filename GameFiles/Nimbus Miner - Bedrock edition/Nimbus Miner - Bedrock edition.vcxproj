@@ -139,7 +139,9 @@
     <ClCompile Include="ExternalTools\RuntimeLogger\RuntimeLogger.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Engine\Rendering\IndexBufferObject.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\VertexArrayObject.cpp" />
     <ClCompile Include="Source\Engine\Rendering\VertexBufferObject.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\VertexBufferLayoutObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.h" />
@@ -147,7 +149,9 @@
     <ClInclude Include="ExternalTools\OpenGLDebugger\OpenGlDebugger.h" />
     <ClInclude Include="ExternalTools\RuntimeLogger\RuntimeLogger.h" />
     <ClInclude Include="Source\Engine\Rendering\IndexBufferObject.h" />
+    <ClInclude Include="Source\Engine\Rendering\VertexArrayObject.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexBufferObject.h" />
+    <ClInclude Include="Source\Engine\Rendering\VertexBufferLayoutObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Source\Shaders\Default.shader" />
