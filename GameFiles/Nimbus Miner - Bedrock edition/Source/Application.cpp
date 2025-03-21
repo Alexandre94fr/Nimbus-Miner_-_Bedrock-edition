@@ -9,110 +9,10 @@
 #include "../ExternalTools/RuntimeLogger/RuntimeLogger.h"
 #include "../ExternalTools/OpenGLDebugger/OpenGlDebugger.h"
 
-// TEMP
-#include <fstream>
-#include <string>
-#include <sstream>
-
 #include "Engine/Rendering/IndexBufferObject.h"
 #include "Engine/Rendering/VertexArrayObject.h"
 #include "Engine/Rendering/VertexBufferObject.h"
-
-
-struct ShaderProgram
-{
-    std::string VertexShaderProgram;
-    std::string FragmentShaderProgram;
-};
-
-static ShaderProgram ParseShader(const std::string& p_filePath) 
-{
-    std::ifstream stream(p_filePath);
-
-    enum class ShaderType
-    {
-        None = -1,
-        Vertex = 0,
-        Fragment = 1
-    };
-
-    std::string line;
-    std::stringstream ss[2];
-    ShaderType shaderType = ShaderType::None;
-
-    while (getline(stream, line))
-    {
-        // We use 'std::string::npos' because if find() did not find something it returns -1 (the value of npos)
-        if (line.find("// --") != std::string::npos)
-            continue;
-
-        if (line.size() == 0)
-            continue;
-
-        if (line.find("// SHADER") != std::string::npos)
-        {
-            if (line.find("VERTEX") != std::string::npos)
-                shaderType = ShaderType::Vertex;
-
-            else if (line.find("FRAGMENT") != std::string::npos)
-                shaderType = ShaderType::Fragment;
-        }
-        else 
-        {
-            ss[(int)shaderType] << line << '\n';
-        }
-    }
-
-    return { ss[0].str(), ss[1].str() };
-}
-
-static unsigned int CompileShader(const unsigned int p_type, const std::string& p_filePath)
-{
-    unsigned int shaderID = glCreateShader(p_type);
-    
-    const char* charFilePath = (const char*)p_filePath.c_str();
-
-    glShaderSource(shaderID, 1, &charFilePath, nullptr);
-    glCompileShader(shaderID);
-
-    int result;
-
-    glGetShaderiv(shaderID, GL_COMPILE_STATUS, &result);
-
-    if (result == GL_FALSE)
-    {
-        int length;
-
-        glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &length);
-        char* shaderText = static_cast<char*>(_malloca(length * sizeof(char)));
-
-        glGetShaderInfoLog(shaderID, length, &length, &shaderText[0]);
-
-        glDeleteShader(shaderID);
-        
-        PRINT_ERROR_RUNTIME(true, std::string("Failed to compile the ") + (p_type == GL_VERTEX_SHADER ? "vertex " : "fragment ") + "shader")
-
-        return 0;
-    }
-
-    return shaderID;
-}
-
-static unsigned int CreateShader(const std::string& p_vertexShaderCode, const std::string& p_fragmentShaderCode)
-{
-    const unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, p_vertexShaderCode);
-    const unsigned int fragmentShader = CompileShader(GL_FRAGMENT_SHADER, p_fragmentShaderCode);
-
-    const unsigned int shaderID = glCreateProgram();
-
-    glAttachShader(shaderID, vertexShader);
-    glAttachShader(shaderID, fragmentShader);
-
-    glLinkProgram(shaderID);
-    glValidateProgram(shaderID);
-
-    return shaderID;
-}
+#include "Engine/Rendering/Shader.h"
 
 static bool IsGpuInDebugMode = true;
 
@@ -208,17 +108,21 @@ int main(void)
 
     IndexBufferObject indexBufferObject(geometryIndices, 6);
 
-    ShaderProgram shaderProgram = ParseShader("Source/Shaders/Default.shader");
-
-    MessageDebugger::PrintMessage(std::string("VERTEX SHADER :\n") + shaderProgram.VertexShaderProgram);
-    MessageDebugger::PrintMessage(std::string("FRAGMENT SHADER :\n") + shaderProgram.FragmentShaderProgram);
-
-    unsigned int shader = CreateShader(shaderProgram.VertexShaderProgram, shaderProgram.FragmentShaderProgram);
+    Shader defaultShader("Source/Shaders/Default.shader");
+    defaultShader.Bind();
 
     // Passing the color to the shader (to the 'u_Color' uniform variable)
+    defaultShader.SetUniform4f("u_Color", 0.2f, 0.2f, 0.8f, 1.0f);
 
-    int shaderLocation = glGetUniformLocation(shader, "u_Color");
+    vertexArrayObject.Unbind();
+    vertexBufferObject.Unbind();
+    indexBufferObject.Unbind();
+    defaultShader.Unbind();
+    
 
+    float redColor = 0;
+    float colorIncrement = 0.01f;
+    
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
     {
@@ -227,23 +131,28 @@ int main(void)
 
         // Bind the geometry we will draw
 
-        glUseProgram(shader);
-        glUniform4f(shaderLocation, 0.2f, 0.2f, 0.8f, 1.0f);
-        
-        vertexBufferObject.Bind();
+        defaultShader.Bind();
+        defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
+
+        vertexArrayObject.Bind();
         indexBufferObject.Bind();
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         // We use nullptr because we already bind the indexBufferObjectID before
 
+        if (redColor > 1.0f)
+            colorIncrement = -0.05f;
+        else if (redColor < 0.0f)
+            colorIncrement =  0.05f;
+
+        redColor += colorIncrement;
+        
         // Swap front and back buffers
         glfwSwapBuffers(window);
 
         // Poll for and process events
         glfwPollEvents();
     }
-
-    glDeleteProgram(shader);
 
     glfwDestroyWindow(window);
     glfwTerminate();
