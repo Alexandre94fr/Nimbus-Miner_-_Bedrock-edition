@@ -244,12 +244,12 @@ int main(void)
         2,                  // - The number of data in your attribute (example : If you want three float in your attributes, you pass 3)
         GL_FLOAT,           // - The type of each of your data
         GL_FALSE,           // - Is the value of each data will be normalized by OpenGL
-        2 * sizeof(float),  // - The bytes size of all attributes of this vertex
+        2 * sizeof(float),  // - The size (in bytes) of all attributes of this vertex
                             // (example : if you have a vertex that have 3 attributes and each of them weight 12 bytes,
                             //            that's mean you pass 12 * 3 (36 bytes))
-        (void*)0            // - The byte size of this attribute
-                            // (example : if you have a vertex that have 2 attributes and the first one weight 8 bytes, and the second one 4, 
-                            //            when you will bind the 0 attribute will set pass (void*)8, and (void*)4 if you bind the 1 attribute)
+        (void*)0            // - Offset (in bytes) from the beginning of the vertex to this attribute
+                            // (example : if this attribute is the first one in the vertex, use (void*)0;
+                            //            if it's the second and the first is a vec3 (3 floats), use (void*)(3 * sizeof(float)))
     );
     glEnableVertexAttribArray(0);
 

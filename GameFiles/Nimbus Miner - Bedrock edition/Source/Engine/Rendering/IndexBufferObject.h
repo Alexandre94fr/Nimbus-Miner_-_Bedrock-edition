@@ -1,6 +1,6 @@
 #pragma once
 
-/// <summary> Contains indexes that say "which vertex to draw at what time". </summary>
+/// <summary> Contains indexes that say which vertex to draw in the given order. </summary>
 class IndexBufferObject
 {
 
@@ -17,7 +17,7 @@ public:
     /// Will created a IBO (Index Buffer Object).
     ///
     /// <para> Contains indexes that say which vertex to draw in the given order. </para> </summary>
-    /// <param name = "p_data"> A table of unsigned int </param>
+    /// <param name = "p_data"> A pointer to a table of unsigned int </param>
     /// <param name = "p_dataCount"> The number of indexes you gave </param>
     IndexBufferObject(const unsigned int* p_data, unsigned int p_dataCount);
     ~IndexBufferObject();
