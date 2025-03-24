@@ -3,7 +3,6 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-#include <thread>
 
 // External tools
 #include "../ExternalTools/MessageDebugger/MessageDebugger.h"
