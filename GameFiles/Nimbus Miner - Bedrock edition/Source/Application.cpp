@@ -4,16 +4,17 @@
 
 #include <iostream>
 
-// External tools
-#include "../ExternalTools/MessageDebugger/MessageDebugger.h"
-#include "../ExternalTools/RuntimeLogger/RuntimeLogger.h"
-#include "../ExternalTools/OpenGLDebugger/OpenGlDebugger.h"
+// External tools (in ExternalTools folder)
+#include "MessageDebugger/MessageDebugger.h"
+#include "RuntimeLogger/RuntimeLogger.h"
+#include "OpenGLDebugger/OpenGlDebugger.h"
 
-#include "Engine/Rendering/IndexBufferObject.h"
-#include "Engine/Rendering/Renderer.h"
-#include "Engine/Rendering/VertexArrayObject.h"
-#include "Engine/Rendering/VertexBufferObject.h"
-#include "Engine/Rendering/Shader.h"
+// Engine files (in Source\Engine\Rendering folder)
+#include "Renderer.h"
+#include "IndexBufferObject.h"
+#include "VertexArrayObject.h"
+#include "VertexBufferObject.h"
+#include "Shader.h"
 
 static constexpr bool IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES = false;
 static constexpr bool IS_GPU_IN_DEBUG_MODE = true;
