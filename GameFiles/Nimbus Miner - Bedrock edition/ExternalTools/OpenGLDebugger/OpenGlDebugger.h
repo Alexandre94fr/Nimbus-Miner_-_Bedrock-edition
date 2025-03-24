@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 
-#include "../MessageDebugger/MessageDebugger.h"
+#include "MessageDebugger/MessageDebugger.h"
 
 class OpenGlDebugger
 {
@@ -22,9 +22,9 @@ public:
     /// #include <GLFW/glfw3.h>
     /// 
     /// // External tools (your file paths can change depending of your organization)
-    /// #include "../ExternalTools/MessageDebugger/MessageDebugger.h" 
-    /// #include "../ExternalTools/RuntimeLogger/RuntimeLogger.h"
-    /// #include "../ExternalTools/OpenGLDebugger/OpenGlDebugger.h"
+    /// #include "/MessageDebugger/MessageDebugger.h" 
+    /// #include "/RuntimeLogger/RuntimeLogger.h"
+    /// #include "/OpenGLDebugger/OpenGlDebugger.h"
     /// 
     /// static bool IsGpuInDebugMode = true;
     /// 

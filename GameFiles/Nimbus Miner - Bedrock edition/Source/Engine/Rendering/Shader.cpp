@@ -7,7 +7,7 @@
 #include <sstream>
 
 // External tools
-#include "../../../ExternalTools/MessageDebugger/MessageDebugger.h"
+#include "MessageDebugger/MessageDebugger.h"
 
 Shader::Shader(const std::string& p_filePath)
 {

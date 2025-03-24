@@ -4,7 +4,7 @@
 #include <vector>
 #include <GL/glew.h>
 
-#include "../../../ExternalTools/MessageDebugger/MessageDebugger.h"
+#include "MessageDebugger/MessageDebugger.h"
 
 /// <summary>
 /// Represents a single attribute in the vertex buffer layout, describing the type, count,

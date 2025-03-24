@@ -3,8 +3,8 @@
 #include <iostream>
 #include <ostream>
 
-#include "../ConsoleTextColorizer/ConsoleTextColorizer.h"
-#include "../RuntimeLogger/RuntimeLogger.h"
+#include "ConsoleTextColorizer/ConsoleTextColorizer.h"
+#include "RuntimeLogger/RuntimeLogger.h"
 
 #pragma region // -=- MessageDebugger test method -=- //
 

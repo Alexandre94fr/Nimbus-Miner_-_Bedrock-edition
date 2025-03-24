@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 
-#include "../../../ExternalTools/MessageDebugger/MessageDebugger.h"
+#include "MessageDebugger/MessageDebugger.h"
 
 IndexBufferObject::IndexBufferObject(const unsigned int* p_data, unsigned int p_dataCount)
 {
