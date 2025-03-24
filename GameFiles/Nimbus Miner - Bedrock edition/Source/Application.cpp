@@ -3,7 +3,6 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-#include <chrono>
 #include <thread>
 
 // External tools
@@ -17,8 +16,8 @@
 #include "Engine/Rendering/VertexBufferObject.h"
 #include "Engine/Rendering/Shader.h"
 
-static bool IsDebuggingSecondsPastBetweenFrames = false;
-static bool IsGpuInDebugMode = true;
+static constexpr bool IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES = false;
+static constexpr bool IS_GPU_IN_DEBUG_MODE = true;
 
 int main(void)
 {
@@ -38,7 +37,7 @@ int main(void)
 
     // To tell the GPU if we are in debug mode,
     // must be after the glfwInit() and before the glfwCreateWindow() functions
-    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, IsGpuInDebugMode);
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, IS_GPU_IN_DEBUG_MODE);
 
     // Create a windowed mode window and its OpenGL context
     GLFWwindow* window = glfwCreateWindow(640, 480, "Nimbus miner - Bedrock edition", nullptr, nullptr);
@@ -135,8 +134,8 @@ int main(void)
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
     {
-        if (IsDebuggingSecondsPastBetweenFrames)
-            double startTime = glfwGetTime();
+        if (IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES)
+            startTime = glfwGetTime();
 
         // Rendering
 
@@ -162,11 +161,12 @@ int main(void)
         // Poll for and process events
         glfwPollEvents();
 
-        if (IsDebuggingSecondsPastBetweenFrames)
+        if (IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES)
         {
             double endTime = glfwGetTime();
 
-            std::cout << endTime - startTime << '\n';
+            // NOTE : We don't use the MessageDebugger because we don't want to spam the log file
+            std::cout << "Time past between this frame : " << endTime - startTime << '\n';
         }
     }
 
