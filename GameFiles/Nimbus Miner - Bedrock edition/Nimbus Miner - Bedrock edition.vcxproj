@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\STBImage\;$(SolutionDir)ExternalTools;$(SolutionDir)Source/Engine/Rendering;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\STBImage\;$(SolutionDir)ExternalTools;$(SolutionDir)Source/Engine/Rendering;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dependencies\STBImage\stb_image.cpp" />
     <ClCompile Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.cpp" />
     <ClCompile Include="ExternalTools\MessageDebugger\MessageDebugger.cpp" />
     <ClCompile Include="ExternalTools\OpenGLDebugger\OpenGlDebugger.cpp" />
@@ -141,24 +142,66 @@
     <ClCompile Include="Source\Engine\Rendering\IndexBufferObject.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Renderer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Shader.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Texture.cpp" />
     <ClCompile Include="Source\Engine\Rendering\VertexArrayObject.cpp" />
     <ClCompile Include="Source\Engine\Rendering\VertexBufferObject.cpp" />
     <ClCompile Include="Source\Engine\Rendering\VertexBufferLayoutObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dependencies\Glew-2.1.0\include\GL\eglew.h" />
+    <ClInclude Include="Dependencies\Glew-2.1.0\include\GL\glew.h" />
+    <ClInclude Include="Dependencies\Glew-2.1.0\include\GL\glxew.h" />
+    <ClInclude Include="Dependencies\Glew-2.1.0\include\GL\wglew.h" />
+    <ClInclude Include="Dependencies\GLFW\include\GLFW\glfw3.h" />
+    <ClInclude Include="Dependencies\GLFW\include\GLFW\glfw3native.h" />
+    <ClInclude Include="Dependencies\STBImage\stb_image.h" />
     <ClInclude Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.h" />
+    <ClInclude Include="ExternalTools\DebuggingConstants.h" />
     <ClInclude Include="ExternalTools\MessageDebugger\MessageDebugger.h" />
     <ClInclude Include="ExternalTools\OpenGLDebugger\OpenGlDebugger.h" />
     <ClInclude Include="ExternalTools\RuntimeLogger\RuntimeLogger.h" />
     <ClInclude Include="Source\Engine\Rendering\IndexBufferObject.h" />
     <ClInclude Include="Source\Engine\Rendering\Renderer.h" />
     <ClInclude Include="Source\Engine\Rendering\Shader.h" />
+    <ClInclude Include="Source\Engine\Rendering\Texture.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexArrayObject.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexBufferObject.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexBufferLayoutObject.h" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Source\Shaders\Default.shader" />
+    <Content Include="Dependencies\Glew-2.1.0\bin\Release\Win32\glew32.dll" />
+    <Content Include="Dependencies\Glew-2.1.0\bin\Release\Win32\glewinfo.exe" />
+    <Content Include="Dependencies\Glew-2.1.0\bin\Release\Win32\visualinfo.exe" />
+    <Content Include="Dependencies\Glew-2.1.0\bin\Release\x64\glew32.dll" />
+    <Content Include="Dependencies\Glew-2.1.0\bin\Release\x64\glewinfo.exe" />
+    <Content Include="Dependencies\Glew-2.1.0\bin\Release\x64\visualinfo.exe" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\advanced.html" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\basic.html" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\build.html" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\credits.html" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\github.png" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\glew.css" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\glew.html" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\glew.png" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\glew.txt" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\glxew.html" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\gpl.txt" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\index.html" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\install.html" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\khronos.txt" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\log.html" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\mesa.txt" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\new.png" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\ogl_sm.jpg" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\travis.png" />
+    <Content Include="Dependencies\Glew-2.1.0\doc\wglew.html" />
+    <Content Include="Dependencies\Glew-2.1.0\lib\Release\Win32\glew32.lib" />
+    <Content Include="Dependencies\Glew-2.1.0\lib\Release\Win32\glew32s.lib" />
+    <Content Include="Dependencies\Glew-2.1.0\lib\Release\x64\glew32.lib" />
+    <Content Include="Dependencies\Glew-2.1.0\lib\Release\x64\glew32s.lib" />
+    <Content Include="Dependencies\Glew-2.1.0\LICENSE.txt" />
+    <Content Include="Dependencies\GLFW\lib-vc2022\glfw3.lib" />
+    <Content Include="Source\Shaders\Default.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

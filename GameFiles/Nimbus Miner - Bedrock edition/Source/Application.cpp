@@ -1,22 +1,22 @@
-// External libraries
+// External libraries (in Dependencies folder)
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
 
-// External tools
-#include "../ExternalTools/MessageDebugger/MessageDebugger.h"
-#include "../ExternalTools/RuntimeLogger/RuntimeLogger.h"
-#include "../ExternalTools/OpenGLDebugger/OpenGlDebugger.h"
+// External tools (in ExternalTools folder)
+#include "MessageDebugger/MessageDebugger.h"
+#include "RuntimeLogger/RuntimeLogger.h"
+#include "OpenGLDebugger/OpenGlDebugger.h"
+#include "DebuggingConstants.h"
 
-#include "Engine/Rendering/IndexBufferObject.h"
-#include "Engine/Rendering/Renderer.h"
-#include "Engine/Rendering/VertexArrayObject.h"
-#include "Engine/Rendering/VertexBufferObject.h"
-#include "Engine/Rendering/Shader.h"
-
-static constexpr bool IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES = false;
-static constexpr bool IS_GPU_IN_DEBUG_MODE = true;
+// Engine files (in Source\Engine\Rendering folder)
+#include "Renderer.h"
+#include "IndexBufferObject.h"
+#include "VertexArrayObject.h"
+#include "VertexBufferObject.h"
+#include "Shader.h"
+#include "Texture.h"
 
 int main(void)
 {
@@ -26,7 +26,7 @@ int main(void)
         "========================\n\n\n"
         , "", 0
     );
-
+    
     MessageDebugger::TestMessageDebugger(TestOptionsEnum::NoTests);
 
     // Initialize the GLFW library
@@ -73,13 +73,15 @@ int main(void)
 
     // For now that represent a square
 
-    float geometryPositions[] =
+    // 2 first float = position
+    // 2 second float = texture position (UV)
+    float geometryVertexData[] =
     {
-        -0.5f, -0.5f, // 0 | down-left
-         0.5f, -0.5f, // 1 | down-right
-         0.5f,  0.5f, // 2 | up-right
+        -0.5f, -0.5f, /* 0 | down-left  */ 0.0f, 0.0f,
+         0.5f, -0.5f, /* 1 | down-right */ 1.0f, 0.0f,
+         0.5f,  0.5f, /* 2 | up-right   */ 1.0f, 1.0f,
 
-        -0.5f,  0.5f  // 3 | up-left
+        -0.5f,  0.5f, /* 3 | up-left    */ 0.0f, 1.0f
     };
 
     // In order to not have duplicates of the same vertices we identify each vertex with an index
@@ -94,12 +96,19 @@ int main(void)
         2, 3, 0  // Second triangle, up-right -> up-left -> down-left
     };
 
-    // NOTE : To have documentation pass your cursor on the class name
+    // Telling OpenGL to manage alpha for our texture
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
     
-    VertexBufferObject vertexBufferObject(geometryPositions, sizeof(GLfloat) * 4 * 2);
+    // NOTE : To have documentation pass your cursor on the class name
+    //        (if you are on Visual Studio some documentation will not be shown because it's too big)
+    //        #sufferingFromSuccess
+    
+    VertexBufferObject vertexBufferObject(geometryVertexData, sizeof(GLfloat) * 4 * 4);
     
     VertexBufferLayoutObject vertexBufferLayoutObject;  
-    vertexBufferLayoutObject.PushBack<float>(2, false);
+    vertexBufferLayoutObject.PushBack<float>(2, false); // Represent the position
+    vertexBufferLayoutObject.PushBack<float>(2, false); // Represent the texture position (UV)
     
     VertexArrayObject vertexArrayObject;
     vertexArrayObject.AddBuffer(vertexBufferObject, vertexBufferLayoutObject);
@@ -110,12 +119,19 @@ int main(void)
 
     IndexBufferObject indexBufferObject(geometryIndices, 6);
 
-    Shader defaultShader("Source/Shaders/Default.shader");
+    Shader defaultShader("Source/Shaders/Default.glsl");
 
     // Passing the color to the shader (to the 'u_Color' uniform variable)
     defaultShader.Bind();
     defaultShader.SetUniform4f("u_Color", 0.2f, 0.2f, 0.8f, 1.0f);
 
+    // Passing the texture to the shader
+    Texture texture("Resources/Textures/MoiPanPan.png");
+    constexpr int textureSlot = 0;
+    
+    texture.Bind(textureSlot);
+    defaultShader.SetUniform1i("u_Texture", textureSlot);
+    
     vertexArrayObject.Unbind();
     vertexBufferObject.Unbind();
     indexBufferObject.Unbind();
@@ -143,7 +159,7 @@ int main(void)
         // Changing the color of the drawn object
         defaultShader.Bind();
         defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
-
+        
         renderer.Draw(vertexArrayObject, indexBufferObject, defaultShader);
         
         // Clamping and changing the Red color value of the drawn object 
@@ -151,7 +167,7 @@ int main(void)
             colorIncrement = -0.015f;
         else if (redColor < 0.0f)
             colorIncrement =  0.015f;
-
+        
         redColor += colorIncrement;
         
         // Swap front and back buffers

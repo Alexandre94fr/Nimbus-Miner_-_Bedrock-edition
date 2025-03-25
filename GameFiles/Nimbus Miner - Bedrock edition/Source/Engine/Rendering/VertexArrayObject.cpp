@@ -41,7 +41,7 @@ void VertexArrayObject::AddBuffer(const VertexBufferObject& p_vertexBufferObject
                                                             // (example : if this attribute is the first one in the vertex, use (void*)0;
                                                             //            if it's the second and the first is a vec3 (3 floats), use (void*)(3 * sizeof(float)))
         );
-        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(i);
 
         /* More documentation
         
