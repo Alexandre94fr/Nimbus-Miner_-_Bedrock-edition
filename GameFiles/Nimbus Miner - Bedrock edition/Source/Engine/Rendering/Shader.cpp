@@ -7,6 +7,8 @@
 #include <sstream>
 
 // External tools
+#include <iostream>
+
 #include "MessageDebugger/MessageDebugger.h"
 
 Shader::Shader(const std::string& p_filePath)
@@ -34,6 +36,19 @@ void Shader::Unbind() const
     glUseProgram(0);
 }
 
+#pragma region // -=- SetUniform -=- // 
+
+void Shader::SetUniform1i(const std::string& p_name, int p_value)
+{
+    glUniform1i(GetUniformLocation(p_name), p_value);
+}
+
+void Shader::SetUniform4f(const std::string& p_name, float p_v1, float p_v2, float p_v3, float p_v4)
+{
+    glUniform4f(GetUniformLocation(p_name), p_v1, p_v2, p_v3, p_v4);
+}
+
+#pragma endregion
 
 ShaderProgram Shader::ParseShader(const std::string& p_filePath)
 {
@@ -47,7 +62,7 @@ ShaderProgram Shader::ParseShader(const std::string& p_filePath)
     };
 
     std::string line;
-    std::stringstream ss[2];
+    std::stringstream shaderCode[2];
     ShaderType shaderType = ShaderType::None;
 
     while (getline(stream, line))
@@ -69,11 +84,17 @@ ShaderProgram Shader::ParseShader(const std::string& p_filePath)
         }
         else 
         {
-            ss[(int)shaderType] << line << '\n';
+            shaderCode[(int)shaderType] << line << '\n';
         }
     }
 
-    return { ss[0].str(), ss[1].str() };
+    PRINT_MESSAGE_RUNTIME(shaderCode[1].str())
+    
+    // TODO : Use the constant variable
+    // If you want to debug (see the code sent to the GPU)
+    PRINT_MESSAGE_RUNTIME("VERTEX SHADER :\n" + shaderCode[0].str() + '\n' + "FRAGMENT SHADER :\n" + shaderCode[1].str())
+    
+    return { shaderCode[0].str(), shaderCode[1].str() };
 }
 
 unsigned int Shader::CreateShader(const std::string& p_vertexShaderCode, const std::string& p_fragmentShaderCode)
@@ -122,11 +143,6 @@ unsigned int Shader::CompileShader(const unsigned int p_type, const std::string&
     }
 
     return shaderID;
-}
-
-void Shader::SetUniform4f(const std::string& p_name, float p_v1, float p_v2, float p_v3, float p_v4)
-{
-    glUniform4f(GetUniformLocation(p_name), p_v1, p_v2, p_v3, p_v4);
 }
 
 int Shader::GetUniformLocation(const std::string& p_name)
