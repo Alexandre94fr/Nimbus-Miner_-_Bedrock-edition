@@ -156,6 +156,7 @@
     <ClInclude Include="Dependencies\GLFW\include\GLFW\glfw3native.h" />
     <ClInclude Include="Dependencies\STBImage\stb_image.h" />
     <ClInclude Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.h" />
+    <ClInclude Include="ExternalTools\DebuggingConstants.h" />
     <ClInclude Include="ExternalTools\MessageDebugger\MessageDebugger.h" />
     <ClInclude Include="ExternalTools\OpenGLDebugger\OpenGlDebugger.h" />
     <ClInclude Include="ExternalTools\RuntimeLogger\RuntimeLogger.h" />

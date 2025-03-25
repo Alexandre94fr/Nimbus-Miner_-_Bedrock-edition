@@ -9,6 +9,7 @@
 // External tools
 #include <iostream>
 
+#include "DebuggingConstants.h"
 #include "MessageDebugger/MessageDebugger.h"
 
 Shader::Shader(const std::string& p_filePath)
@@ -87,12 +88,9 @@ ShaderProgram Shader::ParseShader(const std::string& p_filePath)
             shaderCode[(int)shaderType] << line << '\n';
         }
     }
-
-    PRINT_MESSAGE_RUNTIME(shaderCode[1].str())
     
-    // TODO : Use the constant variable
-    // If you want to debug (see the code sent to the GPU)
-    PRINT_MESSAGE_RUNTIME("VERTEX SHADER :\n" + shaderCode[0].str() + '\n' + "FRAGMENT SHADER :\n" + shaderCode[1].str())
+    if (IS_SHADER_LOADING_DEBUGGING_ON)
+        PRINT_MESSAGE_RUNTIME("VERTEX SHADER :\n" + shaderCode[0].str() + '\n' + "FRAGMENT SHADER :\n" + shaderCode[1].str())
     
     return { shaderCode[0].str(), shaderCode[1].str() };
 }

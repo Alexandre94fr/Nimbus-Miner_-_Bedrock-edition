@@ -8,6 +8,7 @@
 #include "MessageDebugger/MessageDebugger.h"
 #include "RuntimeLogger/RuntimeLogger.h"
 #include "OpenGLDebugger/OpenGlDebugger.h"
+#include "DebuggingConstants.h"
 
 // Engine files (in Source\Engine\Rendering folder)
 #include "Renderer.h"
@@ -16,11 +17,6 @@
 #include "VertexBufferObject.h"
 #include "Shader.h"
 #include "Texture.h"
-
-static constexpr bool IS_SHADER_LOADING_DEBUGGING_ON = true; // TODO Make a .h file with all constant for debugging
-
-static constexpr bool IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES = false;
-static constexpr bool IS_GPU_IN_DEBUG_MODE = true;
 
 int main(void)
 {

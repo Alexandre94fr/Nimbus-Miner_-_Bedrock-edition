@@ -1,5 +1,6 @@
 #include "Texture.h"
 
+#include "DebuggingConstants.h"
 #include "GL/glew.h"
 #include "stb_image.h"
 
@@ -26,12 +27,15 @@ Texture::Texture(const std::string& p_filePath)
     if (_localDataBuffer == nullptr) 
         PRINT_ERROR_RUNTIME(true, "Failed to load texture : " + _filePath)
 
-    PRINT_MESSAGE_RUNTIME(std::string("Texture loaded successfully.") +
-        "\n - File path : " + _filePath + 
-        "\n - Width     : " + std::to_string(_width) + 
-        "\n - Height    : " + std::to_string(_height) + 
-        "\n - BPP       : " + std::to_string(_bitsPerPixel)
-    )
+    if (IS_TEXTURE_LOADING_DEBUGGING_ON)
+    {
+        PRINT_MESSAGE_RUNTIME(std::string("Texture loaded successfully.") +
+            "\n - File path : " + _filePath + 
+            "\n - Width     : " + std::to_string(_width) + 
+            "\n - Height    : " + std::to_string(_height) + 
+            "\n - BPP       : " + std::to_string(_bitsPerPixel)
+        )
+    }
     
     glGenTextures(1, &_inGpuId);
     glBindTexture(GL_TEXTURE_2D, _inGpuId);
