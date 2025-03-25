@@ -1,6 +1,7 @@
 // External libraries (in Dependencies folder)
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <GLM/glm.hpp>
 
 #include <iostream>
 
