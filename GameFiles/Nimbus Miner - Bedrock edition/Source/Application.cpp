@@ -79,11 +79,17 @@ int main(void)
     // 2 second float = texture position (UV)
     float geometryVertexData[] =
     {
-        -0.5f, -0.5f, /* 0 | down-left  */ 0.0f, 0.0f,
-         0.5f, -0.5f, /* 1 | down-right */ 1.0f, 0.0f,
-         0.5f,  0.5f, /* 2 | up-right   */ 1.0f, 1.0f,
+        -100.0f, -100.0f, /* 0 | down-left  */ 0.0f, 0.0f,
+         100.0f, -100.0f, /* 1 | down-right */ 1.0f, 0.0f,
+         100.0f,  100.0f, /* 2 | up-right   */ 1.0f, 1.0f,
 
-        -0.5f,  0.5f, /* 3 | up-left    */ 0.0f, 1.0f
+        -100.0f,  100.0f, /* 3 | up-left    */ 0.0f, 1.0f
+
+        // -0.5f, -0.5f
+        //  0.5f, -0.5f
+        //  0.5f,  0.5f
+        
+        // -0.5f,  0.5f
     };
 
     // In order to not have duplicates of the same vertices we identify each vertex with an index
@@ -122,15 +128,22 @@ int main(void)
     IndexBufferObject indexBufferObject(geometryIndices, 6);
 
     // Matrix
-    glm::mat4 projectionMatrix = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+    glm::mat4 projectionMatrix = glm::ortho(-640.0f, 640.0f, -480.0f, 480.0f, -1.0f, 1.0f);
+    glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(-100.0f, 0.0f, 0.0f));
+    glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(200.0f, -200.0f, 0.0f));
 
+    // NOTE : Because we are using GLM we multiply all our matrix backward (the order of matrix multiplication maters)
+    
+    glm::mat4 modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
+    
     Shader defaultShader("Source/Shaders/Default.glsl");
 
     // Passing the color to the shader (to the 'u_Color' uniform variable)
     defaultShader.Bind();
     defaultShader.SetUniform4f("u_Color", 0.2f, 0.2f, 0.8f, 1.0f);
-    defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", projectionMatrix);
-
+    defaultShader.SetUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f); // full White
+    defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
+    
     // Passing the texture to the shader
     Texture texture("Resources/Textures/MoiPanPan.png");
     constexpr int textureSlot = 0;
@@ -165,14 +178,20 @@ int main(void)
         // Changing the color of the drawn object
         defaultShader.Bind();
         defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
+
+        defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
         
         renderer.Draw(vertexArrayObject, indexBufferObject, defaultShader);
         
         // Clamping and changing the Red color value of the drawn object 
         if (redColor > 1.0f)
+        {
             colorIncrement = -0.015f;
+        }
         else if (redColor < 0.0f)
+        {
             colorIncrement =  0.015f;
+        }
         
         redColor += colorIncrement;
         
