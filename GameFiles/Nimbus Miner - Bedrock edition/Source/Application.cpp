@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <GLM/glm.hpp>
+#include <GLM/gtc/matrix_transform.hpp>
 
 #include <iostream>
 
@@ -120,11 +121,15 @@ int main(void)
 
     IndexBufferObject indexBufferObject(geometryIndices, 6);
 
+    // Matrix
+    glm::mat4 projectionMatrix = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+
     Shader defaultShader("Source/Shaders/Default.glsl");
 
     // Passing the color to the shader (to the 'u_Color' uniform variable)
     defaultShader.Bind();
     defaultShader.SetUniform4f("u_Color", 0.2f, 0.2f, 0.8f, 1.0f);
+    defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", projectionMatrix);
 
     // Passing the texture to the shader
     Texture texture("Resources/Textures/MoiPanPan.png");

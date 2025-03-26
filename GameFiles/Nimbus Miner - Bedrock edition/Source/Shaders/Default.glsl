@@ -20,13 +20,15 @@
 layout(location = 0) in vec4 PositionAttribute;
 layout(location = 1) in vec2 TexturePositionAttribute;
  
+uniform mat4 u_ModelViewProjectionMatrix;
+ 
 // -- Transmitting data to the fragment shader
 // -- v stands for "varying"
 out vec2 v_TexturePosition; 
  
 void main()
 {
-    gl_Position = PositionAttribute;
+    gl_Position = u_ModelViewProjectionMatrix * PositionAttribute;
     v_TexturePosition = TexturePositionAttribute;
 }
  
