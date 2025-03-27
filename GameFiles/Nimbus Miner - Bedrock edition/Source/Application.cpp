@@ -1,12 +1,13 @@
-// External libraries (in Dependencies folder)
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <GLM/glm.hpp>
-#include <GLM/gtc/matrix_transform.hpp>
-#include <ImGUI/imgui.h>
-#include <ImGUI/imgui_impl_glfw_gl3.h>
-
+// Language library
 #include <iostream>
+
+// External libraries (in Dependencies folder)
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
+#include "ImGUI/imgui.h"
+#include "ImGUI/imgui_impl_glfw_gl3.h"
 
 // External tools (in ExternalTools folder)
 #include "MessageDebugger/MessageDebugger.h"
@@ -15,6 +16,7 @@
 
 // Engine files (in Source\Engine\Rendering folder)
 #include "Renderer.h"
+#include "Vertex.h"
 #include "IndexBufferObject.h"
 #include "VertexArrayObject.h"
 #include "VertexBufferObject.h"
@@ -80,24 +82,22 @@ int main(void)
     // TEMP
 
     // For now that represent a square
-
-    // 2 first float = position
-    // 2 second float = texture position (UV)
-    float geometryVertexData[] =
+    std::vector<Vertex> geometryVertexData =
     {
-        -100.0f, -100.0f, /* 0 | down-left  */ 0.0f, 0.0f,
-         100.0f, -100.0f, /* 1 | down-right */ 1.0f, 0.0f,
-         100.0f,  100.0f, /* 2 | up-right   */ 1.0f, 1.0f,
+        Vertex(glm::vec3(-100.0f, -100.0f, 0.0f), /* 0 | down-left  */ glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3( 100.0f, -100.0f, 0.0f), /* 1 | down-right */ glm::vec2(1.0f, 0.0f)),
+        Vertex(glm::vec3( 100.0f,  100.0f, 0.0f), /* 2 | up-right   */ glm::vec2(1.0f, 1.0f)),
+         
+        Vertex(glm::vec3(-100.0f,  100.0f, 0.0f), /* 3 | up-left    */ glm::vec2(0.0f, 1.0f))
 
-        -100.0f,  100.0f, /* 3 | up-left    */ 0.0f, 1.0f
-
+        // Vertices position values (from itch other)
         // -0.5f, -0.5f
         //  0.5f, -0.5f
         //  0.5f,  0.5f
         
         // -0.5f,  0.5f
     };
-
+    
     // In order to not have duplicates of the same vertices we identify each vertex with an index
     // After that we will use it to draw our geometrical form
 
@@ -117,11 +117,14 @@ int main(void)
     // NOTE : To have documentation pass your cursor on the class name
     //        (if you are on Visual Studio some documentation will not be shown because it's too big)
     //        #sufferingFromSuccess
-    
-    VertexBufferObject vertexBufferObject(geometryVertexData, sizeof(GLfloat) * 4 * 4);
+
+    VertexBufferObject vertexBufferObject(
+        ConvertVerticesToFloatArray(geometryVertexData).data(),
+        sizeof(Vertex) * geometryVertexData.size()
+    );
     
     VertexBufferLayoutObject vertexBufferLayoutObject;  
-    vertexBufferLayoutObject.PushBack<float>(2, false); // Represent the position
+    vertexBufferLayoutObject.PushBack<float>(3, false); // Represent the position
     vertexBufferLayoutObject.PushBack<float>(2, false); // Represent the texture position (UV)
     
     VertexArrayObject vertexArrayObject;
@@ -142,7 +145,7 @@ int main(void)
     
     glm::mat4 modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
     
-    Shader defaultShader("Source/Shaders/Default.glsl");
+    Shader defaultShader("Source/Shaders/DefaultShader.glsl");
 
     // Passing the color to the shader (to the 'u_Color' uniform variable)
     defaultShader.Bind();
@@ -170,8 +173,6 @@ int main(void)
     ImGui_ImplGlfwGL3_Init(window, true);
     ImGui::StyleColorsDark();
     
-    bool showDemoWindow = false;
-    bool showAnotherWindow = false;
     glm::vec3 testingRectanglePositionOffset = { 0.0f, 0.0f, 0.0f };
 
     float redColor = 1;

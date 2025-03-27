@@ -147,6 +147,7 @@
     <ClCompile Include="Source\Engine\Rendering\Renderer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Shader.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Texture.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Vertex.cpp" />
     <ClCompile Include="Source\Engine\Rendering\VertexArrayObject.cpp" />
     <ClCompile Include="Source\Engine\Rendering\VertexBufferObject.cpp" />
     <ClCompile Include="Source\Engine\Rendering\VertexBufferLayoutObject.cpp" />
@@ -464,6 +465,7 @@
     <ClInclude Include="Source\Engine\Rendering\Renderer.h" />
     <ClInclude Include="Source\Engine\Rendering\Shader.h" />
     <ClInclude Include="Source\Engine\Rendering\Texture.h" />
+    <ClInclude Include="Source\Engine\Rendering\Vertex.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexArrayObject.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexBufferObject.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexBufferLayoutObject.h" />
@@ -501,7 +503,7 @@
     <Content Include="Dependencies\Glew-2.1.0\lib\Release\x64\glew32s.lib" />
     <Content Include="Dependencies\Glew-2.1.0\LICENSE.txt" />
     <Content Include="Dependencies\GLFW\lib-vc2022\glfw3.lib" />
-    <Content Include="Source\Shaders\Default.glsl" />
+    <Content Include="Source\Shaders\DefaultShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\GLM\detail\func_common.inl" />
