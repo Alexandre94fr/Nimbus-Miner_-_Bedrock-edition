@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\STBImage\;$(SolutionDir)Dependencies;$(SolutionDir)ExternalTools;$(SolutionDir)Source/Engine/Rendering;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\STBImage\;$(SolutionDir)Dependencies;$(SolutionDir)ExternalTools;$(SolutionDir)Source/Engine/Rendering;$(SolutionDir)Source/Constants;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\STBImage\;$(SolutionDir)Dependencies;$(SolutionDir)ExternalTools;$(SolutionDir)Source/Engine/Rendering;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glew-2.1.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\STBImage\;$(SolutionDir)Dependencies;$(SolutionDir)ExternalTools;$(SolutionDir)Source/Engine/Rendering;$(SolutionDir)Source/Constants;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -455,10 +455,11 @@
     <ClInclude Include="Dependencies\ImGUI\stb_truetype.h" />
     <ClInclude Include="Dependencies\STBImage\stb_image.h" />
     <ClInclude Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.h" />
-    <ClInclude Include="ExternalTools\DebuggingConstants.h" />
     <ClInclude Include="ExternalTools\MessageDebugger\MessageDebugger.h" />
     <ClInclude Include="ExternalTools\OpenGLDebugger\OpenGlDebugger.h" />
     <ClInclude Include="ExternalTools\RuntimeLogger\RuntimeLogger.h" />
+    <ClInclude Include="Source\Constants\DebuggingConstants.h" />
+    <ClInclude Include="Source\Constants\ProjectConstants.h" />
     <ClInclude Include="Source\Engine\Rendering\IndexBufferObject.h" />
     <ClInclude Include="Source\Engine\Rendering\Renderer.h" />
     <ClInclude Include="Source\Engine\Rendering\Shader.h" />

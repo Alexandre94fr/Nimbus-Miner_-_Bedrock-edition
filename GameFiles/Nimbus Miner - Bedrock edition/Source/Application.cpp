@@ -12,7 +12,6 @@
 #include "MessageDebugger/MessageDebugger.h"
 #include "RuntimeLogger/RuntimeLogger.h"
 #include "OpenGLDebugger/OpenGlDebugger.h"
-#include "DebuggingConstants.h"
 
 // Engine files (in Source\Engine\Rendering folder)
 #include "Renderer.h"
@@ -21,6 +20,11 @@
 #include "VertexBufferObject.h"
 #include "Shader.h"
 #include "Texture.h"
+
+// Engine files (in Source\Constants)
+#include "DebuggingConstants.h"
+#include "ProjectConstants.h"
+
 
 int main(void)
 {
@@ -43,7 +47,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, IS_GPU_IN_DEBUG_MODE);
 
     // Create a windowed mode window and its OpenGL context
-    GLFWwindow* window = glfwCreateWindow(640, 480, "Nimbus miner - Bedrock edition", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(WINDOW_SIZE_X, WINDOW_SIZE_Y, "Nimbus miner - Bedrock edition", nullptr, nullptr);
 
     if (!window)
     {
@@ -166,10 +170,9 @@ int main(void)
     ImGui_ImplGlfwGL3_Init(window, true);
     ImGui::StyleColorsDark();
     
-    bool show_demo_window = false;
-    bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
+    bool showDemoWindow = false;
+    bool showAnotherWindow = false;
+    glm::vec3 testingRectanglePositionOffset = { 0.0f, 0.0f, 0.0f };
 
     float redColor = 1;
     float colorIncrement = 0.025f;
@@ -195,6 +198,9 @@ int main(void)
         defaultShader.Bind();
         defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
 
+        modelMatrix = glm::translate(glm::mat4(1), testingRectanglePositionOffset);
+        modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
+        
         defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
         
         renderer.Draw(vertexArrayObject, indexBufferObject, defaultShader);
@@ -215,52 +221,27 @@ int main(void)
 
         {
             ImGui::Begin("Debug UI");
-
-            static float testFloat = 0.0f;
-            static int counter = 0;
-            ImGui::Text("Hello, world!");                            // Display some text (you can use a format string too)
-            ImGui::SliderFloat("testFloat", &testFloat, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f    
-            ImGui::ColorEdit3("testColor", (float*)&clear_color);   // Edit 3 floats representing a color
-
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our windows open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
-
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
-                counter++;
-
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-
-            ImGui::Spacing();
-            ImGui::Text("Another text");
-
-            ImGui::Spacing();
-            if (ImGui::CollapsingHeader("TestHeader"))
+            
+            if (ImGui::CollapsingHeader("INFORMATION :"))
             {
-                ImGui::TextWrapped("TextWrapped\n\n");
+                ImGui::TextWrapped("This UI can be use to debug and manipulate objects during runtime.");
+                ImGui::TextWrapped("In order to not close the UI by accident, and have to relaunch the project, the window is not closable.");
+                ImGui::TextWrapped("You can still minimize it by clicking on the triangle on the top left of the window.");
+            }
+
+            if (ImGui::CollapsingHeader("Debug information :"))
+            {
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            }
+
+            if (ImGui::CollapsingHeader("Object modifications :"))
+            {
+                ImGui::Text("Testing rectangle position offset");
+                ImGui::DragFloat3("", &testingRectanglePositionOffset.x);
+                // &testingRectanglePositionOffset.x = the address of the table
             }
 
             ImGui::End();
-        }
-
-        if (show_another_window)
-        {
-            ImGui::Begin("Another Window", &show_another_window);
-
-            ImGui::Text("Hello from another window!");
-
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-
-            ImGui::End();
-        }
-
-        if (show_demo_window)
-        {
-            ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_FirstUseEver); // Normally user code doesn't need/want to call this because positions are saved in .ini file anyway. Here we just want to make the demo initial state a bit more friendly!
-            ImGui::ShowDemoWindow(&show_demo_window);
         }
 
         ImGui::Render();
