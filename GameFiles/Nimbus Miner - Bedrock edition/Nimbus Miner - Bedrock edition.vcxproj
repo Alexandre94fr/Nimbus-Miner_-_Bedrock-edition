@@ -133,6 +133,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dependencies\ImGUI\imgui.cpp" />
+    <ClCompile Include="Dependencies\ImGUI\imgui_demo.cpp" />
+    <ClCompile Include="Dependencies\ImGUI\imgui_draw.cpp" />
+    <ClCompile Include="Dependencies\ImGUI\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="Dependencies\STBImage\stb_image.cpp" />
     <ClCompile Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.cpp" />
     <ClCompile Include="ExternalTools\MessageDebugger\MessageDebugger.cpp" />
@@ -442,6 +446,13 @@
     <ClInclude Include="Dependencies\GLM\vec3.hpp" />
     <ClInclude Include="Dependencies\GLM\vec4.hpp" />
     <ClInclude Include="Dependencies\GLM\vector_relational.hpp" />
+    <ClInclude Include="Dependencies\ImGUI\imconfig.h" />
+    <ClInclude Include="Dependencies\ImGUI\imgui.h" />
+    <ClInclude Include="Dependencies\ImGUI\imgui_impl_glfw_gl3.h" />
+    <ClInclude Include="Dependencies\ImGUI\imgui_internal.h" />
+    <ClInclude Include="Dependencies\ImGUI\stb_rect_pack.h" />
+    <ClInclude Include="Dependencies\ImGUI\stb_textedit.h" />
+    <ClInclude Include="Dependencies\ImGUI\stb_truetype.h" />
     <ClInclude Include="Dependencies\STBImage\stb_image.h" />
     <ClInclude Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.h" />
     <ClInclude Include="ExternalTools\DebuggingConstants.h" />

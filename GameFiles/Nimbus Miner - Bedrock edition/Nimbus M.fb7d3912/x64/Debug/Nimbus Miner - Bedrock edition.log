@@ -4,4 +4,7 @@ C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\minwindef.h(1
       C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Dependencies\GLFW\include\GLFW\glfw3.h(123,11):
       voir la définition précédente de « APIENTRY »
   
+VertexArrayObject.obj : warning LNK4099: PDB '' n'a pu être trouvé avec 'VertexArrayObject.obj' ou sur '' ; l'objet sera lié sans informations de débogage
+Texture.obj : warning LNK4099: PDB '' n'a pu être trouvé avec 'Texture.obj' ou sur '' ; l'objet sera lié sans informations de débogage
+Shader.obj : warning LNK4099: PDB '' n'a pu être trouvé avec 'Shader.obj' ou sur '' ; l'objet sera lié sans informations de débogage
   Nimbus Miner - Bedrock edition.vcxproj -> C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\x64\Debug\Nimbus Miner - Bedrock edition.exe
