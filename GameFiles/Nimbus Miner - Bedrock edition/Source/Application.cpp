@@ -135,8 +135,8 @@ int main(void)
 
     // Matrix
     glm::mat4 projectionMatrix = glm::ortho(-640.0f, 640.0f, -480.0f, 480.0f, -1.0f, 1.0f);
-    glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(-100.0f, 0.0f, 0.0f));
-    glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(200.0f, -200.0f, 0.0f));
+    glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+    glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
     // NOTE : Because we are using GLM we multiply all our matrix backward (the order of matrix multiplication maters)
     
