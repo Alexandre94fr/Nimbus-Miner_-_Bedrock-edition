@@ -15,6 +15,7 @@
 #include "OpenGLDebugger/OpenGlDebugger.h"
 
 // Engine files (in Source\Engine\Rendering folder)
+#include "Camera.h"
 #include "Renderer.h"
 #include "Vertex.h"
 #include "IndexBufferObject.h"
@@ -27,6 +28,42 @@
 #include "DebuggingConstants.h"
 #include "ProjectConstants.h"
 
+// Camera creation
+static Camera camera(glm::vec3(0, 0, 3), 1.0f, 0.1f);
+
+static bool isCursorVisible = false;
+
+void ProcessInput(GLFWwindow* window, float deltaTime)
+{
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera.ProcessKeyboardMovement(0, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera.ProcessKeyboardMovement(1, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera.ProcessKeyboardMovement(2, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera.ProcessKeyboardMovement(3, deltaTime);
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
+    {
+        isCursorVisible = !isCursorVisible;
+        glfwSetInputMode(window, GLFW_CURSOR, isCursorVisible ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
+    }
+}
+
+// Mouse callback
+void MouseCallback(GLFWwindow* window, double xpos, double ypos)
+{
+    static float lastX = xpos;
+    static float lastY = ypos;
+    float xOffset = xpos - lastX;
+    float yOffset = lastY - ypos; // Inverted because the mouse's Y axis is inverted in OpenGL
+
+    lastX = xpos;
+    lastY = ypos;
+
+    camera.ProcessMouseMovement(xOffset, yOffset);
+}
 
 int main(void)
 {
@@ -50,7 +87,8 @@ int main(void)
 
     // Create a windowed mode window and its OpenGL context
     GLFWwindow* window = glfwCreateWindow(WINDOW_SIZE_X, WINDOW_SIZE_Y, "Nimbus miner - Bedrock edition", nullptr, nullptr);
-
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    
     if (!window)
     {
         glfwTerminate();
@@ -79,6 +117,13 @@ int main(void)
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); // To force OpenGL to send the error right when it appends
     glDebugMessageCallback(OpenGlDebugger::PrintOpenGlErrors, nullptr);
     
+    // Telling OpenGL to manage alpha for our texture
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
+    // Call a function when the player mouse's position is changed
+    glfwSetCursorPosCallback(window, MouseCallback);
+
     // TEMP
 
     // For now that represent a square
@@ -98,6 +143,15 @@ int main(void)
         // -0.5f,  0.5f
     };
 
+    std::vector<Vertex> geometryVertexData2 =
+    {
+        Vertex(Vector3( 300.0f, -100.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 0.0f)),
+        Vertex(Vector3( 500.0f, -100.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 0.0f)),
+        Vertex(Vector3( 500.0f,  100.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 1.0f)),
+                                         
+        Vertex(Vector3( 300.0f,  100.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 1.0f))
+    };
+
     // In order to not have duplicates of the same vertices we identify each vertex with an index
     // After that we will use it to draw our geometrical form
 
@@ -110,35 +164,57 @@ int main(void)
         2, 3, 0  // Second triangle, up-right -> up-left -> down-left
     };
 
-    // Telling OpenGL to manage alpha for our texture
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
-    
     // NOTE : To have documentation pass your cursor on the class name
     //        (if you are on Visual Studio some documentation will not be shown because it's too big)
     //        #sufferingFromSuccess
+
+    VertexBufferLayoutObject vertexBufferLayoutObject;
+    vertexBufferLayoutObject.PushBack<float>(3, false); // Represent the position
+    vertexBufferLayoutObject.PushBack<float>(4, false); // Represent the color
+    vertexBufferLayoutObject.PushBack<float>(2, false); // Represent the texture position (UV)
+
+    #pragma region - VertexArrayObject creation -
+
+    #pragma region First rectangle
 
     VertexBufferObject vertexBufferObject(
         ConvertVerticesToFloatArray(geometryVertexData).data(),
         sizeof(Vertex) * geometryVertexData.size()
     );
     
-    VertexBufferLayoutObject vertexBufferLayoutObject;  
-    vertexBufferLayoutObject.PushBack<float>(3, false); // Represent the position
-    vertexBufferLayoutObject.PushBack<float>(4, false); // Represent the color
-    vertexBufferLayoutObject.PushBack<float>(2, false); // Represent the texture position (UV)
-    
     VertexArrayObject vertexArrayObject;
     vertexArrayObject.AddBuffer(vertexBufferObject, vertexBufferLayoutObject);
 
+    #pragma endregion
+
+    #pragma region Second rectangle
+
+    VertexBufferObject vertexBufferObject2(
+        ConvertVerticesToFloatArray(geometryVertexData2).data(),
+        sizeof(Vertex) * geometryVertexData2.size()
+    );
+
+    VertexArrayObject vertexArrayObject2;
+    vertexArrayObject2.AddBuffer(vertexBufferObject2, vertexBufferLayoutObject);
+
+    #pragma endregion
+
+    #pragma endregion
 
     // Creating the IBO (Index Buffer Object)
     // Contains indexes that say "which vertex to draw at what time" 
-
     IndexBufferObject indexBufferObject(geometryIndices, 6);
+    
+    #pragma region - Model View Projection matrix -
 
-    // Matrix
-    glm::mat4 projectionMatrix = glm::ortho(-640.0f, 640.0f, -480.0f, 480.0f, -1.0f, 1.0f);
+    glm::mat4 projectionMatrix = glm::perspective(
+        (float)glm::radians(90.0f),
+        WINDOW_SIZE_X / WINDOW_SIZE_Y,
+        CAMERA_FRUSTUM_NEAR,
+        CAMERA_FRUSTUM_FAR
+    );
+    projectionMatrix *= glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -1000.0f));
+
     glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
     glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
@@ -146,12 +222,14 @@ int main(void)
     
     glm::mat4 modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
     
+    #pragma endregion
+
+    #pragma region - Shader -
+
     Shader defaultShader("Source/Shaders/DefaultShader.glsl");
 
-    // Passing the color to the shader (to the 'u_Color' uniform variable)
+    // Passing the ModelViewProjection (MVP) to the shader (to the 'u_ModelViewProjectionMatrix' uniform variable)
     defaultShader.Bind();
-    //defaultShader.SetUniform4f("u_Color", 0.2f, 0.2f, 0.8f, 1.0f);
-    //defaultShader.SetUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f); // full White
     defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
     
     // Passing the texture to the shader
@@ -161,6 +239,8 @@ int main(void)
     texture.Bind(textureSlot);
     defaultShader.SetUniform1i("u_Texture", textureSlot);
     
+    #pragma endregion 
+
     vertexArrayObject.Unbind();
     vertexBufferObject.Unbind();
     indexBufferObject.Unbind();
@@ -174,6 +254,8 @@ int main(void)
     ImGui_ImplGlfwGL3_Init(window, true);
     ImGui::StyleColorsDark();
     
+    glm::vec3 cameraPositionOffset = { 0.0f, 0.0f, 0.0f };
+
     glm::vec3 testingRectanglePositionOffset = { 0.0f, 0.0f, 0.0f };
     glm::vec4 testingRectangleColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -182,12 +264,16 @@ int main(void)
     
     // To debug framerate
     double startTime = 0;
+    double deltaTime = 0.01f; // Change itch while loop
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
     {
         if (IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES)
             startTime = glfwGetTime();
+
+        // Inputs
+        ProcessInput(window, deltaTime);
 
         // Rendering
 
@@ -209,12 +295,22 @@ int main(void)
         defaultShader.Bind();
         //defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
 
+        viewMatrix = glm::translate(glm::mat4(1), -cameraPositionOffset);
+
         modelMatrix = glm::translate(glm::mat4(1), testingRectanglePositionOffset);
-        modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
+        //modelMatrix *= glm::rotate(glm::mat4(1), glm::radians(redColor * 50), glm::vec3(0.0f, 0.0f, 1.0f)); // TO TEST
+
+        glm::mat4 newModelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
+
+
+        glm::mat4 viewMatrix1 = camera.GetViewMatrix();
+        glm::mat4 mvpMatrix = projectionMatrix * viewMatrix1 * modelMatrix;
         
-        defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
+
+        defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", mvpMatrix);
         
         renderer.Draw(vertexArrayObject, indexBufferObject, defaultShader);
+        renderer.Draw(vertexArrayObject2, indexBufferObject, defaultShader); // Second rectangle
         
         // Clamping and changing the Red color value of the drawn object 
         if (redColor > 1.0f)
@@ -247,9 +343,13 @@ int main(void)
 
             if (ImGui::CollapsingHeader("Object modifications :"))
             {
-                ImGui::Text("Testing rectangle position offset");
+                ImGui::Text("Camera position offset :");
+                ImGui::DragFloat3("Camera position", &cameraPositionOffset.x);
+                // &cameraPosition.x = the address of the table
+
+                ImGui::Spacing();
+                ImGui::Text("Testing rectangle position offset :");
                 ImGui::DragFloat3("Position offset", &testingRectanglePositionOffset.x);
-                // &testingRectanglePositionOffset.x = the address of the table
 
                 ImGui::Text("Testing rectangle color :");
                 ImGui::SliderFloat4("Color", &testingRectangleColor.x, 0, 1);
@@ -269,12 +369,14 @@ int main(void)
         // Poll for and process events
         glfwPollEvents();
 
+
+        double endTime = glfwGetTime();
+        deltaTime = endTime - startTime;
+
         if (IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES)
         {
-            double endTime = glfwGetTime();
-
             // NOTE : We don't use the MessageDebugger because we don't want to spam the log file
-            std::cout << "Time past between this frame : " << endTime - startTime << '\n';
+            std::cout << "Time past between this frame : " << deltaTime << '\n';
         }
     }
 

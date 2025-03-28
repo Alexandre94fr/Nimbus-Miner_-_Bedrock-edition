@@ -143,6 +143,7 @@
     <ClCompile Include="ExternalTools\OpenGLDebugger\OpenGlDebugger.cpp" />
     <ClCompile Include="ExternalTools\RuntimeLogger\RuntimeLogger.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Camera.cpp" />
     <ClCompile Include="Source\Engine\Rendering\IndexBufferObject.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Renderer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Shader.cpp" />
@@ -462,6 +463,7 @@
     <ClInclude Include="ExternalTools\RuntimeLogger\RuntimeLogger.h" />
     <ClInclude Include="Source\Constants\DebuggingConstants.h" />
     <ClInclude Include="Source\Constants\ProjectConstants.h" />
+    <ClInclude Include="Source\Engine\Rendering\Camera.h" />
     <ClInclude Include="Source\Engine\Rendering\IndexBufferObject.h" />
     <ClInclude Include="Source\Engine\Rendering\Renderer.h" />
     <ClInclude Include="Source\Engine\Rendering\Shader.h" />
