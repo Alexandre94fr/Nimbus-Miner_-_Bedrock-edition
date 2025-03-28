@@ -175,6 +175,7 @@ int main(void)
     ImGui::StyleColorsDark();
     
     glm::vec3 testingRectanglePositionOffset = { 0.0f, 0.0f, 0.0f };
+    glm::vec4 testingRectangleColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
     float redColor = 1;
     float colorIncrement = 0.025f;
@@ -196,6 +197,14 @@ int main(void)
         // ImGui setup
         ImGui_ImplGlfwGL3_NewFrame();
 
+        // Changing TestingRectangle color
+        geometryVertexData[0].Color = Vector4(testingRectangleColor.x, testingRectangleColor.y, testingRectangleColor.z, testingRectangleColor.w);
+        geometryVertexData[1].Color = Vector4(testingRectangleColor.x, testingRectangleColor.y, testingRectangleColor.z, testingRectangleColor.w);
+        geometryVertexData[2].Color = Vector4(testingRectangleColor.x, testingRectangleColor.y, testingRectangleColor.z, testingRectangleColor.w);
+        geometryVertexData[3].Color = Vector4(testingRectangleColor.x, testingRectangleColor.y, testingRectangleColor.z, testingRectangleColor.w);
+
+        vertexBufferObject.SetData(geometryVertexData.data(), geometryVertexData.size() * sizeof(Vertex));
+        
         // Changing the color of the drawn object
         defaultShader.Bind();
         //defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
@@ -239,8 +248,11 @@ int main(void)
             if (ImGui::CollapsingHeader("Object modifications :"))
             {
                 ImGui::Text("Testing rectangle position offset");
-                ImGui::DragFloat3("", &testingRectanglePositionOffset.x);
+                ImGui::DragFloat3("Position offset", &testingRectanglePositionOffset.x);
                 // &testingRectanglePositionOffset.x = the address of the table
+
+                ImGui::Text("Testing rectangle color :");
+                ImGui::SliderFloat4("Color", &testingRectangleColor.x, 0, 1);
             }
 
             ImGui::End();
