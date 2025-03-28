@@ -66,6 +66,9 @@
     <ClCompile Include="Dependencies\ImGUI\imgui_impl_glfw_gl3.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Rendering\Vertex.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExternalTools\ConsoleTextColorizer\ConsoleTextColorizer.h">
@@ -117,9 +120,6 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Dependencies\STBImage\stb_image.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ExternalTools\DebuggingConstants.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Texture.h">
@@ -1010,6 +1010,15 @@
     <ClInclude Include="Dependencies\ImGUI\stb_truetype.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Constants\DebuggingConstants.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Constants\ProjectConstants.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Vertex.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\GLM\detail\func_common.inl">
@@ -1426,5 +1435,6 @@
     <None Include="Dependencies\GLM\gtx\wrap.inl">
       <Filter>Fichiers d%27en-tête</Filter>
     </None>
+    <None Include="Source\Shaders\DefaultShader.glsl" />
   </ItemGroup>
 </Project>

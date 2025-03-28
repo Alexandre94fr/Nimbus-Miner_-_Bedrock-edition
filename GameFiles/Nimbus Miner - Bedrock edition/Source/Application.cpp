@@ -84,20 +84,20 @@ int main(void)
     // For now that represent a square
     std::vector<Vertex> geometryVertexData =
     {
-        Vertex(glm::vec3(-100.0f, -100.0f, 0.0f), /* 0 | down-left  */ glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3( 100.0f, -100.0f, 0.0f), /* 1 | down-right */ glm::vec2(1.0f, 0.0f)),
-        Vertex(glm::vec3( 100.0f,  100.0f, 0.0f), /* 2 | up-right   */ glm::vec2(1.0f, 1.0f)),
+        Vertex(Vector3(-100.0f, -100.0f, 0.0f), /* 0 | down-left  */ Vector4(1, 1, 1, 1), Vector2(0.0f, 0.0f)),
+        Vertex(Vector3( 100.0f, -100.0f, 0.0f), /* 1 | down-right */ Vector4(1, 1, 1, 1), Vector2(1.0f, 0.0f)),
+        Vertex(Vector3( 100.0f,  100.0f, 0.0f), /* 2 | up-right   */ Vector4(1, 1, 1, 1), Vector2(1.0f, 1.0f)),
          
-        Vertex(glm::vec3(-100.0f,  100.0f, 0.0f), /* 3 | up-left    */ glm::vec2(0.0f, 1.0f))
+        Vertex(Vector3(-100.0f,  100.0f, 0.0f), /* 3 | up-left    */ Vector4(1, 1, 1, 1), Vector2(0.0f, 1.0f))
 
-        // Vertices position values (from itch other)
+        // Vertices 2D position values (from itch other)
         // -0.5f, -0.5f
         //  0.5f, -0.5f
         //  0.5f,  0.5f
         
         // -0.5f,  0.5f
     };
-    
+
     // In order to not have duplicates of the same vertices we identify each vertex with an index
     // After that we will use it to draw our geometrical form
 
@@ -125,6 +125,7 @@ int main(void)
     
     VertexBufferLayoutObject vertexBufferLayoutObject;  
     vertexBufferLayoutObject.PushBack<float>(3, false); // Represent the position
+    vertexBufferLayoutObject.PushBack<float>(4, false); // Represent the color
     vertexBufferLayoutObject.PushBack<float>(2, false); // Represent the texture position (UV)
     
     VertexArrayObject vertexArrayObject;
@@ -149,8 +150,8 @@ int main(void)
 
     // Passing the color to the shader (to the 'u_Color' uniform variable)
     defaultShader.Bind();
-    defaultShader.SetUniform4f("u_Color", 0.2f, 0.2f, 0.8f, 1.0f);
-    defaultShader.SetUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f); // full White
+    //defaultShader.SetUniform4f("u_Color", 0.2f, 0.2f, 0.8f, 1.0f);
+    //defaultShader.SetUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f); // full White
     defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
     
     // Passing the texture to the shader
@@ -197,7 +198,7 @@ int main(void)
 
         // Changing the color of the drawn object
         defaultShader.Bind();
-        defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
+        //defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
 
         modelMatrix = glm::translate(glm::mat4(1), testingRectanglePositionOffset);
         modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
