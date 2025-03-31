@@ -16,6 +16,4 @@ C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedro
 C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(199,24): warning C4267: 'argument' : conversion de 'size_t' en 'unsigned int', perte possible de données
 C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(282,30): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
 C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(298,89): warning C4267: 'argument' : conversion de 'size_t' en 'unsigned int', perte possible de données
-  Camera.cpp
-  Génération de code en cours...
   Nimbus Miner - Bedrock edition.vcxproj -> C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\x64\Debug\Nimbus Miner - Bedrock edition.exe

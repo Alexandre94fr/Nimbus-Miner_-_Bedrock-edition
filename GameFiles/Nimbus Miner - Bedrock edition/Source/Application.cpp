@@ -29,7 +29,7 @@
 #include "ProjectConstants.h"
 
 // Camera creation
-static Camera camera(glm::vec3(0, 0, 3), 1.0f, 0.1f);
+static Camera camera(CAMERA_SPAWN_POSITION, CAMERA_MOVEMENT_SPEED, CAMERA_ROTATION_SENSITIVITY);
 
 static bool isCursorVisible = false;
 
