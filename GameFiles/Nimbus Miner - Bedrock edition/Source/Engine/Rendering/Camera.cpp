@@ -2,12 +2,12 @@
 
 #include "MessageDebugger/MessageDebugger.h"
 
-Camera::Camera(glm::vec3 p_spawnPosition, float p_movementSpeed, float p_rotationSensitivity)
+Camera::Camera(const glm::vec3 p_spawnPosition, const float p_movementSpeed, const float p_rotationSensitivity)
 {
     // Setting up class variables
     _position = p_spawnPosition;
     _movementSpeed = p_movementSpeed;
-    _mouseSensitivity = p_rotationSensitivity;
+    _rotationSensitivity = p_rotationSensitivity;
 
     _worldUpDirection = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -16,6 +16,32 @@ Camera::Camera(glm::vec3 p_spawnPosition, float p_movementSpeed, float p_rotatio
 
     UpdateCameraDirectionVariables();
 }
+
+#pragma region Setters
+
+void Camera::SetMovementSpeed(float p_movementSpeed)
+{
+    if (p_movementSpeed < 0.0f)
+    {
+        PRINT_WARNING_RUNTIME(true, "The given value is negative. The camera movement speed can't be negative. The property has not been changed.")
+        return;
+    }
+    
+    _movementSpeed = p_movementSpeed;
+}
+
+void Camera::SetRotationSensitivity(float p_rotationSensitivity)
+{
+    if (p_rotationSensitivity < 0.0f)
+    {
+        PRINT_WARNING_RUNTIME(true, "The given value is negative. The camera rotation sensitivity can't be negative. The property has not been changed.")
+        return;
+    }
+    
+    _rotationSensitivity = p_rotationSensitivity;
+}
+
+#pragma endregion
 
 void Camera::ProcessKeyboardMovement(CameraMovementDirectionsEnum p_direction, float p_deltaTime)
 {
@@ -55,8 +81,8 @@ void Camera::ProcessKeyboardMovement(CameraMovementDirectionsEnum p_direction, f
 
 void Camera::ProcessMouseMovement(float p_xOffset, float p_yOffset)
 {
-    p_xOffset *= _mouseSensitivity;
-    p_yOffset *= _mouseSensitivity;
+    p_xOffset *= _rotationSensitivity;
+    p_yOffset *= _rotationSensitivity;
 
     _yaw += p_xOffset;
     _pitch += p_yOffset;
@@ -75,7 +101,7 @@ glm::mat4 Camera::GetViewMatrix() const
 
 void Camera::UpdateCameraDirectionVariables()
 {
-    glm::vec3 newFront = {0, 0, 0};
+    glm::vec3 newFront;
 
     // cos(yaw) * cos(pitch) determines the horizontal movement of the camera
     // A positive pitch tilts the camera leftward, while a negative pitch tilts it rightward

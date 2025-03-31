@@ -259,6 +259,9 @@ int main(void)
     ImGui_ImplGlfwGL3_Init(window, true);
     ImGui::StyleColorsDark();
 
+    float cameraMovementSpeed = camera.GetMovementSpeed();
+    float cameraRotationSensitivity = camera.GetRotationSensitivity();
+    
     glm::vec3 testingRectanglePositionOffset = { 0.0f, 0.0f, 0.0f };
     glm::vec4 testingRectangleColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -344,12 +347,33 @@ int main(void)
 
             if (ImGui::CollapsingHeader("Object modifications :"))
             {
+                ImGui::Indent();
+                
+                if (ImGui::CollapsingHeader("Camera modifications :"))
+                {
+                    ImGui::Text("Movement speed :");
+                    if (ImGui::DragFloat("Movement speed", &cameraMovementSpeed, 1.0f))
+                        camera.SetMovementSpeed(cameraMovementSpeed);
+
+                    ImGui::Spacing();
+                    ImGui::Text("Rotation sensitivity :");
+                    if (ImGui::DragFloat("Rotation sensitivity", &cameraRotationSensitivity, 0.1f))
+                        camera.SetRotationSensitivity(cameraRotationSensitivity);
+                }
+
+                ImGui::Unindent();
+
+                ImGui::Spacing();
+                ImGui::Indent();
+                
                 ImGui::Text("Testing rectangle position offset :");
                 ImGui::DragFloat3("Position offset", &testingRectanglePositionOffset.x);
                 // &testingRectanglePositionOffset.x = the address of the table
 
                 ImGui::Text("Testing rectangle color :");
                 ImGui::SliderFloat4("Color", &testingRectangleColor.x, 0, 1);
+                
+                ImGui::Unindent();
             }
 
             ImGui::End();

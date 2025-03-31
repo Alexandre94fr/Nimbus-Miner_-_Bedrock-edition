@@ -20,8 +20,18 @@ class Camera
     
 public:
     
-    Camera(glm::vec3 p_spawnPosition, float p_movementSpeed, float p_rotationSensitivity);
+    Camera(const glm::vec3 p_spawnPosition, const float p_movementSpeed, const float p_rotationSensitivity);
 
+    #pragma region - Getters / Setters -
+    
+    float GetMovementSpeed() const { return _movementSpeed; } 
+    float GetRotationSensitivity() const { return _rotationSensitivity; } 
+    
+    void SetMovementSpeed(float p_movementSpeed);
+    void SetRotationSensitivity(float p_rotationSensitivity);
+
+    #pragma endregion
+    
     void ProcessKeyboardMovement(CameraMovementDirectionsEnum p_direction, float p_deltaTime);
     void ProcessMouseMovement(float p_xOffset, float p_yOffset);
 
@@ -34,7 +44,7 @@ private:
     glm::vec3 _position;
 
     float _movementSpeed;
-    float _mouseSensitivity;
+    float _rotationSensitivity;
 
     glm::vec3 _frontDirection;
     glm::vec3 _upDirection;

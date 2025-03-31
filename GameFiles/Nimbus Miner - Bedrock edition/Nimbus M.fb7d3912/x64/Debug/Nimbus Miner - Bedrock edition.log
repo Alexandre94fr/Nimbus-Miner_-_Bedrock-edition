@@ -1,10 +1,4 @@
-﻿  imgui.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_glfw_gl3.cpp
-  stb_image.cpp
-  OpenGlDebugger.cpp
-  Application.cpp
+﻿  Application.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY' : redéfinition de macro
   (compiler le fichier source 'Source/Application.cpp')
       C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Dependencies\GLFW\include\GLFW\glfw3.h(123,11):
@@ -20,16 +14,8 @@ C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedro
 C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(94,43): warning C4244: 'argument' : conversion de 'const float' en 'int', perte possible de données
 C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(187,24): warning C4267: 'argument' : conversion de 'size_t' en 'unsigned int', perte possible de données
 C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(199,24): warning C4267: 'argument' : conversion de 'size_t' en 'unsigned int', perte possible de données
-C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(279,30): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(295,89): warning C4267: 'argument' : conversion de 'size_t' en 'unsigned int', perte possible de données
+C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(282,30): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Application.cpp(298,89): warning C4267: 'argument' : conversion de 'size_t' en 'unsigned int', perte possible de données
   Camera.cpp
-  IndexBufferObject.cpp
-  Renderer.cpp
-  Shader.cpp
-  Texture.cpp
-  VertexArrayObject.cpp
-C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source\Engine\Rendering\VertexArrayObject.cpp(40,13): warning C4312: 'cast de type' : la conversion de 'unsigned int' en 'const void *' d'une taille supérieure
-  VertexBufferLayoutObject.cpp
-  VertexBufferObject.cpp
   Génération de code en cours...
   Nimbus Miner - Bedrock edition.vcxproj -> C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\x64\Debug\Nimbus Miner - Bedrock edition.exe
