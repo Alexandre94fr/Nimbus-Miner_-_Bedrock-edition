@@ -27,45 +27,29 @@
 // Engine files (in Source\Constants)
 #include "DebuggingConstants.h"
 #include "ProjectConstants.h"
+#include "Engine/Inputs/InputsDetector.h"
 
 // Camera creation
 static Camera camera(CAMERA_SPAWN_POSITION, CAMERA_MOVEMENT_SPEED, CAMERA_ROTATION_SENSITIVITY);
 
+// Mouse handling
 static bool isCursorVisible = false;
 
-void ProcessInput(GLFWwindow* p_window, float p_deltaTime)
+void MouseCallback(GLFWwindow* p_window, const double p_xPosition, const double p_yPosition)
 {
-    if (glfwGetKey(p_window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Forward, p_deltaTime);
-
-    if (glfwGetKey(p_window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Backward, p_deltaTime);
-
-    if (glfwGetKey(p_window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Leftward, p_deltaTime);
-
-    if (glfwGetKey(p_window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Rightward, p_deltaTime);
-
-    if (glfwGetKey(p_window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
-    {
-        isCursorVisible = !isCursorVisible;
-        glfwSetInputMode(p_window, GLFW_CURSOR, isCursorVisible ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
-    }
-}
-
-// Mouse callback
-void MouseCallback(GLFWwindow* p_window, double p_xPosition, double p_yPosition)
-{
+    // We cache the converted parameter variables
+    const float xPosition = static_cast<float>(p_xPosition);
+    const float yPosition = static_cast<float>(p_yPosition);
+    
     // The following variables are in static because we don't want them to be destroyed when the scope ends
-    static float lastX = p_xPosition;
-    static float lastY = p_yPosition;
+    static float lastX = xPosition;
+    static float lastY = yPosition;
 
-    float xOffset = p_xPosition - lastX;
-    float yOffset = lastY - p_yPosition; // Inverted because the mouse's Y axis is inverted in OpenGL
+    const float xOffset = xPosition - lastX;
+    const float yOffset = lastY - yPosition; // Inverted because the mouse's Y axis is inverted in OpenGL
 
-    lastX = p_xPosition;
-    lastY = p_yPosition;
+    lastX = xPosition;
+    lastY = yPosition;
 
     camera.ProcessMouseMovement(xOffset, yOffset);
 }
@@ -91,7 +75,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, IS_GPU_IN_DEBUG_MODE);
 
     // Create a windowed mode window and its OpenGL context
-    GLFWwindow* window = glfwCreateWindow(WINDOW_SIZE_X, WINDOW_SIZE_Y, "Nimbus miner - Bedrock edition", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(static_cast<int>(WINDOW_SIZE_X), static_cast<int>(WINDOW_SIZE_Y), "Nimbus miner - Bedrock edition", nullptr, nullptr);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     
     if (!window)
@@ -126,9 +110,33 @@ int main(void)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
+    #pragma region - Inputs -
+    
     // Call a function when the player mouse's position is changed
     glfwSetCursorPosCallback(window, MouseCallback);
 
+    InputsDetector::Init(window);
+
+    #pragma region Setting all game inputs
+    
+    // NOTE :
+    // Using the [&] means all the variables inside the following lambda are pass as reference, that means if the variable disappear that can cause problems
+    
+    InputsDetector::AddCallback(GLFW_KEY_W, [&](){ camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Forward); });
+    InputsDetector::AddCallback(GLFW_KEY_S, [&](){ camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Backward); });
+    InputsDetector::AddCallback(GLFW_KEY_A, [&](){ camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Leftward); });
+    InputsDetector::AddCallback(GLFW_KEY_D, [&](){ camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Rightward); });
+    
+    InputsDetector::AddCallback(GLFW_KEY_LEFT_ALT, [&]()
+    {
+        isCursorVisible = !isCursorVisible;
+        glfwSetInputMode(window, GLFW_CURSOR, isCursorVisible ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
+    });
+
+    #pragma endregion
+    
+    #pragma endregion
+    
     // TEMP
 
     // For now that represent a square
@@ -264,9 +272,6 @@ int main(void)
     
     glm::vec3 testingRectanglePositionOffset = { 0.0f, 0.0f, 0.0f };
     glm::vec4 testingRectangleColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-    float redColor = 1;
-    float colorIncrement = 0.025f;
     
     // To debug framerate
     double startTime = 0;
@@ -275,13 +280,16 @@ int main(void)
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
     {
-        if (IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES)
-            startTime = glfwGetTime();
+        startTime = glfwGetTime();
 
         // Inputs
-        ProcessInput(window, deltaTime);
+        InputsDetector::ProcessInputs();
+        //ProcessInput(window, deltaTime);
 
-        // Rendering
+        // Camera
+        camera.DeltaTime = static_cast<float>(deltaTime);
+        
+        // - Rendering - //
 
         // Framebuffer cleaning
         renderer.Clear();
@@ -299,34 +307,18 @@ int main(void)
         
         // Changing the color of the drawn object
         defaultShader.Bind();
-        //defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
 
         modelMatrix = glm::translate(glm::mat4(1), testingRectanglePositionOffset);
-        //modelMatrix *= glm::rotate(glm::mat4(1), glm::radians(redColor * 50), glm::vec3(0.0f, 0.0f, 1.0f)); // TO TEST
-
-        glm::mat4 newModelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
+        viewMatrix = camera.GetViewMatrix();
 
 
-        glm::mat4 viewMatrix1 = camera.GetViewMatrix();
-        glm::mat4 mvpMatrix = projectionMatrix * viewMatrix1 * modelMatrix;
+        modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
         
 
-        defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", mvpMatrix);
+        defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
         
         renderer.Draw(vertexArrayObject, indexBufferObject, defaultShader);
         renderer.Draw(vertexArrayObject2, indexBufferObject, defaultShader); // Second rectangle
-        
-        // Clamping and changing the Red color value of the drawn object 
-        if (redColor > 1.0f)
-        {
-            colorIncrement = -0.015f;
-        }
-        else if (redColor < 0.0f)
-        {
-            colorIncrement =  0.015f;
-        }
-        
-        redColor += colorIncrement;
 
         #pragma region - ImGui -
 
@@ -351,27 +343,38 @@ int main(void)
                 
                 if (ImGui::CollapsingHeader("Camera modifications :"))
                 {
+                    ImGui::Indent();
+                    
                     ImGui::Text("Movement speed :");
-                    if (ImGui::DragFloat("Movement speed", &cameraMovementSpeed, 1.0f))
+                    if (ImGui::DragFloat("Movement speed", &cameraMovementSpeed, 0.5f, 0.0f, 0.0f, "%.1f"))
                         camera.SetMovementSpeed(cameraMovementSpeed);
 
                     ImGui::Spacing();
                     ImGui::Text("Rotation sensitivity :");
-                    if (ImGui::DragFloat("Rotation sensitivity", &cameraRotationSensitivity, 0.1f))
+                    if (ImGui::DragFloat("Rotation sensitivity", &cameraRotationSensitivity, 0.1f, 0.0f, 0.0f, "%.1f" ))
                         camera.SetRotationSensitivity(cameraRotationSensitivity);
+
+                    ImGui::Unindent();
                 }
 
                 ImGui::Unindent();
-
-                ImGui::Spacing();
-                ImGui::Indent();
                 
-                ImGui::Text("Testing rectangle position offset :");
-                ImGui::DragFloat3("Position offset", &testingRectanglePositionOffset.x);
-                // &testingRectanglePositionOffset.x = the address of the table
+                ImGui::Indent();
 
-                ImGui::Text("Testing rectangle color :");
-                ImGui::SliderFloat4("Color", &testingRectangleColor.x, 0, 1);
+                if (ImGui::CollapsingHeader("Testing rectangle modifications :"))
+                {
+                    ImGui::Indent();
+                    
+                    ImGui::Text("Testing rectangle position offset :");
+                    ImGui::DragFloat3("Position offset", &testingRectanglePositionOffset.x);
+                    // &testingRectanglePositionOffset.x = the address of the table
+
+                    ImGui::Spacing();
+                    ImGui::Text("Testing rectangle color :");
+                    ImGui::SliderFloat4("Color", &testingRectangleColor.x, 0, 1);
+
+                    ImGui::Unindent();
+                }
                 
                 ImGui::Unindent();
             }
@@ -393,7 +396,7 @@ int main(void)
 
         double endTime = glfwGetTime();
         deltaTime = endTime - startTime;
-
+        
         if (IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES)
         {
             // NOTE : We don't use the MessageDebugger because we don't want to spam the log file

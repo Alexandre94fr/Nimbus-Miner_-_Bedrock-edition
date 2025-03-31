@@ -30,5 +30,5 @@ public:
     inline unsigned int GetRenderingProgramID() const { return _renderingProgramID; }
     inline unsigned int GetIndexesCount() const { return _indexesCount; }
     
-    // TODO : SetData method
+    // TODO : Add SetData method (if necessary)
 };

@@ -17,27 +17,10 @@ enum CameraMovementDirectionsEnum
 
 class Camera
 {
-    
+
 public:
-    
-    Camera(const glm::vec3 p_spawnPosition, const float p_movementSpeed, const float p_rotationSensitivity);
 
-    #pragma region - Getters / Setters -
-    
-    float GetMovementSpeed() const { return _movementSpeed; } 
-    float GetRotationSensitivity() const { return _rotationSensitivity; } 
-    
-    void SetMovementSpeed(float p_movementSpeed);
-    void SetRotationSensitivity(float p_rotationSensitivity);
-
-    #pragma endregion
-    
-    void ProcessKeyboardMovement(CameraMovementDirectionsEnum p_direction, float p_deltaTime);
-    void ProcessMouseMovement(float p_xOffset, float p_yOffset);
-
-    glm::mat4 GetViewMatrix() const;
-
-    glm::vec3 GetPosition() const { return _position; }
+    float DeltaTime = 0.1f;
     
 private:
     
@@ -56,6 +39,29 @@ private:
 
     // Rotation around the Y axis
     float _pitch;
+    
+public:
+    
+    Camera(const glm::vec3 p_spawnPosition, const float p_movementSpeed, const float p_rotationSensitivity);
+
+    #pragma region - Getters / Setters -
+    
+    float GetMovementSpeed() const { return _movementSpeed; } 
+    float GetRotationSensitivity() const { return _rotationSensitivity; } 
+    
+    void SetMovementSpeed(float p_movementSpeed);
+    void SetRotationSensitivity(float p_rotationSensitivity);
+
+    #pragma endregion
+    
+    void ProcessKeyboardMovement(CameraMovementDirectionsEnum p_direction);
+    void ProcessMouseMovement(float p_xOffset, float p_yOffset);
+
+    glm::mat4 GetViewMatrix() const;
+
+    glm::vec3 GetPosition() const { return _position; }
+    
+private:
 
     void UpdateCameraDirectionVariables();
 };

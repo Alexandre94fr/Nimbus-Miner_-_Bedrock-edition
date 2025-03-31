@@ -1,5 +1,9 @@
 #include "Camera.h"
 
+#include <iostream>
+#include <ostream>
+
+#include "ProjectConstants.h"
 #include "MessageDebugger/MessageDebugger.h"
 
 Camera::Camera(const glm::vec3 p_spawnPosition, const float p_movementSpeed, const float p_rotationSensitivity)
@@ -43,9 +47,9 @@ void Camera::SetRotationSensitivity(float p_rotationSensitivity)
 
 #pragma endregion
 
-void Camera::ProcessKeyboardMovement(CameraMovementDirectionsEnum p_direction, float p_deltaTime)
+void Camera::ProcessKeyboardMovement(CameraMovementDirectionsEnum p_direction)
 {
-    float velocity = _movementSpeed * p_deltaTime;
+    float velocity = _movementSpeed * CAMERA_MOVEMENT_SPEED_MULTIPLICATOR * DeltaTime;
 
     switch (p_direction)
     {
