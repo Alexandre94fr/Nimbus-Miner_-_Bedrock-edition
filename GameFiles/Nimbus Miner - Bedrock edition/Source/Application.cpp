@@ -33,34 +33,39 @@ static Camera camera(glm::vec3(0, 0, 3), 1.0f, 0.1f);
 
 static bool isCursorVisible = false;
 
-void ProcessInput(GLFWwindow* window, float deltaTime)
+void ProcessInput(GLFWwindow* p_window, float p_deltaTime)
 {
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.ProcessKeyboardMovement(0, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.ProcessKeyboardMovement(1, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.ProcessKeyboardMovement(2, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboardMovement(3, deltaTime);
+    if (glfwGetKey(p_window, GLFW_KEY_W) == GLFW_PRESS)
+        camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Forward, p_deltaTime);
 
-    if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
+    if (glfwGetKey(p_window, GLFW_KEY_S) == GLFW_PRESS)
+        camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Backward, p_deltaTime);
+
+    if (glfwGetKey(p_window, GLFW_KEY_A) == GLFW_PRESS)
+        camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Leftward, p_deltaTime);
+
+    if (glfwGetKey(p_window, GLFW_KEY_D) == GLFW_PRESS)
+        camera.ProcessKeyboardMovement(CameraMovementDirectionsEnum::Rightward, p_deltaTime);
+
+    if (glfwGetKey(p_window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
     {
         isCursorVisible = !isCursorVisible;
-        glfwSetInputMode(window, GLFW_CURSOR, isCursorVisible ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
+        glfwSetInputMode(p_window, GLFW_CURSOR, isCursorVisible ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
     }
 }
 
 // Mouse callback
-void MouseCallback(GLFWwindow* window, double xpos, double ypos)
+void MouseCallback(GLFWwindow* p_window, double p_xPosition, double p_yPosition)
 {
-    static float lastX = xpos;
-    static float lastY = ypos;
-    float xOffset = xpos - lastX;
-    float yOffset = lastY - ypos; // Inverted because the mouse's Y axis is inverted in OpenGL
+    // The following variables are in static because we don't want them to be destroyed when the scope ends
+    static float lastX = p_xPosition;
+    static float lastY = p_yPosition;
 
-    lastX = xpos;
-    lastY = ypos;
+    float xOffset = p_xPosition - lastX;
+    float yOffset = lastY - p_yPosition; // Inverted because the mouse's Y axis is inverted in OpenGL
+
+    lastX = p_xPosition;
+    lastY = p_yPosition;
 
     camera.ProcessMouseMovement(xOffset, yOffset);
 }
@@ -253,8 +258,6 @@ int main(void)
     ImGui::CreateContext();
     ImGui_ImplGlfwGL3_Init(window, true);
     ImGui::StyleColorsDark();
-    
-    glm::vec3 cameraPositionOffset = { 0.0f, 0.0f, 0.0f };
 
     glm::vec3 testingRectanglePositionOffset = { 0.0f, 0.0f, 0.0f };
     glm::vec4 testingRectangleColor = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -294,8 +297,6 @@ int main(void)
         // Changing the color of the drawn object
         defaultShader.Bind();
         //defaultShader.SetUniform4f("u_Color", redColor, 0.2f, 0.8f, 1.0f);
-
-        viewMatrix = glm::translate(glm::mat4(1), -cameraPositionOffset);
 
         modelMatrix = glm::translate(glm::mat4(1), testingRectanglePositionOffset);
         //modelMatrix *= glm::rotate(glm::mat4(1), glm::radians(redColor * 50), glm::vec3(0.0f, 0.0f, 1.0f)); // TO TEST
@@ -343,13 +344,9 @@ int main(void)
 
             if (ImGui::CollapsingHeader("Object modifications :"))
             {
-                ImGui::Text("Camera position offset :");
-                ImGui::DragFloat3("Camera position", &cameraPositionOffset.x);
-                // &cameraPosition.x = the address of the table
-
-                ImGui::Spacing();
                 ImGui::Text("Testing rectangle position offset :");
                 ImGui::DragFloat3("Position offset", &testingRectanglePositionOffset.x);
+                // &testingRectanglePositionOffset.x = the address of the table
 
                 ImGui::Text("Testing rectangle color :");
                 ImGui::SliderFloat4("Color", &testingRectangleColor.x, 0, 1);
