@@ -24,6 +24,6 @@ public:
     void Bind() const;
     void Unbind() const;
 
-    // TODO : SetData method
+    void SetData(const void* p_data, unsigned int p_bytesSize) const;
     
 };

@@ -18,15 +18,20 @@
 #version 330 core
  
 layout(location = 0) in vec4 PositionAttribute;
-layout(location = 1) in vec2 TexturePositionAttribute;
+layout(location = 1) in vec4 ColorAttribute;
+layout(location = 2) in vec2 TexturePositionAttribute;
+ 
+uniform mat4 u_ModelViewProjectionMatrix;
  
 // -- Transmitting data to the fragment shader
 // -- v stands for "varying"
 out vec2 v_TexturePosition; 
+out vec4 v_Color;
  
 void main()
 {
-    gl_Position = PositionAttribute;
+    gl_Position = u_ModelViewProjectionMatrix * PositionAttribute;
+    v_Color = ColorAttribute;
     v_TexturePosition = TexturePositionAttribute;
 }
  
@@ -38,11 +43,11 @@ void main()
 #version 330 core
  
 // -- Accessible variable (by vertex shader, and CPU)
-uniform vec4 u_Color;
 uniform sampler2D u_Texture;
  
 // -- Getting values from the Vertex Shader
 in vec2 v_TexturePosition;
+in vec4 v_Color;
  
 out vec4 FragmentColor;
  
@@ -50,5 +55,5 @@ void main()
 {
     vec4 textureColor = texture(u_Texture, v_TexturePosition);
     
-    FragmentColor = textureColor * u_Color; 
+    FragmentColor = textureColor * v_Color; 
 }

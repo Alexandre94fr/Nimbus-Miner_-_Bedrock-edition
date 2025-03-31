@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "DebuggingConstants.h"
+#include "GLM/gtc/type_ptr.inl"
 #include "MessageDebugger/MessageDebugger.h"
 
 Shader::Shader(const std::string& p_filePath)
@@ -47,6 +48,11 @@ void Shader::SetUniform1i(const std::string& p_name, int p_value)
 void Shader::SetUniform4f(const std::string& p_name, float p_v1, float p_v2, float p_v3, float p_v4)
 {
     glUniform4f(GetUniformLocation(p_name), p_v1, p_v2, p_v3, p_v4);
+}
+
+void Shader::SetUniformMat4f(const std::string& p_name, const glm::mat4& p_matrix)
+{
+    glUniformMatrix4fv(GetUniformLocation(p_name), 1, GL_FALSE, &p_matrix[0][0]); // Address of the matrix
 }
 
 #pragma endregion
