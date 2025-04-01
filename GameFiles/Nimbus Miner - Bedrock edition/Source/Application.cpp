@@ -284,7 +284,6 @@ int main(void)
 
         // Inputs
         InputsDetector::ProcessInputs();
-        //ProcessInput(window, deltaTime);
 
         // Camera
         camera.DeltaTime = static_cast<float>(deltaTime);
@@ -351,7 +350,7 @@ int main(void)
 
                     ImGui::Spacing();
                     ImGui::Text("Rotation sensitivity :");
-                    if (ImGui::DragFloat("Rotation sensitivity", &cameraRotationSensitivity, 0.1f, 0.0f, 0.0f, "%.1f" ))
+                    if (ImGui::DragFloat("Rotation sensitivity", &cameraRotationSensitivity, 0.05f, 0.0f, 0.0f, "%.2f" ))
                         camera.SetRotationSensitivity(cameraRotationSensitivity);
 
                     ImGui::Unindent();

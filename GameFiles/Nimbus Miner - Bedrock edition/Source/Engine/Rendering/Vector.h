@@ -1,5 +1,8 @@
 #pragma once
 
+// NOTE :
+// This script may not me used because we have the glm library who does the job better
+
 struct Vector2
 {
     float X;
