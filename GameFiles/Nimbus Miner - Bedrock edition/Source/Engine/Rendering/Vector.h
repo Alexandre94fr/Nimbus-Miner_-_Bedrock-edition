@@ -9,6 +9,14 @@ struct Vector2
 
     Vector2() = default;
     Vector2(const float p_x, const float p_y) : X(p_x), Y(p_y) {}
+
+    static Vector2 Zero()     { return { 0.0f,  0.0f }; }
+    static Vector2 One()      { return { 1.0f,  1.0f }; }
+
+    static Vector2 Up()       { return { 0.0f,  1.0f }; }
+    static Vector2 Down()     { return { 0.0f, -1.0f }; }
+    static Vector2 Left()     { return {-1.0f,  0.0f }; }
+    static Vector2 Right()    { return { 1.0f,  0.0f }; }
 };
 
 struct Vector3
@@ -19,6 +27,16 @@ struct Vector3
 
     Vector3() = default;
     Vector3(const float p_x, const float p_y, const float p_z) : X(p_x), Y(p_y), Z(p_z) {}
+
+    static Vector3 Zero()     { return { 0.0f,  0.0f,  0.0f }; }
+    static Vector3 One()      { return { 1.0f,  1.0f,  1.0f }; }
+
+    static Vector3 Up()       { return { 0.0f,  1.0f,  0.0f }; }
+    static Vector3 Down()     { return { 0.0f, -1.0f,  0.0f }; }
+    static Vector3 Left()     { return {-1.0f,  0.0f,  0.0f }; }
+    static Vector3 Right()    { return { 1.0f,  0.0f,  0.0f }; }
+    static Vector3 Forward()  { return { 0.0f,  0.0f,  1.0f }; }
+    static Vector3 Backward() { return { 0.0f,  0.0f, -1.0f }; }
 };
 
 struct Vector4
@@ -30,6 +48,16 @@ struct Vector4
 
     Vector4() = default;
     Vector4(const float p_x, const float p_y, const float p_z, const float p_w) : X(p_x), Y(p_y), Z(p_z), W(p_w) {}
+
+    static Vector4 Zero()     { return { 0.0f,  0.0f,  0.0f,  0.0f }; }
+    static Vector4 One()      { return { 1.0f,  1.0f,  1.0f,  1.0f }; }
+
+    static Vector4 Up()       { return { 0.0f,  1.0f,  0.0f,  0.0f }; }
+    static Vector4 Down()     { return { 0.0f, -1.0f,  0.0f,  0.0f }; }
+    static Vector4 Left()     { return {-1.0f,  0.0f,  0.0f,  0.0f }; }
+    static Vector4 Right()    { return { 1.0f,  0.0f,  0.0f,  0.0f }; }
+    static Vector4 Forward()  { return { 0.0f,  0.0f,  1.0f,  0.0f }; }
+    static Vector4 Backward() { return { 0.0f,  0.0f, -1.0f,  0.0f }; }
 };
 
 #pragma endregion
@@ -43,6 +71,14 @@ struct Vector2Int
 
     Vector2Int() = default;
     Vector2Int(const int p_x, const int p_y) : X(p_x), Y(p_y) {}
+
+    static Vector2Int Zero()    { return { 0,  0 }; }
+    static Vector2Int One()     { return { 1,  1 }; }
+
+    static Vector2Int Up()      { return { 0,  1 }; }
+    static Vector2Int Down()    { return { 0, -1 }; }
+    static Vector2Int Left()    { return {-1,  0 }; }
+    static Vector2Int Right()   { return { 1,  0 }; }
 };
 
 struct Vector3Int
@@ -53,6 +89,16 @@ struct Vector3Int
 
     Vector3Int() = default;
     Vector3Int(const int p_x, const int p_y, const int p_z) : X(p_x), Y(p_y), Z(p_z) {}
+
+    static Vector3Int Zero()    { return { 0,  0,  0 }; }
+    static Vector3Int One()     { return { 1,  1,  1 }; }
+
+    static Vector3Int Up()      { return { 0,  1,  0 }; }
+    static Vector3Int Down()    { return { 0, -1,  0 }; }
+    static Vector3Int Left()    { return {-1,  0,  0 }; }
+    static Vector3Int Right()   { return { 1,  0,  0 }; }
+    static Vector3Int Forward() { return { 0,  0,  1 }; }
+    static Vector3Int Backward(){ return { 0,  0, -1 }; }
 };
 
 struct Vector4Int
@@ -64,6 +110,16 @@ struct Vector4Int
 
     Vector4Int() = default;
     Vector4Int(const int p_x, const int p_y, const int p_z, const int p_w) : X(p_x), Y(p_y), Z(p_z), W(p_w) {}
+
+    static Vector4Int Zero()    { return { 0,  0,  0,  0 }; }
+    static Vector4Int One()     { return { 1,  1,  1,  1 }; }
+
+    static Vector4Int Up()      { return { 0,  1,  0,  0 }; }
+    static Vector4Int Down()    { return { 0, -1,  0,  0 }; }
+    static Vector4Int Left()    { return {-1,  0,  0,  0 }; }
+    static Vector4Int Right()   { return { 1,  0,  0,  0 }; }
+    static Vector4Int Forward() { return { 0,  0,  1,  0 }; }
+    static Vector4Int Backward(){ return { 0,  0, -1,  0 }; }
 };
 
 #pragma endregion
@@ -72,32 +128,42 @@ struct Vector4Int
 
 struct Vector2Uint
 {
-    unsigned int X;
-    unsigned int Y;
+    int X;
+    int Y;
 
     Vector2Uint() = default;
-    Vector2Uint(const unsigned int p_x, const unsigned int p_y) : X(p_x), Y(p_y) {}
+    Vector2Uint(const int p_x, const int p_y) : X(p_x), Y(p_y) {}
+
+    static Vector2Uint Zero()   { return { 0,  0 }; }
+    static Vector2Uint One()    { return { 1,  1 }; }
 };
 
 struct Vector3Uint
 {
-    unsigned int X;
-    unsigned int Y;
-    unsigned int Z;
+    int X;
+    int Y;
+    int Z;
 
     Vector3Uint() = default;
-    Vector3Uint(const unsigned int p_x, const unsigned int p_y, const unsigned int p_z) : X(p_x), Y(p_y), Z(p_z) {}
+    Vector3Uint(const int p_x, const int p_y, const int p_z) : X(p_x), Y(p_y), Z(p_z) {}
+
+    static Vector3Uint Zero()   { return { 0,  0,  0 }; }
+    static Vector3Uint One()    { return { 1,  1,  1 }; }
 };
 
 struct Vector4Uint
 {
-    unsigned int X;
-    unsigned int Y;
-    unsigned int Z;
-    unsigned int W;
+    int X;
+    int Y;
+    int Z;
+    int W;
 
     Vector4Uint() = default;
-    Vector4Uint(const unsigned int p_x, const unsigned int p_y, const unsigned int p_z, const unsigned int p_w) : X(p_x), Y(p_y), Z(p_z), W(p_w) {}
+    Vector4Uint(const int p_x, const int p_y, const int p_z, const int p_w) : X(p_x), Y(p_y), Z(p_z), W(p_w) {}
+
+    static Vector4Uint Zero()    { return { 0,  0,  0,  0 }; }
+    static Vector4Uint One()     { return { 1,  1,  1,  1 }; }
 };
+
 
 #pragma endregion
