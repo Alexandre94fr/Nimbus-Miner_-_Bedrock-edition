@@ -126,43 +126,46 @@ struct Vector4Int
 
 #pragma region - Unsigned int vectors -
 
+/// <summary> <b> Please don't pass negative values, doing so will result on your values being modified (2^32 - yourValue) </b> </summary>
 struct Vector2Uint
 {
-    int X;
-    int Y;
+    unsigned int X;
+    unsigned int Y;
 
     Vector2Uint() = default;
-    Vector2Uint(const int p_x, const int p_y) : X(p_x), Y(p_y) {}
+    Vector2Uint(const unsigned int p_x, const unsigned int p_y) : X(p_x), Y(p_y) {}
 
     static Vector2Uint Zero()   { return { 0,  0 }; }
     static Vector2Uint One()    { return { 1,  1 }; }
 };
 
+/// <summary> <b> Please don't pass negative values, doing so will result on your values being modified (2^32 - yourValue) </b> </summary>
 struct Vector3Uint
 {
-    int X;
-    int Y;
-    int Z;
+    unsigned int X;
+    unsigned int Y;
+    unsigned int Z;
 
     Vector3Uint() = default;
-    Vector3Uint(const int p_x, const int p_y, const int p_z) : X(p_x), Y(p_y), Z(p_z) {}
+    Vector3Uint(const unsigned int p_x, const unsigned int p_y, const unsigned int p_z) : X(p_x), Y(p_y), Z(p_z) {}
 
     static Vector3Uint Zero()   { return { 0,  0,  0 }; }
     static Vector3Uint One()    { return { 1,  1,  1 }; }
 };
 
+/// <summary> <b> Please don't pass negative values, doing so will result on your values being modified (2^32 - yourValue) </b> </summary>
 struct Vector4Uint
 {
-    int X;
-    int Y;
-    int Z;
-    int W;
+    unsigned int X;
+    unsigned int Y;
+    unsigned int Z;
+    unsigned int W;
 
     Vector4Uint() = default;
-    Vector4Uint(const int p_x, const int p_y, const int p_z, const int p_w) : X(p_x), Y(p_y), Z(p_z), W(p_w) {}
+    Vector4Uint(const unsigned int p_x, const unsigned int p_y, const unsigned int p_z, const unsigned int p_w) : X(p_x), Y(p_y), Z(p_z), W(p_w) {}
 
-    static Vector4Uint Zero()    { return { 0,  0,  0,  0 }; }
-    static Vector4Uint One()     { return { 1,  1,  1,  1 }; }
+    static Vector4Uint Zero()   { return { 0,  0,  0,  0 }; }
+    static Vector4Uint One()    { return { 1,  1,  1,  1 }; }
 };
 
 

@@ -283,8 +283,8 @@ int main(void)
 
     // TODO : REMOVE AFTER TEST
     GreedyChunk greedyChunk(1789, 0.03f, Vector3Uint(32, 32, 32), &defaultShader);
-    greedyChunk.SetBlockType(Vector3Uint(-1, -1, -1), BlockTypes::Air);
-
+    greedyChunk.SetBlockType(Vector3Uint(-1, -2, -3), BlockTypes::Air);
+    
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
     {
