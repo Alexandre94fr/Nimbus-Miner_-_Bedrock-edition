@@ -142,11 +142,11 @@ int main(void)
     // For now that represent a square
     std::vector<Vertex> geometryVertexData =
     {
-        Vertex(Vector3(-100.0f, -100.0f, 0.0f), /* 0 | down-left  */ Vector4(1, 1, 1, 1), Vector2(0.0f, 0.0f)),
-        Vertex(Vector3( 100.0f, -100.0f, 0.0f), /* 1 | down-right */ Vector4(1, 1, 1, 1), Vector2(1.0f, 0.0f)),
-        Vertex(Vector3( 100.0f,  100.0f, 0.0f), /* 2 | up-right   */ Vector4(1, 1, 1, 1), Vector2(1.0f, 1.0f)),
+        Vertex(Vector3(-100.0f, -100.0f, 0.0f), /* 0 | down-left  */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 0.0f)),
+        Vertex(Vector3( 100.0f, -100.0f, 0.0f), /* 1 | down-right */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 0.0f)),
+        Vertex(Vector3( 100.0f,  100.0f, 0.0f), /* 2 | up-right   */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 1.0f)),
          
-        Vertex(Vector3(-100.0f,  100.0f, 0.0f), /* 3 | up-left    */ Vector4(1, 1, 1, 1), Vector2(0.0f, 1.0f))
+        Vertex(Vector3(-100.0f,  100.0f, 0.0f), /* 3 | up-left    */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 1.0f))
 
         // Vertices 2D position values (from itch other)
         // -0.5f, -0.5f
@@ -158,11 +158,11 @@ int main(void)
 
     std::vector<Vertex> geometryVertexData2 =
     {
-        Vertex(Vector3( 300.0f, -100.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 0.0f)),
-        Vertex(Vector3( 500.0f, -100.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 0.0f)),
-        Vertex(Vector3( 500.0f,  100.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 1.0f)),
-                                         
-        Vertex(Vector3( 300.0f,  100.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 1.0f))
+        Vertex(Vector3( 300.0f, -100.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 0.0f)),
+        Vertex(Vector3( 500.0f, -100.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 0.0f)),
+        Vertex(Vector3( 500.0f,  100.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 1.0f)),
+
+        Vertex(Vector3( 300.0f,  100.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 1.0f))
     };
 
     // In order to not have duplicates of the same vertices we identify each vertex with an index
@@ -183,6 +183,7 @@ int main(void)
 
     VertexBufferLayoutObject vertexBufferLayoutObject;
     vertexBufferLayoutObject.PushBack<float>(3, false); // Represent the position
+    vertexBufferLayoutObject.PushBack<float>(3, false); // Represent the normal
     vertexBufferLayoutObject.PushBack<float>(4, false); // Represent the color
     vertexBufferLayoutObject.PushBack<float>(2, false); // Represent the texture position (UV)
 
@@ -192,7 +193,7 @@ int main(void)
 
     VertexBufferObject vertexBufferObject(
         ConvertVerticesToFloatArray(geometryVertexData).data(),
-        sizeof(Vertex) * geometryVertexData.size()
+        sizeof(Vertex) * static_cast<unsigned int>(geometryVertexData.size())
     );
     
     VertexArrayObject vertexArrayObject;
@@ -204,7 +205,7 @@ int main(void)
 
     VertexBufferObject vertexBufferObject2(
         ConvertVerticesToFloatArray(geometryVertexData2).data(),
-        sizeof(Vertex) * geometryVertexData2.size()
+        sizeof(Vertex) * static_cast<unsigned int>(geometryVertexData2.size())
     );
 
     VertexArrayObject vertexArrayObject2;
@@ -302,7 +303,7 @@ int main(void)
         geometryVertexData[2].Color = Vector4(testingRectangleColor.x, testingRectangleColor.y, testingRectangleColor.z, testingRectangleColor.w);
         geometryVertexData[3].Color = Vector4(testingRectangleColor.x, testingRectangleColor.y, testingRectangleColor.z, testingRectangleColor.w);
 
-        vertexBufferObject.SetData(geometryVertexData.data(), geometryVertexData.size() * sizeof(Vertex));
+        vertexBufferObject.SetData(geometryVertexData.data(), static_cast<unsigned int>(geometryVertexData.size()) * sizeof(Vertex));
         
         // Changing the color of the drawn object
         defaultShader.Bind();

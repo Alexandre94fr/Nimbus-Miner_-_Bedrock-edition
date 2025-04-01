@@ -18,8 +18,9 @@
 #version 330 core
  
 layout(location = 0) in vec4 PositionAttribute;
-layout(location = 1) in vec4 ColorAttribute;
-layout(location = 2) in vec2 TexturePositionAttribute;
+layout(location = 1) in vec4 NormalAttribute;
+layout(location = 2) in vec4 ColorAttribute;
+layout(location = 3) in vec2 TexturePositionAttribute;
  
 uniform mat4 u_ModelViewProjectionMatrix;
  

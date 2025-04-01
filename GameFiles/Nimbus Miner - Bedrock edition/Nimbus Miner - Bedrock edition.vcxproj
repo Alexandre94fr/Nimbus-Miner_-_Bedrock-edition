@@ -476,6 +476,7 @@
     <ClInclude Include="Source\Engine\Rendering\VertexArrayObject.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexBufferObject.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexBufferLayoutObject.h" />
+    <ClInclude Include="Source\Game\ChunkGeneration\ChunkMeshData.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dependencies\Glew-2.1.0\bin\Release\Win32\glew32.dll" />
