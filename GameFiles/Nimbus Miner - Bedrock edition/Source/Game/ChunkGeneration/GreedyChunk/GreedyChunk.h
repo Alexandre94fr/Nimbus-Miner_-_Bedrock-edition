@@ -27,17 +27,17 @@ public:
     // -- Chunk properties -- //  
     
     /// <summary> The world seed, changing it change how the word is generated. </summary>
-    unsigned int WorldSeed = 1789;
+    int WorldSeed = 1789;
     
     /// <summary> Frequency is used to create noise, which influences the steepness of slopes : the lower the frequency,
     /// the gentler the slopes, and the higher the frequency, the steeper the slopes. </summary>
     float NoiseFrequency = 0.03f;
 
-    // <summary> The chunk's 3D size. Enable the possibility to set the chunk's size to not be like a square. </summary>
+    /// <summary> The chunk's 3D size. Enable the possibility to set the chunk's size to not be like a square. </summary>
     Vector3Uint Size = Vector3Uint(32, 32, 32);
 
     /// <summary> The shader that will be used to render chunk's vertices. </summary>
-    Shader* Shader;
+    Shader* RenderingShader;
 
 private:
     
@@ -52,13 +52,14 @@ public:
 
     // NOTE : We use "class Shader" to avoid conflict with the variable named Shader
     
-    GreedyChunk(unsigned int p_worldSeed, float p_noiseFrequency, float p_size, const class Shader& p_shader, bool p_doesInit = true);
+    GreedyChunk(int p_worldSeed, float p_noiseFrequency, const Vector3Uint& p_size, Shader* p_renderingShader, bool p_doesInit = true);
+    ~GreedyChunk();
     
     void Init();
     
-    void SetBlockType(const Vector3& p_blockPosition, BlockTypes p_newBlockType);
+    void SetBlockType(const Vector3Uint& p_blockPosition, const BlockTypes p_newBlockType);
 
-    bool IsBlockOutsideChunk(const Vector3& p_blockPosition);
+    bool IsBlockOutsideChunk(const Vector3Uint& p_blockPosition) const;
 
 private:
 
@@ -77,7 +78,7 @@ private:
     void CreateQuad(Mask p_mask, const Vector3Int& p_maskAxis, unsigned int p_width, unsigned int p_height,
         const Vector3Int& p_vertexPosition1, const Vector3Int& p_vertexPosition2, const Vector3Int& p_vertexPosition3, const Vector3Int& p_vertexPosition4);
 
-    void SetBlockTypeData(const Vector3& p_blockPosition, BlockTypes p_newBlockType);
+    void SetBlockTypeData(const Vector3Uint& p_blockPosition, BlockTypes p_newBlockType);
     
     
     BlockTypes GetBlock(const Vector3Uint& p_blockPosition) const;

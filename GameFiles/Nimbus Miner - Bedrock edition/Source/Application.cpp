@@ -29,6 +29,9 @@
 #include "ProjectConstants.h"
 #include "Engine/Inputs/InputsDetector.h"
 
+// Game files (in Source/Game)
+#include "Game/ChunkGeneration/GreedyChunk/GreedyChunk.h"
+
 // Camera creation
 static Camera camera(CAMERA_SPAWN_POSITION, CAMERA_MOVEMENT_SPEED, CAMERA_ROTATION_SENSITIVITY);
 
@@ -259,7 +262,7 @@ int main(void)
     vertexBufferObject.Unbind();
     indexBufferObject.Unbind();
     defaultShader.Unbind();
-
+    
 
     Renderer renderer;
 
@@ -274,9 +277,13 @@ int main(void)
     glm::vec3 testingRectanglePositionOffset = { 0.0f, 0.0f, 0.0f };
     glm::vec4 testingRectangleColor = { 1.0f, 1.0f, 1.0f, 1.0f };
     
-    // To debug framerate
+    // To compute and debug framerate (deltaTime)
     double startTime = 0;
     double deltaTime = 0.01f; // Change itch while loop
+
+    // TODO : REMOVE AFTER TEST
+    GreedyChunk greedyChunk(1789, 0.03f, Vector3Uint(32, 32, 32), &defaultShader);
+    greedyChunk.SetBlockType(Vector3Uint(-1, -1, -1), BlockTypes::Air);
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
