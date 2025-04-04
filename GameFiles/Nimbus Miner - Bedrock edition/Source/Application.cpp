@@ -279,21 +279,21 @@ int main(void)
     
     // To compute and debug framerate (deltaTime)
     double startTime = 0;
-    double deltaTime = 0.01f; // Change itch while loop
+    double deltaTime = 0.01f; // Change each while loop
 
     // TODO : REMOVE AFTER TEST
     GreedyChunk greedyChunk(1789, 0.03f, Vector3Uint(32, 32, 32), &defaultShader);
-    greedyChunk.SetBlockType(Vector3Uint(-1, -2, -3), BlockTypes::Air);
+    greedyChunk.SetBlockType(Vector3Uint(0, 0, 0), BlockTypes::Air);
     
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
     {
         startTime = glfwGetTime();
 
-        // Inputs
+        // - Inputs - //
         InputsDetector::ProcessInputs();
 
-        // Camera
+        // - Camera - //
         camera.DeltaTime = static_cast<float>(deltaTime);
         
         // - Rendering - //
@@ -312,16 +312,13 @@ int main(void)
 
         vertexBufferObject.SetData(geometryVertexData.data(), static_cast<unsigned int>(geometryVertexData.size()) * sizeof(Vertex));
         
-        // Changing the color of the drawn object
-        defaultShader.Bind();
-
+        // Changing the position of the drawn object
         modelMatrix = glm::translate(glm::mat4(1), testingRectanglePositionOffset);
         viewMatrix = camera.GetViewMatrix();
 
-
         modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
         
-
+        defaultShader.Bind();
         defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
         
         renderer.Draw(vertexArrayObject, indexBufferObject, defaultShader);

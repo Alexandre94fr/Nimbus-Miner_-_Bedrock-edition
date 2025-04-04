@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdexcept>
+
 #pragma region - Float vectors -
 
 struct Vector2
@@ -17,6 +19,29 @@ struct Vector2
     static Vector2 Down()     { return { 0.0f, -1.0f }; }
     static Vector2 Left()     { return {-1.0f,  0.0f }; }
     static Vector2 Right()    { return { 1.0f,  0.0f }; }
+
+    #pragma region Operator[]
+    
+    float& operator[](const size_t p_index)
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            default: throw std::out_of_range("Vector2 index out of range");
+        }
+    }
+
+    const float& operator[](const size_t p_index) const
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            default: throw std::out_of_range("Vector2 index out of range");
+        }
+    }
+    #pragma endregion
 };
 
 struct Vector3
@@ -37,6 +62,31 @@ struct Vector3
     static Vector3 Right()    { return { 1.0f,  0.0f,  0.0f }; }
     static Vector3 Forward()  { return { 0.0f,  0.0f,  1.0f }; }
     static Vector3 Backward() { return { 0.0f,  0.0f, -1.0f }; }
+
+    #pragma region Operator[]
+    
+    float& operator[](const size_t p_index)
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            default: throw std::out_of_range("Vector3 index out of range");
+        }
+    }
+
+    const float& operator[](const size_t p_index) const
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            default: throw std::out_of_range("Vector3 index out of range");
+        }
+    }
+    #pragma endregion
 };
 
 struct Vector4
@@ -58,6 +108,33 @@ struct Vector4
     static Vector4 Right()    { return { 1.0f,  0.0f,  0.0f,  0.0f }; }
     static Vector4 Forward()  { return { 0.0f,  0.0f,  1.0f,  0.0f }; }
     static Vector4 Backward() { return { 0.0f,  0.0f, -1.0f,  0.0f }; }
+
+    #pragma region Operator[]
+    
+    float& operator[](const size_t p_index)
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            case 3: return W;
+            default: throw std::out_of_range("Vector4 index out of range");
+        }
+    }
+
+    const float& operator[](const size_t p_index) const
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            case 3: return W;
+            default: throw std::out_of_range("Vector4 index out of range");
+        }
+    }
+    #pragma endregion
 };
 
 #pragma endregion
@@ -79,6 +156,29 @@ struct Vector2Int
     static Vector2Int Down()    { return { 0, -1 }; }
     static Vector2Int Left()    { return {-1,  0 }; }
     static Vector2Int Right()   { return { 1,  0 }; }
+
+    #pragma region Operator[]
+    
+    int& operator[](const size_t p_index)
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            default: throw std::out_of_range("Vector2Int index out of range");
+        }
+    }
+
+    const int& operator[](const size_t p_index) const
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            default: throw std::out_of_range("Vector2Int index out of range");
+        }
+    }
+    #pragma endregion
 };
 
 struct Vector3Int
@@ -99,6 +199,31 @@ struct Vector3Int
     static Vector3Int Right()   { return { 1,  0,  0 }; }
     static Vector3Int Forward() { return { 0,  0,  1 }; }
     static Vector3Int Backward(){ return { 0,  0, -1 }; }
+
+    #pragma region Operator[]
+    
+    int& operator[](const size_t p_index)
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            default: throw std::out_of_range("Vector3Int index out of range");
+        }
+    }
+
+    const int& operator[](const size_t p_index) const
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            default: throw std::out_of_range("Vector3Int index out of range");
+        }
+    }
+    #pragma endregion
 };
 
 struct Vector4Int
@@ -120,6 +245,33 @@ struct Vector4Int
     static Vector4Int Right()   { return { 1,  0,  0,  0 }; }
     static Vector4Int Forward() { return { 0,  0,  1,  0 }; }
     static Vector4Int Backward(){ return { 0,  0, -1,  0 }; }
+
+    #pragma region Operator[]
+    
+    int& operator[](const size_t p_index)
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            case 3: return W;
+            default: throw std::out_of_range("Vector4Int index out of range");
+        }
+    }
+
+    const int& operator[](const size_t p_index) const
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            case 3: return W;
+            default: throw std::out_of_range("Vector4Int index out of range");
+        }
+    }
+    #pragma endregion
 };
 
 #pragma endregion
@@ -137,6 +289,29 @@ struct Vector2Uint
 
     static Vector2Uint Zero()   { return { 0,  0 }; }
     static Vector2Uint One()    { return { 1,  1 }; }
+
+    #pragma region Operator[]
+    
+    unsigned int& operator[](const size_t p_index)
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            default: throw std::out_of_range("Vector2Uint index out of range");
+        }
+    }
+
+    const unsigned int& operator[](const size_t p_index) const
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            default: throw std::out_of_range("Vector2Uint index out of range");
+        }
+    }
+    #pragma endregion
 };
 
 /// <summary> <b> Please don't pass negative values, doing so will result on your values being modified (2^32 - yourValue) </b> </summary>
@@ -151,6 +326,43 @@ struct Vector3Uint
 
     static Vector3Uint Zero()   { return { 0,  0,  0 }; }
     static Vector3Uint One()    { return { 1,  1,  1 }; }
+
+    #pragma region Operator+
+
+    Vector3Uint operator+(const Vector3Uint& p_vector) const
+    {
+        return {
+            X + p_vector.X,
+            Y + p_vector.Y,
+            Z + p_vector.Z
+        };
+    }
+    #pragma endregion 
+    
+    #pragma region Operator[]
+    
+    unsigned int& operator[](const size_t p_index)
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            default: throw std::out_of_range("Vector3Uint index out of range");
+        }
+    }
+
+    const unsigned int& operator[](const size_t p_index) const
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            default: throw std::out_of_range("Vector3Uint index out of range");
+        }
+    }
+    #pragma endregion
 };
 
 /// <summary> <b> Please don't pass negative values, doing so will result on your values being modified (2^32 - yourValue) </b> </summary>
@@ -166,7 +378,33 @@ struct Vector4Uint
 
     static Vector4Uint Zero()   { return { 0,  0,  0,  0 }; }
     static Vector4Uint One()    { return { 1,  1,  1,  1 }; }
-};
 
+    #pragma region Operator[]
+    
+    unsigned int& operator[](const size_t p_index)
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            case 3: return W;
+            default: throw std::out_of_range("Vector4Uint index out of range");
+        }
+    }
+
+    const unsigned int& operator[](const size_t p_index) const
+    {
+        switch (p_index)
+        {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            case 3: return W;
+            default: throw std::out_of_range("Vector4Uint index out of range");
+        }
+    }
+    #pragma endregion
+};
 
 #pragma endregion

@@ -1,1 +1,7 @@
-﻿  Nimbus Miner - Bedrock edition.vcxproj -> C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\x64\Debug\Nimbus Miner - Bedrock edition.exe
+﻿  Application.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY' : redéfinition de macro
+  (compiler le fichier source 'Source/Application.cpp')
+      C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Dependencies\GLFW\include\GLFW\glfw3.h(123,11):
+      voir la définition précédente de « APIENTRY »
+  
+  Nimbus Miner - Bedrock edition.vcxproj -> C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\x64\Debug\Nimbus Miner - Bedrock edition.exe
