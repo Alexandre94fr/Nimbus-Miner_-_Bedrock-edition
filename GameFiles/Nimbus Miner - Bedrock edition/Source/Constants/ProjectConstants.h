@@ -11,7 +11,7 @@ static constexpr float WINDOW_SIZE_Z = 1000;
 
 // -- Camera -- //
 
-static constexpr glm::vec3 CAMERA_SPAWN_POSITION = glm::vec3(0, 0, 3);
+static constexpr glm::vec3 CAMERA_SPAWN_POSITION = glm::vec3(0, 0, 1000);
 static constexpr float CAMERA_MOVEMENT_SPEED = 1.0f;
 static constexpr float CAMERA_MOVEMENT_SPEED_MULTIPLICATOR = 1000.0f; // In order to keep the CAMERA_MOVEMENT_SPEED relatively low we use this constant
 static constexpr float CAMERA_ROTATION_SENSITIVITY = 0.1f;

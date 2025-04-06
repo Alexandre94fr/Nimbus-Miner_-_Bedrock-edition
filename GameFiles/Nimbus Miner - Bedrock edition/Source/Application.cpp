@@ -230,7 +230,7 @@ int main(void)
         CAMERA_FRUSTUM_NEAR,
         CAMERA_FRUSTUM_FAR
     );
-    projectionMatrix *= glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -1000.0f));
+    projectionMatrix *= glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
     glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
     glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
