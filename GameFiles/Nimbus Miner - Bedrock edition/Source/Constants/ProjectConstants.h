@@ -18,3 +18,6 @@ static constexpr float CAMERA_ROTATION_SENSITIVITY = 0.1f;
 
 static constexpr float CAMERA_FRUSTUM_NEAR = 0.05f;
 static constexpr float CAMERA_FRUSTUM_FAR = 10000.0f;
+
+// -=- Render.cpp constants -=- //
+static constexpr glm::vec4 BACKGROUND_COLOR = glm::vec4(0.3f, 0.3f, 0.3f, 1.0f);
