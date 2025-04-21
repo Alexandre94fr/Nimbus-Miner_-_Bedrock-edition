@@ -96,8 +96,13 @@ ShaderProgram Shader::ParseShader(const std::string& p_filePath)
     }
     
     if (IS_SHADER_LOADING_DEBUGGING_ON)
-        PRINT_MESSAGE_RUNTIME("VERTEX SHADER :\n" + shaderCode[0].str() + '\n' + "FRAGMENT SHADER :\n" + shaderCode[1].str())
-    
+    {
+        PRINT_MESSAGE_RUNTIME(
+            "Reading the shader code of the following file :\n'" + p_filePath + "'\n\n" +
+            "VERTEX SHADER :\n" + shaderCode[0].str() + '\n' + "FRAGMENT SHADER :\n" + shaderCode[1].str()
+        )
+    }
+
     return { shaderCode[0].str(), shaderCode[1].str() };
 }
 

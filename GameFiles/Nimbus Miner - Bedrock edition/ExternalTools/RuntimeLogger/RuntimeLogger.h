@@ -10,7 +10,7 @@ class RuntimeLogger
 
 public:
 
-    static constexpr const char* LOG_FILE_NAME = "RuntimeWarnings.log";
+    static constexpr const char* LOG_FILE_NAME = "RuntimeMessages.log";
     //static constexpr const char* LOG_FILE_PATH = "Logs"; // Put the file inside the given folder (starts from the .sln folder)
     
 public:

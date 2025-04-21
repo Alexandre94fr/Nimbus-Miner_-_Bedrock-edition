@@ -9,7 +9,7 @@ std::vector<float> ConvertVerticesToFloatArray(const std::vector<Vertex>& p_vert
 
     for (int i = 0; i < p_vertices.size(); i++)
     {
-        // Converting the Vertice struct into a vector<float> 
+        // Converting the Vertex struct into a vector<float> 
         std::vector<float> floatArray = p_vertices[i].ToFloats();
 
         // Insert all floats from floatArray into the end of floatArrayResult

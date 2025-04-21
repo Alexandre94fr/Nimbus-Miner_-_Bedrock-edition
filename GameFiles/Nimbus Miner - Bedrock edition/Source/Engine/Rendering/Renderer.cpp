@@ -1,11 +1,17 @@
 #include "Renderer.h"
 
-void Renderer::Clear() const
+#include <iostream>
+
+#include "ProjectConstants.h"
+
+void Renderer::Clear()
 {
+    glClearColor(BACKGROUND_COLOR.x, BACKGROUND_COLOR.y, BACKGROUND_COLOR.z, BACKGROUND_COLOR.w);
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::Draw(const VertexArrayObject& p_vertexArrayObject, const IndexBufferObject& p_indexBufferObject, const Shader& p_shader) const
+void Renderer::Draw(const VertexArrayObject& p_vertexArrayObject, const IndexBufferObject& p_indexBufferObject, const Shader& p_shader)
 {
     // Binding into the GPU the given data
     p_vertexArrayObject.Bind();

@@ -25,6 +25,7 @@ private:
 
     
 public:
+    Shader() = default;
     explicit Shader(const std::string& p_filePath);
     ~Shader();
 
