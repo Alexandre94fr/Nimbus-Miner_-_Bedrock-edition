@@ -10,11 +10,13 @@ private:
 
     // The program ID of what program will render things on the screen (in our case it's OpenGL)
     unsigned int _renderingProgramID;
-
-    unsigned int _indexesCount;
+    
+    int _indexesCount;
 
 public:
 
+    IndexBufferObject() = default;
+    
     /// <summary>
     /// Will created a IBO (Index Buffer Object).
     ///
@@ -28,7 +30,7 @@ public:
     void Unbind() const;
 
     inline unsigned int GetRenderingProgramID() const { return _renderingProgramID; }
-    inline unsigned int GetIndexesCount() const { return _indexesCount; }
+    inline int GetIndexesCount() const { return _indexesCount; }
     
     // TODO : Add SetData method (if necessary)
 };

@@ -24,7 +24,7 @@ public:
     ~Texture();
     
     void Bind(const unsigned int p_textureSlot = 0) const;
-    void Unbind() const;
+    static void Unbind();
 
     // Getters
     

@@ -23,11 +23,14 @@
 #include "VertexBufferObject.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Texture/Texture2DArray.h"
+
+// Engine files (in Source\Engine\Inputs folder)
+#include "Engine/Inputs/InputsDetector.h"
 
 // Engine files (in Source\Constants)
 #include "DebuggingConstants.h"
 #include "ProjectConstants.h"
-#include "Engine/Inputs/InputsDetector.h"
 
 // Game files (in Source/Game)
 #include "Game/ChunkGeneration/GreedyChunk/GreedyChunk.h"
@@ -67,6 +70,8 @@ int main(void)
     );
     
     MessageDebugger::TestMessageDebugger(TestOptionsEnum::NoTests);
+
+    #pragma region - Program initialization -
 
     // Initialize the GLFW library
     // (she makes possible the window creation, input detection, handling other extensions)
@@ -109,10 +114,21 @@ int main(void)
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); // To force OpenGL to send the error right when it appends
     glDebugMessageCallback(OpenGlDebugger::PrintOpenGlErrors, nullptr);
     
-    // Telling OpenGL to manage alpha for our texture
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
+    // NOTE : You can un-comment the code below if you need transparency
 
+    // Telling OpenGL to manage alpha for our texture
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+
+    // Telling OpenGL we don't want transparency
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
+    // Tells OpenGL to not draw counterclockwise faces, it's for optimization (the 'counterclockwise' it set by default by OpenGL)
+    glEnable(GL_CULL_FACE); 
+
+    #pragma endregion
+    
     #pragma region - Inputs -
     
     // Call a function when the player mouse's position is changed
@@ -139,17 +155,19 @@ int main(void)
     #pragma endregion
     
     #pragma endregion
-    
-    // TEMP
+
+    #pragma region - Creating data for our two testing faces -
+
+    // NOTE : The big chunk of code below is there to explain how to draw two faces
 
     // For now that represent a square
     std::vector<Vertex> geometryVertexData =
     {
-        Vertex(Vector3(-100.0f, -100.0f, 0.0f), /* 0 | down-left  */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 0.0f)),
-        Vertex(Vector3( 100.0f, -100.0f, 0.0f), /* 1 | down-right */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 0.0f)),
-        Vertex(Vector3( 100.0f,  100.0f, 0.0f), /* 2 | up-right   */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 1.0f)),
+        Vertex(Vector3(-1.0f, 25.0f, 0.0f), /* 0 | down-left  */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 0.0f, 0)),
+        Vertex(Vector3( 1.0f, 25.0f, 0.0f), /* 1 | down-right */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 0.0f, 0)),
+        Vertex(Vector3( 1.0f, 27.0f, 0.0f), /* 2 | up-right   */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 1.0f, 0)),
          
-        Vertex(Vector3(-100.0f,  100.0f, 0.0f), /* 3 | up-left    */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 1.0f))
+        Vertex(Vector3(-1.0f, 27.0f, 0.0f), /* 3 | up-left    */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 1.0f, 0))
 
         // Vertices 2D position values (from itch other)
         // -0.5f, -0.5f
@@ -161,11 +179,11 @@ int main(void)
 
     std::vector<Vertex> geometryVertexData2 =
     {
-        Vertex(Vector3( 300.0f, -100.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 0.0f)),
-        Vertex(Vector3( 500.0f, -100.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 0.0f)),
-        Vertex(Vector3( 500.0f,  100.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(1.0f, 1.0f)),
+        Vertex(Vector3(3.0f, 25.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 0.0f, 0)),
+        Vertex(Vector3(5.0f, 25.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 0.0f, 0)),
+        Vertex(Vector3(5.0f, 27.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 1.0f, 0)),
 
-        Vertex(Vector3( 300.0f,  100.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 1.0f))
+        Vertex(Vector3(3.0f, 27.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 1.0f, 0))
     };
 
     // In order to not have duplicates of the same vertices we identify each vertex with an index
@@ -188,9 +206,9 @@ int main(void)
     vertexBufferLayoutObject.PushBack<float>(3, false); // Represent the position
     vertexBufferLayoutObject.PushBack<float>(3, false); // Represent the normal
     vertexBufferLayoutObject.PushBack<float>(4, false); // Represent the color
-    vertexBufferLayoutObject.PushBack<float>(2, false); // Represent the texture position (UV)
+    vertexBufferLayoutObject.PushBack<float>(3, false); // Represent the texture position (UV)
 
-    #pragma region - VertexArrayObject creation -
+    #pragma region VertexArrayObject creation
 
     #pragma region First rectangle
 
@@ -220,8 +238,11 @@ int main(void)
 
     // Creating the IBO (Index Buffer Object)
     // Contains indexes that say "which vertex to draw at what time" 
+    // The '6' reprensents the number of values inside the 'geometryIndices' variable
     IndexBufferObject indexBufferObject(geometryIndices, 6);
     
+    #pragma endregion
+
     #pragma region - Model View Projection matrix -
 
     glm::mat4 projectionMatrix = glm::perspective(
@@ -250,23 +271,62 @@ int main(void)
     defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
     
     // Passing the texture to the shader
-    Texture texture("Resources/Textures/MoiPanPan.png");
-    constexpr int textureSlot = 0;
+    Texture texture("Resources/Textures/Un-official/MoiPanPan.png");
+    int textureSlot = 0;
     
     texture.Bind(textureSlot);
     defaultShader.SetUniform1i("u_Texture", textureSlot);
     
+    // - Chunk shader - //
+    
+    Shader chunkShader("Source/Shaders/ChunkShader.glsl");
+    
+    // Passing the ModelViewProjection (MVP) to the shader (to the 'u_ModelViewProjectionMatrix' uniform variable)
+    chunkShader.Bind();
+    chunkShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
+
+    std::vector<std::string> texturePaths = {
+        "Resources/Textures/Environment/Normals/CloudLight.png",
+        "Resources/Textures/Environment/Normals/CloudNormal.png",
+        "Resources/Textures/Environment/Normals/CloudDark.png",
+        "Resources/Textures/Environment/Normals/CloudVeryDark.png",
+        "Resources/Textures/Environment/Normals/CloudVeryVeryDark.png",
+        
+        "Resources/Textures/Environment/Ores/CloudHard.png",
+        "Resources/Textures/Environment/Ores/CloudElectrified.png"
+    };
+
+    Texture2DArray texture2DArray(texturePaths);
+
+    textureSlot = 0;
+    texture2DArray.Bind(textureSlot);
+
+    chunkShader.Bind();
+    chunkShader.SetUniform1i("u_Texture2DArray", textureSlot);
+
+    #pragma region TEST : To make the defaultShader use Texture2DArray
+
+    // INSTRUCTIONS : To make that code below work you will need to change some code in the DefaultShader.glsl
+    //                Un-comment the "// -- MULTI-TEXTURE VERSION : ..." lines and comment the one above.
+    //                Keep in mind that's the Vertex who determines what texture is shown,
+    //                so if you want to change the texture, change the third value of the TexturePosition.
+    //
+    //                Don't forget to un-comment the code below.
+    //
+    //                Or you can simply say that the object you want, uses the chunk's shader.
+    
+    // NOTE : The two zeros in Bind and SetUniform1i should be ALWAYS the same number (otherwise the square will be black)
+    //texture2DArray.Bind(0);
+    
+    //defaultShader.Bind();
+    //defaultShader.SetUniform1i("u_TextureArray", 0);
+
+    #pragma endregion
+    
     #pragma endregion 
 
-    vertexArrayObject.Unbind();
-    vertexBufferObject.Unbind();
-    indexBufferObject.Unbind();
-    defaultShader.Unbind();
-    
+    #pragma region - ImGui setup -
 
-    Renderer renderer;
-
-    // ImGui setup
     ImGui::CreateContext();
     ImGui_ImplGlfwGL3_Init(window, true);
     ImGui::StyleColorsDark();
@@ -274,16 +334,23 @@ int main(void)
     float cameraMovementSpeed = camera.GetMovementSpeed();
     float cameraRotationSensitivity = camera.GetRotationSensitivity();
     
-    glm::vec3 testingRectanglePositionOffset = { 0.0f, 0.0f, 0.0f };
-    glm::vec4 testingRectangleColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+    glm::vec3 objectsPositionOffset = { 0.0f, 0.0f, 0.0f };
+    glm::vec4 testingQuadColor = { 1.0f, 1.0f, 1.0f, 1.0f };
     
     // To compute and debug framerate (deltaTime)
     double startTime = 0;
     double deltaTime = 0.01f; // Change each while loop
 
-    // TODO : REMOVE AFTER TEST
-    GreedyChunk greedyChunk(1789, 0.03f, Vector3Uint(32, 32, 32), &defaultShader);
-    greedyChunk.SetBlockType(Vector3Uint(0, 0, 0), BlockTypes::Air);
+    #pragma endregion
+    
+    // - Chunk creation - //
+
+    GreedyChunk greedyChunk({0, 0, 0}, 1789, 0.03f, Vector3Int(32, 32, 32), &chunkShader);
+    GreedyChunk greedyChunk2({32, 0, 0}, 1789, 0.03f, Vector3Int(32, 32, 32), &chunkShader);
+    
+    //greedyChunk.SetBlockType(Vector3Int(0, 1, 0), BlockTypes::Air);
+    
+    // -- Game loop -- //
     
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
@@ -291,38 +358,52 @@ int main(void)
         startTime = glfwGetTime();
 
         // - Inputs - //
+
         InputsDetector::ProcessInputs();
 
         // - Camera - //
+
         camera.DeltaTime = static_cast<float>(deltaTime);
         
         // - Rendering - //
 
         // Framebuffer cleaning
-        renderer.Clear();
+        Renderer::Clear();
 
         // ImGui setup
         ImGui_ImplGlfwGL3_NewFrame();
 
-        // Changing TestingRectangle color
-        geometryVertexData[0].Color = Vector4(testingRectangleColor.x, testingRectangleColor.y, testingRectangleColor.z, testingRectangleColor.w);
-        geometryVertexData[1].Color = Vector4(testingRectangleColor.x, testingRectangleColor.y, testingRectangleColor.z, testingRectangleColor.w);
-        geometryVertexData[2].Color = Vector4(testingRectangleColor.x, testingRectangleColor.y, testingRectangleColor.z, testingRectangleColor.w);
-        geometryVertexData[3].Color = Vector4(testingRectangleColor.x, testingRectangleColor.y, testingRectangleColor.z, testingRectangleColor.w);
+        // Changing TestingQuad color
+        geometryVertexData[0].Color = Vector4(testingQuadColor.x, testingQuadColor.y, testingQuadColor.z, testingQuadColor.w);
+        geometryVertexData[1].Color = Vector4(testingQuadColor.x, testingQuadColor.y, testingQuadColor.z, testingQuadColor.w);
+        geometryVertexData[2].Color = Vector4(testingQuadColor.x, testingQuadColor.y, testingQuadColor.z, testingQuadColor.w);
+        geometryVertexData[3].Color = Vector4(testingQuadColor.x, testingQuadColor.y, testingQuadColor.z, testingQuadColor.w);
 
         vertexBufferObject.SetData(geometryVertexData.data(), static_cast<unsigned int>(geometryVertexData.size()) * sizeof(Vertex));
         
+        #pragma region - Updating the MVP matrix -
+
         // Changing the position of the drawn object
-        modelMatrix = glm::translate(glm::mat4(1), testingRectanglePositionOffset);
+        modelMatrix = glm::translate(glm::mat4(1), objectsPositionOffset);
         viewMatrix = camera.GetViewMatrix();
 
         modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
         
         defaultShader.Bind();
         defaultShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
-        
-        renderer.Draw(vertexArrayObject, indexBufferObject, defaultShader);
-        renderer.Draw(vertexArrayObject2, indexBufferObject, defaultShader); // Second rectangle
+
+        chunkShader.Bind();
+        chunkShader.SetUniformMat4f("u_ModelViewProjectionMatrix", modelViewProjectionMatrix);
+
+        #pragma endregion
+
+        // - Drawing objects - //
+
+        Renderer::Draw(vertexArrayObject, indexBufferObject, defaultShader);
+        Renderer::Draw(vertexArrayObject2, indexBufferObject, defaultShader); // Second rectangle
+
+        greedyChunk.Draw();
+        greedyChunk2.Draw();
 
         #pragma region - ImGui -
 
@@ -365,17 +446,17 @@ int main(void)
                 
                 ImGui::Indent();
 
-                if (ImGui::CollapsingHeader("Testing rectangle modifications :"))
+                if (ImGui::CollapsingHeader("Objects modifications :"))
                 {
                     ImGui::Indent();
                     
-                    ImGui::Text("Testing rectangle position offset :");
-                    ImGui::DragFloat3("Position offset", &testingRectanglePositionOffset.x);
-                    // &testingRectanglePositionOffset.x = the address of the table
+                    ImGui::Text("Objects position offset :");
+                    ImGui::DragFloat3("Position offset", &objectsPositionOffset.x);
+                    // &objectsPositionOffset.x = the address of the table
 
                     ImGui::Spacing();
-                    ImGui::Text("Testing rectangle color :");
-                    ImGui::SliderFloat4("Color", &testingRectangleColor.x, 0, 1);
+                    ImGui::Text("First testing quad color :");
+                    ImGui::SliderFloat4("Color", &testingQuadColor.x, 0, 1);
 
                     ImGui::Unindent();
                 }
@@ -407,6 +488,8 @@ int main(void)
             std::cout << "Time past between this frame : " << deltaTime << '\n';
         }
     }
+
+    // -- Cleaning the program -- //
 
     ImGui_ImplGlfwGL3_Shutdown();
     ImGui::DestroyContext();

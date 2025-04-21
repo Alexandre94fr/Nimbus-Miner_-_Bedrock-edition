@@ -10,9 +10,10 @@
 // -- I decided to put them in the same file because it will be easier to modify them.
 
 // -- But that has for consequences for us to be able to extract only the correct shader, and to not take documentation.
-// -- In order to detect what is a vertex or fragment shader you have the "// Shader Vertex / Fragment" 
-// -- (not in UPPERCASE to not be detected) comment before it.
-// -- For documentation detection you have the "// --" before it.
+// -- In order to detect what is a vertex or fragment shader you have the "// SHADER VERTEX / FRAGMENT"
+
+// -- If you want to put documention into your shaders you can put "// --" in the line. 
+// -- If you do so all the line will be ignored.
 
 // SHADER VERTEX
 #version 330 core
@@ -20,13 +21,14 @@
 layout(location = 0) in vec4 PositionAttribute;
 layout(location = 1) in vec4 NormalAttribute;
 layout(location = 2) in vec4 ColorAttribute;
-layout(location = 3) in vec2 TexturePositionAttribute;
+layout(location = 3) in vec3 TexturePositionAttribute;
+// -- Contains TexturePosition (UV) AND TextureIndex (Layer) [the index of which texture will be drawn]
  
 uniform mat4 u_ModelViewProjectionMatrix;
  
 // -- Transmitting data to the fragment shader
 // -- v stands for "varying"
-out vec2 v_TexturePosition; 
+out vec3 v_TexturePosition; 
 out vec4 v_Color;
  
 void main()
@@ -45,16 +47,18 @@ void main()
  
 // -- Accessible variable (by vertex shader, and CPU)
 uniform sampler2D u_Texture;
+// -- MULTI-TEXTURE VERSION : uniform sampler2DArray u_TextureArray;
  
 // -- Getting values from the Vertex Shader
-in vec2 v_TexturePosition;
+in vec3 v_TexturePosition;
 in vec4 v_Color;
  
 out vec4 FragmentColor;
  
 void main()
 {
-    vec4 textureColor = texture(u_Texture, v_TexturePosition);
+    vec4 textureColor = texture(u_Texture, v_TexturePosition.xy);
+    // -- MULTI-TEXTURE VERSION : vec4 textureColor = texture(u_TextureArray, v_TexturePosition);
     
     FragmentColor = textureColor * v_Color; 
 }

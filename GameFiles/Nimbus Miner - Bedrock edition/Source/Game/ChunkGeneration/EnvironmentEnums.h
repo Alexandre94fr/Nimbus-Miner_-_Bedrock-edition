@@ -12,7 +12,7 @@ enum class Directions
 };
 
 // Represent all block's types
-enum class BlockTypes
+enum class BlockTypes : uint8_t
 {
     Null,
 

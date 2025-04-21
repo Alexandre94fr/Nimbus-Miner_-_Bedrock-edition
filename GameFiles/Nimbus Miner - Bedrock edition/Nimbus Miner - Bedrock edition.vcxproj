@@ -149,6 +149,7 @@
     <ClCompile Include="Source\Engine\Rendering\Renderer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Shader.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Texture.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Texture\Texture2DArray.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Vector.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Vertex.cpp" />
     <ClCompile Include="Source\Engine\Rendering\VertexArrayObject.cpp" />
@@ -547,6 +548,7 @@
     <ClInclude Include="Source\Engine\Rendering\Renderer.h" />
     <ClInclude Include="Source\Engine\Rendering\Shader.h" />
     <ClInclude Include="Source\Engine\Rendering\Texture.h" />
+    <ClInclude Include="Source\Engine\Rendering\Texture\Texture2DArray.h" />
     <ClInclude Include="Source\Engine\Rendering\Vector.h" />
     <ClInclude Include="Source\Engine\Rendering\Vertex.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexArrayObject.h" />
@@ -589,6 +591,7 @@
     <Content Include="Dependencies\Glew-2.1.0\lib\Release\x64\glew32s.lib" />
     <Content Include="Dependencies\Glew-2.1.0\LICENSE.txt" />
     <Content Include="Dependencies\GLFW\lib-vc2022\glfw3.lib" />
+    <Content Include="Source\Shaders\ChunkShader.glsl" />
     <Content Include="Source\Shaders\DefaultShader.glsl" />
   </ItemGroup>
   <ItemGroup>
@@ -730,6 +733,7 @@
     <None Include="Dependencies\GLM\gtx\vector_angle.inl" />
     <None Include="Dependencies\GLM\gtx\vector_query.inl" />
     <None Include="Dependencies\GLM\gtx\wrap.inl" />
+    <None Include="Source\Shaders\ChunkShader.glsl" />
     <None Include="Source\Shaders\DefaultShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

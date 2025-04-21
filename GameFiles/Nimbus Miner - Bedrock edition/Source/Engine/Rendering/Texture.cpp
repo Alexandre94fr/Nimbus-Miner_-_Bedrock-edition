@@ -22,8 +22,10 @@ Texture::Texture(const std::string& p_filePath)
 
     // Flipping the start position (telling OpenGL that we want to start at the top left of the image [PNG type file])
     stbi_set_flip_vertically_on_load(1);
-    _localDataBuffer = stbi_load(_filePath.c_str(), &_width, &_height, &_bitsPerPixel, 4);
 
+    // Loading the sprite and setting the '_width', '_height', and '_bitsPerPixel' variables
+    _localDataBuffer = stbi_load(_filePath.c_str(), &_width, &_height, &_bitsPerPixel, 4);
+    
     if (_localDataBuffer == nullptr) 
         PRINT_ERROR_RUNTIME(true, "Failed to load texture : " + _filePath)
 
@@ -57,7 +59,7 @@ Texture::Texture(const std::string& p_filePath)
         _localDataBuffer // The size of our data (use to allocate space)
     );
     
-    glBindTexture(GL_TEXTURE_2D, 0);
+    Unbind();
     
     stbi_image_free(_localDataBuffer);
 }
@@ -74,7 +76,7 @@ void Texture::Bind(const unsigned int p_textureSlot) const
 {
     if (p_textureSlot > 31)
     {
-        PRINT_ERROR_RUNTIME(true, "The given p_textureSlot is superior to 31, OpenGL only let us use 31 texture slots.");
+        PRINT_ERROR_RUNTIME(true, "The given p_textureSlot is superior to 31, OpenGL only let us use 31 texture slots.")
         return;
     }
 
@@ -82,7 +84,7 @@ void Texture::Bind(const unsigned int p_textureSlot) const
     glBindTexture(GL_TEXTURE_2D, _inGpuId);
 }
 
-void Texture::Unbind() const
+void Texture::Unbind()
 {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
