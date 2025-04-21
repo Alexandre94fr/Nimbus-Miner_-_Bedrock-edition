@@ -407,11 +407,39 @@ int main(void)
         {
             ImGui::Begin("Debug UI");
             
+            ImGui::TextWrapped("Press Alt to show/hide you cursor");
+            ImGui::Spacing();
+
             if (ImGui::CollapsingHeader("INFORMATION :"))
             {
                 ImGui::TextWrapped("This UI can be use to debug and manipulate objects during runtime.");
                 ImGui::TextWrapped("In order to not close the UI by accident, and have to relaunch the project, the window is not closable.");
                 ImGui::TextWrapped("You can still minimize it by clicking on the triangle on the top left of the window.");
+            }
+
+            if (ImGui::CollapsingHeader("Controls :"))
+            {
+                ImGui::Text("NOTE : The keys are localized \n       Example : WASD = ZQSD");
+                ImGui::Spacing();
+
+                ImGui::Text("Movement :");
+                ImGui::Spacing();
+
+                ImGui::TextWrapped(
+                    " - W : Moving forward  \n"
+                    " - A : Moving left     \n"
+                    " - S : Moving backward \n"
+                    " - D : Moving right    \n"
+                );
+                ImGui::Spacing();
+
+                ImGui::Text("Camera :");
+                ImGui::Spacing();
+
+                ImGui::TextWrapped(
+                    " - Move mouse : Moving the camera \n"
+                );
+                ImGui::Spacing();
             }
 
             if (ImGui::CollapsingHeader("Debug information :"))
