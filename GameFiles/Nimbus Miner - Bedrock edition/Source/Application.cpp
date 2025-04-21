@@ -164,11 +164,11 @@ int main(void)
     // For now that represent a square
     std::vector<Vertex> geometryVertexData =
     {
-        Vertex(Vector3(-1.0f, 25.0f, 0.0f), /* 0 | down-left  */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 0.0f, 0)),
-        Vertex(Vector3( 1.0f, 25.0f, 0.0f), /* 1 | down-right */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 0.0f, 0)),
-        Vertex(Vector3( 1.0f, 27.0f, 0.0f), /* 2 | up-right   */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 1.0f, 0)),
+        Vertex(Vector3(-1.0f, 55.0f, 0.0f), /* 0 | down-left  */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 0.0f, 0)),
+        Vertex(Vector3( 1.0f, 55.0f, 0.0f), /* 1 | down-right */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 0.0f, 0)),
+        Vertex(Vector3( 1.0f, 57.0f, 0.0f), /* 2 | up-right   */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 1.0f, 0)),
          
-        Vertex(Vector3(-1.0f, 27.0f, 0.0f), /* 3 | up-left    */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 1.0f, 0))
+        Vertex(Vector3(-1.0f, 57.0f, 0.0f), /* 3 | up-left    */ Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 1.0f, 0))
 
         // Vertices 2D position values (from itch other)
         // -0.5f, -0.5f
@@ -180,11 +180,11 @@ int main(void)
 
     std::vector<Vertex> geometryVertexData2 =
     {
-        Vertex(Vector3(3.0f, 25.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 0.0f, 0)),
-        Vertex(Vector3(5.0f, 25.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 0.0f, 0)),
-        Vertex(Vector3(5.0f, 27.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 1.0f, 0)),
+        Vertex(Vector3(3.0f, 55.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 0.0f, 0)),
+        Vertex(Vector3(5.0f, 55.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 0.0f, 0)),
+        Vertex(Vector3(5.0f, 57.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(1.0f, 1.0f, 0)),
 
-        Vertex(Vector3(3.0f, 27.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 1.0f, 0))
+        Vertex(Vector3(3.0f, 57.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector4(1, 1, 1, 1), Vector3(0.0f, 1.0f, 0))
     };
 
     // In order to not have duplicates of the same vertices we identify each vertex with an index
@@ -346,7 +346,7 @@ int main(void)
     
     // - Chunk creation - //
 
-    ChunkManager chunkManager(true, 1789, 0.015f, Vector3Int(32, 64, 32), 1, Vector2Int(10, 10), &chunkShader);
+    ChunkManager chunkManager(true, 1789, 0.015f, Vector3Int(32, 64, 32), 1, Vector2Int(5, 5), &chunkShader);
     
     // -- Game loop -- //
     

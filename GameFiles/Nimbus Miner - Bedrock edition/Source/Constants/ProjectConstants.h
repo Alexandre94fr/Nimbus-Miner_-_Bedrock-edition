@@ -5,13 +5,13 @@
 // NOTE : Those float variable are floats to avoid conversion,
 //		  put please don't pass floating values.
 
-static constexpr float WINDOW_SIZE_X = 640;
-static constexpr float WINDOW_SIZE_Y = 480;
+static constexpr float WINDOW_SIZE_X = 1280;
+static constexpr float WINDOW_SIZE_Y = 960;
 static constexpr float WINDOW_SIZE_Z = 1000;
 
 // -- Camera -- //
 
-static constexpr glm::vec3 CAMERA_SPAWN_POSITION = glm::vec3(0, 30, 10);
+static constexpr glm::vec3 CAMERA_SPAWN_POSITION = glm::vec3(0, 50, 10);
 
 static constexpr float CAMERA_MOVEMENT_SPEED = 1.0f;
 static constexpr float CAMERA_MOVEMENT_SPEED_MULTIPLICATOR = 10.0f; 
