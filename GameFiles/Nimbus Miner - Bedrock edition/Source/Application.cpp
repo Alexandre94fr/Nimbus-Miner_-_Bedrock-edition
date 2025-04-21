@@ -346,7 +346,10 @@ int main(void)
     
     // - Chunk creation - //
 
-    ChunkManager chunkManager(true, 1789, 0.015f, Vector3Int(32, 64, 32), 1, Vector2Int(5, 5), &chunkShader);
+    ChunkManager chunkManager(
+        IS_WORLD_SEED_RANDOMIZED, WORLD_SEED,
+        NOISE_FREQUENCY, { 32, 64, 32 }, CHUNK_BLOCK_SIZE, { 5, 5 }, &chunkShader
+    );
     
     // -- Game loop -- //
     

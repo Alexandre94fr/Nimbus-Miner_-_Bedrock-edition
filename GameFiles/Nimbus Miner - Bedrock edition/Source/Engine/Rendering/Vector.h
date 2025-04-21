@@ -2,7 +2,10 @@
 
 #include <stdexcept>
 
+#include "GLM/vec2.hpp"
+#include "GLM/vec3.hpp"
 #include "GLM/vec4.hpp"
+
 #include "MessageDebugger/MessageDebugger.h"
 
 inline bool AreEqual(const float p_float1, const float p_float2, const float p_comparisonLimit = 1e-5f)
@@ -19,6 +22,7 @@ struct Vector2
 
     Vector2() = default;
     Vector2(const float p_x, const float p_y) : X(p_x), Y(p_y) {}
+    Vector2(const glm::vec2& p_glmVector2) : X(p_glmVector2.x), Y(p_glmVector2.y) {}
 
     static Vector2 Zero()     { return { 0.0f,  0.0f }; }
     static Vector2 One()      { return { 1.0f,  1.0f }; }
@@ -60,6 +64,7 @@ struct Vector3
 
     Vector3() = default;
     Vector3(const float p_x, const float p_y, const float p_z) : X(p_x), Y(p_y), Z(p_z) {}
+    Vector3(const glm::vec3& p_glmVector3) : X(p_glmVector3.x), Y(p_glmVector3.y), Z(p_glmVector3.z) {}
 
     static Vector3 Zero()     { return { 0.0f,  0.0f,  0.0f }; }
     static Vector3 One()      { return { 1.0f,  1.0f,  1.0f }; }
@@ -203,6 +208,7 @@ struct Vector2Uint
 
     Vector2Uint() = default;
     Vector2Uint(const unsigned int p_x, const unsigned int p_y) : X(p_x), Y(p_y) {}
+    Vector2Uint(const glm::vec2& p_glmVector2) : X(static_cast<int>(p_glmVector2.x)), Y(static_cast<int>(p_glmVector2.y)) {}
 
     static Vector2Uint Zero()   { return { 0,  0 }; }
     static Vector2Uint One()    { return { 1,  1 }; }
@@ -251,6 +257,7 @@ struct Vector3Uint
 
     Vector3Uint() = default;
     Vector3Uint(const unsigned int p_x, const unsigned int p_y, const unsigned int p_z) : X(p_x), Y(p_y), Z(p_z) {}
+    Vector3Uint(const glm::vec3& p_glmVector3) : X(static_cast<int>(p_glmVector3.x)), Y(static_cast<int>(p_glmVector3.y)), Z(static_cast<int>(p_glmVector3.z)) {}
 
     static Vector3Uint Zero()   { return { 0,  0,  0 }; }
     static Vector3Uint One()    { return { 1,  1,  1 }; }
@@ -327,6 +334,7 @@ struct Vector4Uint
 
     Vector4Uint() = default;
     Vector4Uint(const unsigned int p_x, const unsigned int p_y, const unsigned int p_z, const unsigned int p_w) : X(p_x), Y(p_y), Z(p_z), W(p_w) {}
+    Vector4Uint(const glm::vec4& p_glmVector4) : X(static_cast<int>(p_glmVector4.x)), Y(static_cast<int>(p_glmVector4.y)), Z(static_cast<int>(p_glmVector4.z)), W(static_cast<int>(p_glmVector4.w)) {}
 
     static Vector4Uint Zero()   { return { 0,  0,  0,  0 }; }
     static Vector4Uint One()    { return { 1,  1,  1,  1 }; }
