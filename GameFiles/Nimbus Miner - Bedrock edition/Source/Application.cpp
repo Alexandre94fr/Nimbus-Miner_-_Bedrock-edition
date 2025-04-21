@@ -33,6 +33,7 @@
 #include "ProjectConstants.h"
 
 // Game files (in Source/Game)
+#include "Game/ChunkGeneration/ChunkManager/ChunkManager.h"
 #include "Game/ChunkGeneration/GreedyChunk/GreedyChunk.h"
 
 // Camera creation
@@ -293,7 +294,7 @@ int main(void)
         "Resources/Textures/Environment/Normals/CloudVeryVeryDark.png",
         
         "Resources/Textures/Environment/Ores/CloudHard.png",
-        "Resources/Textures/Environment/Ores/CloudElectrified.png"
+        "Resources/Textures/Environment/Ores/CloudElectrified_ROTATED.png"
     };
 
     Texture2DArray texture2DArray(texturePaths);
@@ -345,10 +346,7 @@ int main(void)
     
     // - Chunk creation - //
 
-    GreedyChunk greedyChunk({0, 0, 0}, 1789, 0.03f, Vector3Int(32, 32, 32), &chunkShader);
-    GreedyChunk greedyChunk2({32, 0, 0}, 1789, 0.03f, Vector3Int(32, 32, 32), &chunkShader);
-    
-    //greedyChunk.SetBlockType(Vector3Int(0, 1, 0), BlockTypes::Air);
+    ChunkManager chunkManager(true, 1789, 0.015f, Vector3Int(32, 64, 32), 1, Vector2Int(10, 10), &chunkShader);
     
     // -- Game loop -- //
     
@@ -402,8 +400,7 @@ int main(void)
         Renderer::Draw(vertexArrayObject, indexBufferObject, defaultShader);
         Renderer::Draw(vertexArrayObject2, indexBufferObject, defaultShader); // Second rectangle
 
-        greedyChunk.Draw();
-        greedyChunk2.Draw();
+        chunkManager.DrawChunks();
 
         #pragma region - ImGui -
 

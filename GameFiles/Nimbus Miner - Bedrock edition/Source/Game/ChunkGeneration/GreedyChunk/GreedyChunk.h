@@ -27,6 +27,7 @@ public:
 
     // -- Chunk properties -- //  
 
+    /// <summary> Represents the space position of the chunk in the world. </summary>
     Vector3 WorldPosition;
     
     /// <summary> The world seed, changing it change how the word is generated. </summary>
@@ -39,6 +40,7 @@ public:
     /// <summary> The chunk's 3D size. Enable the possibility to set the chunk's size to not be like a square. </summary>
     Vector3Int Size = Vector3Int(32, 32, 32);
 
+    /// <summary> The size of the block (does not have a unit, but you can consider it has a meter). </summary>
     int BlockSize = 1;
 
     // - Rendering - //

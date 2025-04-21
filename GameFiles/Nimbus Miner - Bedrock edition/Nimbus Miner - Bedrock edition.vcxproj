@@ -155,6 +155,7 @@
     <ClCompile Include="Source\Engine\Rendering\VertexArrayObject.cpp" />
     <ClCompile Include="Source\Engine\Rendering\VertexBufferObject.cpp" />
     <ClCompile Include="Source\Engine\Rendering\VertexBufferLayoutObject.cpp" />
+    <ClCompile Include="Source\Game\ChunkGeneration\ChunkManager\ChunkManager.cpp" />
     <ClCompile Include="Source\Game\ChunkGeneration\GreedyChunk\GreedyChunk.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -554,6 +555,7 @@
     <ClInclude Include="Source\Engine\Rendering\VertexArrayObject.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexBufferObject.h" />
     <ClInclude Include="Source\Engine\Rendering\VertexBufferLayoutObject.h" />
+    <ClInclude Include="Source\Game\ChunkGeneration\ChunkManager\ChunkManager.h" />
     <ClInclude Include="Source\Game\ChunkGeneration\ChunkMeshData.h" />
     <ClInclude Include="Source\Game\ChunkGeneration\EnvironmentEnums.h" />
     <ClInclude Include="Source\Game\ChunkGeneration\GreedyChunk\GreedyChunk.h" />
