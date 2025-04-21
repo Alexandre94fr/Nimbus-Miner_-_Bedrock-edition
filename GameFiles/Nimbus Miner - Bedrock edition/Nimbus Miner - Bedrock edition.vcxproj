@@ -231,6 +231,8 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Dependencies\Glew-2.1.0\include;C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Dependencies\GLFW\include;C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Dependencies\STBImage\;C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Dependencies;C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\ExternalTools;C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source/Engine/Rendering;C:\Mes jeux\OpenGL\Nimbus-Miner_-_Bedrock-edition\GameFiles\Nimbus Miner - Bedrock edition\Source/Constants;</AdditionalIncludeDirectories>
       <LinkCompiled>true</LinkCompiled>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">GLEW_STATIC;_CONSOLE;_UNICODE;UNICODE</PreprocessorDefinitions>
+      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

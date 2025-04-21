@@ -2,7 +2,7 @@
 
 // Application.cpp constants
 static constexpr bool IS_DEBUGGING_SECONDS_PAST_BETWEEN_FRAMES = false;
-static constexpr bool IS_GPU_IN_DEBUG_MODE = true;
+static constexpr bool IS_GPU_IN_DEBUG_MODE = false;
 
 // Shader.cpp constants
 static constexpr bool IS_SHADER_LOADING_DEBUGGING_ON = false;
